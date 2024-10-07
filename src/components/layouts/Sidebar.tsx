@@ -1,10 +1,14 @@
 import { menuItems } from '@/constants';
 import { ActiveLink } from '@/components/common';
 import { MenuItemProps } from '@/types';
-import { UserButton } from '@clerk/nextjs';
+import { useAuth, UserButton } from '@clerk/nextjs';
 import { ModeToggle } from '../common/ModeToggle';
+import { IconUsers } from '../icons';
+import Link from 'next/link';
 
 const Sidebar = () => {
+  const { userId } = useAuth();
+
   return (
     <div className='p-5 border-r border-r-gray-200 bg-white flex flex-col dark:bg-grayDarker dark:border-opacity-10'>
       <a href='/' className='font-bold text-3xl inline-block mb-5'>
@@ -22,7 +26,17 @@ const Sidebar = () => {
       </ul>
       <div className='mt-auto flex items-center justify-end gap-5'>
         <ModeToggle />
-        <UserButton />
+
+        {userId ? (
+          <Link
+            href='/sign-in'
+            className='size-10 rounded-lg bg-primary text-white flex items-center justify-center p-1'
+          >
+            <IconUsers />
+          </Link>
+        ) : (
+          <UserButton />
+        )}
       </div>
     </div>
   );
