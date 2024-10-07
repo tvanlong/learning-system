@@ -1,3 +1,5 @@
+'use client';
+
 import { menuItems } from '@/constants';
 import { ActiveLink } from '@/components/common';
 import { MenuItemProps } from '@/types';
