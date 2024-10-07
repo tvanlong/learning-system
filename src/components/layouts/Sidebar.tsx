@@ -28,8 +28,7 @@ const Sidebar = () => {
       </ul>
       <div className='mt-auto flex items-center justify-end gap-5'>
         <ModeToggle />
-
-        {userId ? (
+        {!userId ? (
           <Link
             href='/sign-in'
             className='size-10 rounded-lg bg-primary text-white flex items-center justify-center p-1'
