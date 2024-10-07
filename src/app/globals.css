@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-200 dark:bg-grayDarkest dark:text-white;
+  }
+  :root {
+    --radius: 0.5rem;
+  }
+}
+
+@layer components {
+  .svg-animate {
+    stroke-dashoffset: 200;
+    stroke-dasharray: 200;
+    animation: dash 3s linear forwards;
+  }
+
+  @keyframes dash {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .emoji-404 {
+    position: relative;
+    animation: mymove 2.5s infinite;
+  }
+
+  @keyframes mymove {
+    33% {
+      top: 0px;
+    }
+    66% {
+      top: 20px;
+    }
+    100% {
+      top: 0px;
+    }
+  }
+}
