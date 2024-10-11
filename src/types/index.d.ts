@@ -1,15 +1,17 @@
-type ActiveLinkProps = {
+import { ICourse } from '@/database/course.model';
+
+export type ActiveLinkProps = {
   url: string;
   children: React.ReactNode;
 };
 
-type MenuItemProps = {
+export type MenuItemProps = {
   url: string;
   title: string;
   icon?: React.ReactNode;
 };
 
-type CreateUserParams = {
+export type CreateUserParams = {
   clerkId: string;
   name?: string;
   username: string;
@@ -17,4 +19,12 @@ type CreateUserParams = {
   avatar?: string;
 };
 
-export { ActiveLinkProps, MenuItemProps, CreateUserParams };
+export type CreateCourseParams = {
+  title: string;
+  slug: string;
+};
+
+export type UpdateCourseParams = {
+  slug: string;
+  updateData: Partial<ICourse>;
+};

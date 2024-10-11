@@ -3,6 +3,7 @@ import './globals.css';
 import { manrope } from '@/utils';
 import { ClerkProvider } from '@clerk/nextjs';
 import { ThemeProvider } from '@/components/common/ThemeProvider';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: 'E-Learning System',
@@ -25,6 +26,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster richColors />
           </ThemeProvider>
         </body>
       </html>

@@ -12,7 +12,7 @@ const Sidebar = () => {
   const { userId } = useAuth();
 
   return (
-    <div className='p-5 border-r border-r-gray-200 bg-white flex flex-col dark:bg-grayDarker dark:border-opacity-10'>
+    <div className='hidden fixed top-0 left-0 bottom-0 w-[300px] p-5 border-r border-r-gray-200 bg-white lg:flex flex-col dark:bg-grayDarker dark:border-opacity-10'>
       <a href='/' className='font-bold text-3xl inline-block mb-5'>
         <span className='text-primary'>U</span>cademy
       </a>
