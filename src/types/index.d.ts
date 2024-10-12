@@ -27,4 +27,5 @@ export type CreateCourseParams = {
 export type UpdateCourseParams = {
   slug: string;
   updateData: Partial<ICourse>;
+  path?: string;
 };
