@@ -1,5 +1,11 @@
 import PageNotFound from '@/app/not-found';
 import { IconPlay, IconStudy, IconUsers } from '@/components/icons';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { courseLevelTitle } from '@/constants';
 import { getCourseBySlug } from '@/lib/actions/course.actions';
@@ -43,7 +49,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
         <BoxSection title='Thông tin'>
           <div className='grid grid-cols-4 gap-5 mb-10'>
             <BoxInfo title='Bài học'>32</BoxInfo>
-            <BoxInfo title='Lượt xem'>{data.views}</BoxInfo>
+            <BoxInfo title='Lượt xem'>{data.views.toLocaleString()}</BoxInfo>
             <BoxInfo title='Trình độ'>{courseLevelTitle[data.level]}</BoxInfo>
             <BoxInfo title='Thời lượng'>30h25p</BoxInfo>
           </div>
@@ -96,10 +102,12 @@ const page = async ({ params }: { params: { slug: string } }) => {
         </BoxSection>
         <BoxSection title='Q.A'>
           {data.info.qa.map((qa, index) => (
-            <div key={index}>
-              <div>{qa.question}</div>
-              <div>{qa.answer}</div>
-            </div>
+            <Accordion type='single' collapsible key={index}>
+              <AccordionItem value={qa.question}>
+                <AccordionTrigger>{qa.question}</AccordionTrigger>
+                <AccordionContent>{qa.answer}</AccordionContent>
+              </AccordionItem>
+            </Accordion>
           ))}
         </BoxSection>
       </div>

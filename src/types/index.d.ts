@@ -9,6 +9,7 @@ export type MenuItemProps = {
   url: string;
   title: string;
   icon?: React.ReactNode;
+  onlyIcon?: boolean;
 };
 
 export type CreateUserParams = {
