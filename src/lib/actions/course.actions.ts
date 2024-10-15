@@ -1,9 +1,14 @@
 'use server';
 
-import { CreateCourseParams, UpdateCourseParams } from '@/types';
+import {
+  CreateCourseParams,
+  ICourseUpdateParams,
+  UpdateCourseParams,
+} from '@/types';
 import { connectToDatabase } from '../mongoose';
 import Course, { ICourse } from '@/database/course.model';
 import { revalidatePath } from 'next/cache';
+import Lecture from '@/database/lecture.model';
 
 export async function getAllCourses(): Promise<ICourse[] | undefined> {
   try {
@@ -19,11 +24,19 @@ export async function getCourseBySlug({
   slug,
 }: {
   slug: string;
-}): Promise<ICourse | undefined> {
+}): Promise<ICourseUpdateParams | undefined> {
   try {
     connectToDatabase();
-    const course = await Course.findOne({ slug });
-    return course;
+    const findCourse = await Course.findOne({ slug }).populate({
+      path: 'lectures',
+      model: Lecture,
+      select: '_id title',
+      match: {
+        _destroy: false,
+      },
+    });
+
+    return findCourse;
   } catch (error) {
     console.log(error);
   }

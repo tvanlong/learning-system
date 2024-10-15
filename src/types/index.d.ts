@@ -1,4 +1,5 @@
 import { ICourse } from '@/database/course.model';
+import { ILecture } from '@/database/lecture.model';
 
 export type ActiveLinkProps = {
   url: string;
@@ -29,4 +30,25 @@ export type UpdateCourseParams = {
   slug: string;
   updateData: Partial<ICourse>;
   path?: string;
+};
+
+export interface ICourseUpdateParams extends Omit<ICourse, 'lectures'> {
+  lectures: ILecture[];
+}
+
+export type TCreateLectureParams = {
+  course: string;
+  title?: string;
+  order?: number;
+  path?: string;
+};
+
+export type TUpdateLectureParams = {
+  lectureId: string;
+  updateData: {
+    title?: string;
+    order?: number;
+    _destroy?: boolean;
+    path?: string;
+  };
 };
