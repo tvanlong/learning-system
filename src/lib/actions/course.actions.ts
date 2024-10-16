@@ -9,6 +9,7 @@ import { connectToDatabase } from '../mongoose';
 import Course, { ICourse } from '@/database/course.model';
 import { revalidatePath } from 'next/cache';
 import Lecture from '@/database/lecture.model';
+import Lesson from '@/database/lesson.model';
 
 export async function getAllCourses(): Promise<ICourse[] | undefined> {
   try {
@@ -33,6 +34,13 @@ export async function getCourseBySlug({
       select: '_id title',
       match: {
         _destroy: false,
+      },
+      populate: {
+        path: 'lessons',
+        model: Lesson,
+        match: {
+          _destroy: false,
+        },
       },
     });
 

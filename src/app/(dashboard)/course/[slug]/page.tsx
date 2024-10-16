@@ -8,8 +8,8 @@ import {
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { courseLevelTitle } from '@/constants';
-import { ILecture } from '@/database/lecture.model';
 import { getCourseBySlug } from '@/lib/actions/course.actions';
+import { TUpdateCourseLecture } from '@/types';
 import { ECourseStatus } from '@/types/enums';
 import { formatCurrency } from '@/utils/currency';
 import Image from 'next/image';
@@ -58,7 +58,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
         </BoxSection>
         <BoxSection title='Nội dung khóa học'>
           <div className='flex flex-col gap-5'>
-            {lectures.map((lecture: ILecture) => (
+            {lectures.map((lecture: TUpdateCourseLecture) => (
               <Accordion
                 type='single'
                 collapsible

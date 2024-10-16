@@ -1,6 +1,8 @@
 import { ICourse } from '@/database/course.model';
 import { ILecture } from '@/database/lecture.model';
+import { ILesson } from '@/database/lesson.model';
 
+// Common types
 export type ActiveLinkProps = {
   url: string;
   children: React.ReactNode;
@@ -13,6 +15,7 @@ export type MenuItemProps = {
   onlyIcon?: boolean;
 };
 
+// User types
 export type CreateUserParams = {
   clerkId: string;
   name?: string;
@@ -21,6 +24,7 @@ export type CreateUserParams = {
   avatar?: string;
 };
 
+// Course types
 export type CreateCourseParams = {
   title: string;
   slug: string;
@@ -32,10 +36,17 @@ export type UpdateCourseParams = {
   path?: string;
 };
 
+export type TUpdateCourseLecture = {
+  _id: string;
+  title: string;
+  lessons: ILesson[];
+};
+
 export interface ICourseUpdateParams extends Omit<ICourse, 'lectures'> {
-  lectures: ILecture[];
+  lectures: TUpdateCourseLecture[];
 }
 
+// Lecture types
 export type TCreateLectureParams = {
   course: string;
   title?: string;
@@ -51,4 +62,27 @@ export type TUpdateLectureParams = {
     _destroy?: boolean;
     path?: string;
   };
+};
+
+// Lesson types
+export type TCreateLessonParams = {
+  lecture: string;
+  course: string;
+  title?: string;
+  order?: number;
+  path?: string;
+  slug?: string;
+};
+
+export type TUpdateLessonParams = {
+  lessonId: string;
+  updateData: {
+    title?: string;
+    slug?: string;
+    duration?: number;
+    video_url?: string;
+    content?: string;
+    _destroy?: boolean;
+  };
+  path?: string;
 };
