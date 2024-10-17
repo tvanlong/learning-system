@@ -1,10 +1,46 @@
 'use server';
 import Course from '@/database/course.model';
 import Lecture from '@/database/lecture.model';
-import Lesson from '@/database/lesson.model';
+import Lesson, { ILesson } from '@/database/lesson.model';
 import { TCreateLessonParams, TUpdateLessonParams } from '@/types';
 import { revalidatePath } from 'next/cache';
 import { connectToDatabase } from '../mongoose';
+
+export async function findAllLessons({
+  course,
+}: {
+  course: string;
+}): Promise<ILesson[] | undefined> {
+  try {
+    connectToDatabase();
+    const lessons = await Lesson.find({
+      course,
+    });
+    return lessons;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getLessonBySlug({
+  slug,
+  course,
+}: {
+  slug: string;
+  course: string;
+}): Promise<ILesson | undefined> {
+  try {
+    connectToDatabase();
+    const findLesson = await Lesson.findOne({
+      slug,
+      course,
+    });
+
+    return findLesson;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export async function createLesson(params: TCreateLessonParams) {
   try {

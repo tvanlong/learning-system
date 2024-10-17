@@ -1,5 +1,6 @@
 import PageNotFound from '@/app/not-found';
 import { IconPlay, IconStudy, IconUsers } from '@/components/icons';
+import LessonItem from '@/components/lesson/LessonItem';
 import {
   Accordion,
   AccordionContent,
@@ -65,13 +66,23 @@ const page = async ({ params }: { params: { slug: string } }) => {
                 className='w-full'
                 key={lecture._id}
               >
-                <AccordionItem value={lecture._id}>
+                <AccordionItem value={lecture._id.toString()}>
                   <AccordionTrigger>
                     <div className='flex items-center gap-3 justify-between w-full pr-5'>
                       <div>{lecture.title}</div>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent></AccordionContent>
+                  <AccordionContent className='!bg-transparent border-none p-0'>
+                    <div className='flex flex-col gap-3 mt-2 p-4 borderDarkMode bg-white dark:bg-grayDarker rounded-lg'>
+                      {lecture.lessons.map((lesson) => (
+                        <LessonItem
+                          key={lesson._id}
+                          lesson={lesson}
+                          url={`/${params.slug}/lesson?slug=${lesson.slug}`}
+                        ></LessonItem>
+                      ))}
+                    </div>
+                  </AccordionContent>
                 </AccordionItem>
               </Accordion>
             ))}

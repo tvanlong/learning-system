@@ -14,3 +14,5 @@ export { default as IconArrowLeft } from './IconArrowLeft';
 export { default as IconArrowRight } from './IconArrowRight';
 export { default as IconCancel } from './IconCancel';
 export { default as IconCheck } from './IconCheck';
+export { default as IconLeftArrow } from './IconLeftArrow';
+export { default as IconRightArrow } from './IconRightArrow';

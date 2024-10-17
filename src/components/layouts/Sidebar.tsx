@@ -48,7 +48,12 @@ const Sidebar = () => {
   );
 };
 
-export function MenuItem({ url = '/', title = '', icon, onlyIcon }: MenuItemProps) {
+export function MenuItem({
+  url = '/',
+  title = '',
+  icon,
+  onlyIcon,
+}: MenuItemProps) {
   return (
     <li>
       <ActiveLink url={url}>

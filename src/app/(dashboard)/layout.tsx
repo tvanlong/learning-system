@@ -3,9 +3,9 @@ import { menuItems } from '@/constants';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='wrapper block pt-20 lg:pt-0 lg:grid lg:grid-cols-[300px,minmax(0,1fr)] h-screen'>
+    <div className='wrapper block pb-20 lg:pb-0 lg:grid lg:grid-cols-[300px,minmax(0,1fr)] h-screen'>
       <Sidebar />
-      <ul className='flex p-3 bgDarkMode border borderDarkMode lg:hidden fixed top-0 left-0 w-full justify-center gap-5 h-16'>
+      <ul className='flex p-3 bgDarkMode border borderDarkMode lg:hidden fixed bottom-0 left-0 w-full justify-center gap-5 h-16'>
         {menuItems.map((item, index) => (
           <MenuItem
             key={index}
