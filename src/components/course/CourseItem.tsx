@@ -22,7 +22,7 @@ const CourseItem = ({ data }: { data: ICourse }) => {
   ];
 
   return (
-    <div className='bg-white border border-gray-100 p-4 rounded-2xl dark:bg-grayDarker dark:border-opacity-10'>
+    <div className='bgDarkMode border borderDarkMode p-4 rounded-2xl dark:bg-grayDarker dark:border-opacity-10'>
       <Link href={`/course/${data.slug}`} className='block h-[180px] relative'>
         <Image
           src={data.image}

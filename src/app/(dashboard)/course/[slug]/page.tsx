@@ -1,6 +1,13 @@
 import PageNotFound from '@/app/not-found';
-import { IconPlay, IconStudy, IconUsers } from '@/components/icons';
-import LessonItem from '@/components/lesson/LessonItem';
+import {
+  IconEye,
+  IconLevel,
+  IconPlay,
+  IconStudy,
+  IconTime,
+  IconUsers,
+} from '@/components/icons';
+import LessonContent from '@/components/lesson/LessonContent';
 import {
   Accordion,
   AccordionContent,
@@ -10,7 +17,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { courseLevelTitle } from '@/constants';
 import { getCourseBySlug } from '@/lib/actions/course.actions';
-import { TUpdateCourseLecture } from '@/types';
 import { ECourseStatus } from '@/types/enums';
 import { formatCurrency } from '@/utils/currency';
 import Image from 'next/image';
@@ -21,6 +27,10 @@ const page = async ({ params }: { params: { slug: string } }) => {
   if (data.status !== ECourseStatus.APPROVED) return <PageNotFound />;
   const videoId = data.intro_url?.split('v=')[1];
   const lectures = data.lectures || [];
+  const totalLesson = lectures.reduce((acc, cur) => {
+    return acc + cur.lessons.length;
+  }, 0);
+
   return (
     <div className='grid lg:grid-cols-[2fr,1fr] gap-10 min-h-screen'>
       <div>
@@ -45,53 +55,37 @@ const page = async ({ params }: { params: { slug: string } }) => {
             />
           )}
         </div>
-        <h1 className='font-bold text-3xl mb-5'>{data?.title}</h1>
+        <h1 className='font-bold text-3xl my-8'>{data?.title}</h1>
         <BoxSection title='Mô tả'>
-          <p className='leading-normal text-justify'>{data.desc}</p>
+          <p className='leading-relaxed text-justify'>{data.desc}</p>
         </BoxSection>
         <BoxSection title='Thông tin'>
           <div className='grid grid-cols-4 gap-5 mb-10'>
-            <BoxInfo title='Bài học'>32</BoxInfo>
-            <BoxInfo title='Lượt xem'>{data.views.toLocaleString()}</BoxInfo>
-            <BoxInfo title='Trình độ'>{courseLevelTitle[data.level]}</BoxInfo>
-            <BoxInfo title='Thời lượng'>30h25p</BoxInfo>
+            <BoxInfo title='Bài học' icon={<IconPlay className='size-5' />}>
+              {totalLesson}
+            </BoxInfo>
+            <BoxInfo title='Lượt xem' icon={<IconEye className='size-5' />}>
+              {data.views.toLocaleString()}
+            </BoxInfo>
+            <BoxInfo title='Trình độ' icon={<IconLevel className='size-5' />}>
+              {courseLevelTitle[data.level]}
+            </BoxInfo>
+            <BoxInfo title='Thời lượng' icon={<IconTime className='size-5' />}>
+              30h25p
+            </BoxInfo>
           </div>
         </BoxSection>
         <BoxSection title='Nội dung khóa học'>
-          <div className='flex flex-col gap-5'>
-            {lectures.map((lecture: TUpdateCourseLecture) => (
-              <Accordion
-                type='single'
-                collapsible
-                className='w-full'
-                key={lecture._id}
-              >
-                <AccordionItem value={lecture._id.toString()}>
-                  <AccordionTrigger>
-                    <div className='flex items-center gap-3 justify-between w-full pr-5'>
-                      <div>{lecture.title}</div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className='!bg-transparent border-none p-0'>
-                    <div className='flex flex-col gap-3 mt-2 p-4 borderDarkMode bg-white dark:bg-grayDarker rounded-lg'>
-                      {lecture.lessons.map((lesson) => (
-                        <LessonItem
-                          key={lesson._id}
-                          lesson={lesson}
-                          url={`/${params.slug}/lesson?slug=${lesson.slug}`}
-                        ></LessonItem>
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            ))}
-          </div>
+          <LessonContent
+            lectures={lectures}
+            course={params.slug}
+            slug={params.slug}
+          />
         </BoxSection>
         <BoxSection title='Yêu cầu'>
           {data.info.requirements.map((r, index) => (
             <div key={index} className='mb-3 flex items-center gap-2'>
-              <span className='flex-shrink-0 size-5 bg-primary text-white p-1 rounded flex items-center justify-center'>
+              <span className='flex-shrink-0 size-5 bg-primary rounded-full text-white p-1 flex items-center justify-center'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -114,7 +108,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
         <BoxSection title='Lợi ích'>
           {data.info.requirements.map((r, index) => (
             <div key={index} className='mb-3 flex items-center gap-2'>
-              <span className='flex-shrink-0 size-5 bg-primary text-white p-1 rounded flex items-center justify-center'>
+              <span className='flex-shrink-0 size-5 bg-primary rounded-full text-white p-1 flex items-center justify-center'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -146,7 +140,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
         </BoxSection>
       </div>
       <div>
-        <div className='bg-white rounded-lg p-5'>
+        <div className='bg-white rounded-lg p-5 border borderDarkMode'>
           <div className='flex items-center gap-2 mb-3'>
             <strong className='text-primary text-xl font-bold'>
               {formatCurrency(data.price)}
@@ -162,7 +156,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
           <ul className='mb-5 flex flex-col gap-2 text-sm text-slate-500'>
             <li className='flex items-center gap-2'>
               <IconPlay className='size-4' />
-              <span>30h học</span>
+              <span>{totalLesson} bài học</span>
             </li>
             <li className='flex items-center gap-2'>
               <IconPlay className='size-4' />
@@ -188,15 +182,20 @@ const page = async ({ params }: { params: { slug: string } }) => {
 
 function BoxInfo({
   title,
+  icon,
   children,
 }: {
   title: string;
+  icon?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
-    <div className='bg-white rounded-lg p-5'>
-      <h4 className='text-sm text-slate-400 font-normal'>{title}</h4>
-      <h3 className='font-bold'>{children}</h3>
+    <div className='bgDarkMode rounded-lg p-5 border borderDarkMode'>
+      <h4 className='text-sm font-normal mb-2'>{title}</h4>
+      <div className='flex items-center gap-1'>
+        {icon}
+        <h3 className='text-sm font-medium'>{children}</h3>
+      </div>
     </div>
   );
 }

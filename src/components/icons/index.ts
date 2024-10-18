@@ -16,3 +16,5 @@ export { default as IconCancel } from './IconCancel';
 export { default as IconCheck } from './IconCheck';
 export { default as IconLeftArrow } from './IconLeftArrow';
 export { default as IconRightArrow } from './IconRightArrow';
+export { default as IconLevel } from './IconLevel';
+export { default as IconTime } from './IconTime';

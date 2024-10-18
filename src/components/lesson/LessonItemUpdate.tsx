@@ -116,7 +116,7 @@ const LessonItemUpdate = ({ lesson }: { lesson: ILesson }) => {
                   <FormLabel>Nội dung</FormLabel>
                   <FormControl>
                     <Editor
-                      apiKey={process.env.TINY_MCE_API_KEY}
+                      apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                       onInit={(_evt, editor) => {
                         (editorRef.current = editor).setContent(
                           lesson.content || ''
