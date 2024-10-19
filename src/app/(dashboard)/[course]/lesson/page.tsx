@@ -4,6 +4,9 @@ import LessonNavigation from './LessonNavigation';
 import Heading from '@/components/common/Heading';
 import LessonContent from '@/components/lesson/LessonContent';
 import { getHistory } from '@/lib/actions/history.actions';
+import { auth } from '@clerk/nextjs/server';
+import PageNotFound from '@/app/not-found';
+import { getUserInfo } from '@/lib/actions/user.actions';
 
 const page = async ({
   params,
@@ -16,11 +19,19 @@ const page = async ({
     slug: string;
   };
 }) => {
+  const { userId } = auth();
+  if (!userId) return <PageNotFound />;
+  const findUser = await getUserInfo({ userId });
+  if (!findUser) return <PageNotFound />;
+
   const course = params.course;
   const slug = searchParams.slug;
+
   const findCourse = await getCourseBySlug({ slug: course });
   const courseId = findCourse?._id.toString();
   if (!findCourse) return null;
+  if (!findUser.courses.includes(courseId as any)) return <PageNotFound />;
+
   const lessonDetails = await getLessonBySlug({
     slug,
     course: courseId || '',
@@ -33,7 +44,9 @@ const page = async ({
   const nextLesson = lessonList?.[currentLessonIndex + 1];
   const prevLesson = lessonList?.[currentLessonIndex - 1];
   const videoId = lessonDetails.video_url?.split('v=').at(-1);
+
   const lectures = findCourse.lectures || [];
+
   const histories = await getHistory({ course: courseId || '' });
   const completePercentage =
     ((histories?.length || 0) / (lessonList?.length || 1)) * 100;
