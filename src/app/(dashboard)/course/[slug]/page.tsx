@@ -76,11 +76,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
           </div>
         </BoxSection>
         <BoxSection title='Nội dung khóa học'>
-          <LessonContent
-            lectures={lectures}
-            course={params.slug}
-            slug={params.slug}
-          />
+          <LessonContent lectures={lectures} course='' slug='' histories={[]} />
         </BoxSection>
         <BoxSection title='Yêu cầu'>
           {data.info.requirements.map((r, index) => (
