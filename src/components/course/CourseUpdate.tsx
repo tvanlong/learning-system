@@ -21,7 +21,7 @@ import { updateCourse } from '@/lib/actions/course.actions';
 import { ICourse } from '@/database/course.model';
 import slugify from 'slugify';
 import { useImmer } from 'use-immer';
-import { IconAdd } from '@/components/icons';
+import { IconAdd, IconCancel } from '@/components/icons';
 import { toast } from 'sonner';
 import {
   Select,
@@ -217,27 +217,44 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
               <FormItem>
                 <FormLabel>Ảnh đại diện</FormLabel>
                 <FormControl>
-                  <div className='h-[250px] bg-white rounded-md border border-gray-200 flex items-center justify-center relative'>
-                    {!imageWatch ? (
-                      <UploadButton
-                        endpoint='imageUploader'
-                        onClientUploadComplete={(res) => {
-                          // Do something with the response
-                          form.setValue('image', res[0].url);
-                        }}
-                        onUploadError={(error: Error) => {
-                          console.error(`ERROR! ${error.message}`);
-                        }}
-                      />
-                    ) : (
-                      <Image
-                        alt=''
-                        src={imageWatch}
-                        fill
-                        className='w-full h-full object-cover rounded-lg'
-                      />
-                    )}
-                  </div>
+                  <>
+                    <div className='h-[250px] bg-white rounded-md border border-gray-200 flex items-center justify-center relative'>
+                      {!imageWatch ? (
+                        <UploadButton
+                          endpoint='imageUploader'
+                          onClientUploadComplete={(res) => {
+                            // Do something with the response
+                            form.setValue('image', res[0].url);
+                          }}
+                          onUploadError={(error: Error) => {
+                            console.error(`ERROR! ${error.message}`);
+                          }}
+                        />
+                      ) : (
+                        <Image
+                          alt=''
+                          src={imageWatch}
+                          fill
+                          className='w-full h-full object-cover rounded-md'
+                        />
+                      )}
+                    </div>
+                    {
+                      // Đổi ảnh
+                      imageWatch && (
+                        <UploadButton
+                          endpoint='imageUploader'
+                          onClientUploadComplete={(res) => {
+                            // Do something with the response
+                            form.setValue('image', res[0].url);
+                          }}
+                          onUploadError={(error: Error) => {
+                            console.error(`ERROR! ${error.message}`);
+                          }}
+                        />
+                      )
+                    }
+                  </>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -350,16 +367,27 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                 <FormControl>
                   <>
                     {courseInfo.requirements.map((r, index) => (
-                      <Input
-                        key={index}
-                        placeholder={`Yêu cầu số ${index + 1}`}
-                        value={r}
-                        onChange={(e) => {
-                          setCourseInfo((draft) => {
-                            draft.requirements[index] = e.target.value;
-                          });
-                        }}
-                      />
+                      <div key={index} className='flex items-center gap-3'>
+                        <Input
+                          placeholder={`Yêu cầu số ${index + 1}`}
+                          value={r}
+                          onChange={(e) => {
+                            setCourseInfo((draft) => {
+                              draft.requirements[index] = e.target.value;
+                            });
+                          }}
+                        />
+                        <div
+                          className='cursor-pointer'
+                          onClick={() => {
+                            setCourseInfo((draft) => {
+                              draft.requirements.splice(index, 1);
+                            });
+                          }}
+                        >
+                          <IconCancel className='size-5 text-red-500' />
+                        </div>
+                      </div>
                     ))}
                   </>
                 </FormControl>
@@ -389,16 +417,27 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                 <FormControl>
                   <>
                     {courseInfo.benefits.map((r, index) => (
-                      <Input
-                        key={index}
-                        placeholder={`Lợi ích số ${index + 1}`}
-                        value={r}
-                        onChange={(e) => {
-                          setCourseInfo((draft) => {
-                            draft.benefits[index] = e.target.value;
-                          });
-                        }}
-                      />
+                      <div key={index} className='flex items-center gap-3'>
+                        <Input
+                          placeholder={`Lợi ích số ${index + 1}`}
+                          value={r}
+                          onChange={(e) => {
+                            setCourseInfo((draft) => {
+                              draft.benefits[index] = e.target.value;
+                            });
+                          }}
+                        />
+                        <div
+                          className='cursor-pointer'
+                          onClick={() => {
+                            setCourseInfo((draft) => {
+                              draft.benefits.splice(index, 1);
+                            });
+                          }}
+                        >
+                          <IconCancel className='size-5 text-red-500' />
+                        </div>
+                      </div>
                     ))}
                   </>
                 </FormControl>
@@ -431,7 +470,10 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                 <FormControl>
                   <>
                     {courseInfo.qa.map((item, index) => (
-                      <div className='grid grid-cols-2 gap-5' key={index}>
+                      <div
+                        className='grid grid-cols-[1fr_auto_1fr] gap-3 items-center'
+                        key={index}
+                      >
                         <Input
                           key={index}
                           placeholder={`Câu hỏi số ${index + 1}`}
@@ -442,6 +484,17 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                             });
                           }}
                         />
+                        <div
+                          onClick={() => {
+                            // Xử lý logic khi bấm nút cancel, ví dụ xóa item này khỏi danh sách.
+                            setCourseInfo((draft) => {
+                              draft.qa.splice(index, 1);
+                            });
+                          }}
+                          className='cursor-pointer'
+                        >
+                          <IconCancel className='size-5 text-red-500' />
+                        </div>
                         <Input
                           key={index}
                           placeholder={`Câu trả lời số ${index + 1}`}
