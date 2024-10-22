@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const PageNotFound = () => {
   return (
-    <div className='h-screen justify-center'>
+    <div>
       <center className='m-auto'>
         <svg
           className='emoji-404 '
