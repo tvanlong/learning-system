@@ -26,7 +26,7 @@ const page = async ({
     ((histories?.length || 0) / (lessonCount || 1)) * 100;
 
   return (
-    <div className='sticky top-5 right-0 max-h-[calc(100svh-100px)] overflow-y-auto'>
+    <div className='sticky top-5 lg:top-20 right-0 max-h-[calc(100svh-100px)] overflow-y-auto'>
       <div className='h-3 w-full rounded-full border borderDarkMode bgDarkMode mb-2'>
         <div
           className='h-full rounded-full bg-primary w-0 transition-all duration-300'

@@ -3,6 +3,7 @@ import { getCourseBySlug } from '@/lib/actions/course.actions';
 import { findAllLessons } from '@/lib/actions/lession.actions';
 import LessonNavigation from '../LessonNavigation';
 import Heading from '@/components/common/Heading';
+import VideoPlayer from './VideoPlayer';
 
 const page = async ({
   params,
@@ -35,23 +36,15 @@ const page = async ({
         course={course}
         url={`/${course}/lesson?slug=${slug}`}
       ></LessonSaveUrl>
-      <div className='relative mb-5 aspect-video'>
-        <iframe
-          className='w-full h-full object-fill rounded-lg'
-          src={`https://www.youtube.com/embed/${videoId}`}
-        ></iframe>
-      </div>
-      <div className='flex items-center justify-between mb-5'>
-        <LessonNavigation
-          nextLesson={
-            !nextLesson ? '' : `/${course}/lesson?slug=${nextLesson?.slug}`
-          }
-          prevLesson={
-            !prevLesson ? '' : `/${course}/lesson?slug=${prevLesson?.slug}`
-          }
-        ></LessonNavigation>
-        <div></div>
-      </div>
+      <VideoPlayer
+        videoId={videoId}
+        nextLesson={
+          !nextLesson ? '' : `/${course}/lesson?slug=${nextLesson?.slug}`
+        }
+        prevLesson={
+          !prevLesson ? '' : `/${course}/lesson?slug=${prevLesson?.slug}`
+        }
+      />
       <Heading className='mb-10'>{lessonDetails.title}</Heading>
       <div className='p-5 rounded-lg bgDarkMode border borderDarkMode entry-content'>
         <div

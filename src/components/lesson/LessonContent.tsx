@@ -31,7 +31,7 @@ const LessonContent = ({
           <AccordionItem value={lecture._id.toString()}>
             <AccordionTrigger>
               <div className='flex items-center gap-3 justify-between w-full pr-5'>
-                <div className='text-sm'>{lecture.title}</div>
+                <div className='text-sm text-left'>{lecture.title}</div>
               </div>
             </AccordionTrigger>
             <AccordionContent className='bg-white p-0'>

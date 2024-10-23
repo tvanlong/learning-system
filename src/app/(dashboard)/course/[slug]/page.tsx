@@ -32,7 +32,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
   }, 0);
 
   return (
-    <div className='grid lg:grid-cols-[2fr,1fr] gap-10 min-h-screen'>
+    <div className='grid lg:grid-cols-[2fr,1fr] gap-10'>
       <div>
         <div className='relative aspect-video mb-5'>
           {data.intro_url ? (
@@ -55,12 +55,14 @@ const page = async ({ params }: { params: { slug: string } }) => {
             />
           )}
         </div>
-        <h1 className='font-bold text-3xl my-8'>{data?.title}</h1>
+        <h1 className='font-bold text-xl md:text-3xl my-8'>{data?.title}</h1>
         <BoxSection title='Mô tả'>
-          <p className='leading-relaxed text-justify'>{data.desc}</p>
+          <p className='leading-relaxed text-justify text-sm md:text-base'>
+            {data.desc}
+          </p>
         </BoxSection>
         <BoxSection title='Thông tin'>
-          <div className='grid grid-cols-4 gap-5 mb-10'>
+          <div className='grid grid-cols-2 md:grid-cols-4 gap-5 mb-10'>
             <BoxInfo title='Bài học' icon={<IconPlay className='size-5' />}>
               {totalLesson}
             </BoxInfo>
@@ -97,7 +99,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
                   />
                 </svg>
               </span>
-              <span>{r}</span>
+              <span className='text-sm md:text-base'>{r}</span>
             </div>
           ))}
         </BoxSection>
@@ -120,7 +122,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
                   />
                 </svg>
               </span>
-              <span>{r}</span>
+              <span className='text-sm md:text-base'>{r}</span>
             </div>
           ))}
         </BoxSection>
@@ -128,15 +130,19 @@ const page = async ({ params }: { params: { slug: string } }) => {
           {data.info.qa.map((qa, index) => (
             <Accordion type='single' collapsible key={index}>
               <AccordionItem value={qa.question}>
-                <AccordionTrigger>{qa.question}</AccordionTrigger>
-                <AccordionContent>{qa.answer}</AccordionContent>
+                <AccordionTrigger className='text-sm md:text-base text-left'>
+                  {qa.question}
+                </AccordionTrigger>
+                <AccordionContent className='text-sm md:text-base text-justify'>
+                  {qa.answer}
+                </AccordionContent>
               </AccordionItem>
             </Accordion>
           ))}
         </BoxSection>
       </div>
       <div>
-        <div className='bg-white rounded-lg p-5 border borderDarkMode'>
+        <div className='bg-white rounded-lg p-5 border borderDarkMode lg:sticky lg:right-0 lg:top-20'>
           <div className='flex items-center gap-2 mb-3'>
             <strong className='text-primary text-xl font-bold'>
               {formatCurrency(data.price)}
