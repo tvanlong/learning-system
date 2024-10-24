@@ -223,7 +223,9 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
                       </>
                     ) : (
                       <>
-                        <div>{lecture.title}</div>
+                        <div className='text-left text-sm lg:text-base'>
+                          {lecture.title}
+                        </div>
                         <div className='flex gap-2'>
                           <span
                             className={cn(
@@ -301,7 +303,9 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
                                 </>
                               ) : (
                                 <>
-                                  <div>{lesson.title}</div>
+                                  <div className='text-left text-sm lg:text-base'>
+                                    {lesson.title}
+                                  </div>
                                   <div className='flex gap-2'>
                                     <span
                                       className={cn(

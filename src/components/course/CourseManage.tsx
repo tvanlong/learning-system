@@ -89,7 +89,7 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
     <>
       <Link
         href='/manage/course/new'
-        className='size-10 rounded-full bg-primary flex justify-center items-center text-white fixed right-5 bottom-5 animate-bounce'
+        className='size-10 rounded-full bg-primary flex justify-center items-center text-white fixed right-5 bottom-16 lg:bottom-5 animate-bounce'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'

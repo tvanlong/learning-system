@@ -130,7 +130,7 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} autoComplete='off'>
-        <div className='grid grid-cols-2 gap-8 mt-10 mb-8'>
+        <div className='flex flex-col lg:grid lg:grid-cols-2 gap-8 mt-10 mb-8'>
           <FormField
             control={form.control}
             name='title'
@@ -203,7 +203,7 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                   <Textarea
                     placeholder='Nhập mô tả...'
                     {...field}
-                    className='h-[250px]'
+                    className='h-[250px] text-justify'
                   />
                 </FormControl>
                 <FormMessage />
