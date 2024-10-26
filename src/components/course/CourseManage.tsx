@@ -27,8 +27,50 @@ import { formatCurrency } from '@/utils/currency';
 import Swal from 'sweetalert2';
 import { updateCourse } from '@/lib/actions/course.actions';
 import { toast } from 'sonner';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 
 const CourseManage = ({ courses }: { courses: ICourse[] }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [page, setPage] = useState(1);
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  const handleSearchCourse = debounce(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const search = e.target.value;
+      if (search) {
+        router.push(`${pathname}?${createQueryString('search', search)}`);
+      } else {
+        router.push(`${pathname}`);
+      }
+    },
+    500
+  );
+
+  const handleSelectStatus = (status: ECourseStatus) => {
+    router.push(`${pathname}?${createQueryString('status', status)}`);
+  };
+
   const handleDeleteCourse = (slug: string) => {
     Swal.fire({
       title: 'Bạn chắc chắn muốn xóa khóa học này?',
@@ -85,6 +127,17 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
     }
   };
 
+  const handleChangePage = (type: 'prev' | 'next') => {
+    if (type === 'prev' && page === 1) return;
+    if (type === 'prev') setPage((prev) => prev - 1);
+    if (type === 'next') setPage((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    router.push(`${pathname}?${createQueryString('page', page.toString())}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
   return (
     <>
       <Link
@@ -108,8 +161,31 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
       </Link>
       <div className='flex flex-col lg:flex-row lg:items-center gap-5 justify-between mb-10'>
         <Heading className=''>Quản lý khóa học</Heading>
-        <div className='w-full lg:w-[300px]'>
-          <Input placeholder='Tìm kiếm khóa học...' />
+        <div className='flex gap-3'>
+          <div className='w-full lg:w-[300px]'>
+            <Input
+              placeholder='Tìm kiếm khóa học...'
+              onChange={(e) => handleSearchCourse(e)}
+            />
+          </div>
+          <Select
+            onValueChange={(value) =>
+              handleSelectStatus(value as ECourseStatus)
+            }
+          >
+            <SelectTrigger className='w-[180px]'>
+              <SelectValue placeholder='Chọn trạng thái' />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {courseStatus.map((status) => (
+                  <SelectItem value={status.value} key={status.value}>
+                    {status.title}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
       </div>
       <Table className='table-responsive'>
@@ -204,10 +280,16 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
         </TableBody>
       </Table>
       <div className='flex justify-end gap-3 mt-5'>
-        <button className={commonClassNames.paginationButton}>
+        <button
+          className={commonClassNames.paginationButton}
+          onClick={() => handleChangePage('prev')}
+        >
           <IconArrowLeft />
         </button>
-        <button className={commonClassNames.paginationButton}>
+        <button
+          className={commonClassNames.paginationButton}
+          onClick={() => handleChangePage('next')}
+        >
           <IconArrowRight />
         </button>
       </div>

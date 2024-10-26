@@ -3,6 +3,7 @@
 import {
   CreateCourseParams,
   ICourseUpdateParams,
+  TGetAllCourseParams,
   UpdateCourseParams,
 } from '@/types';
 import { connectToDatabase } from '../mongoose';
@@ -10,11 +11,26 @@ import Course, { ICourse } from '@/database/course.model';
 import { revalidatePath } from 'next/cache';
 import Lecture from '@/database/lecture.model';
 import Lesson from '@/database/lesson.model';
+import { FilterQuery } from 'mongoose';
 
-export async function getAllCourses(): Promise<ICourse[] | undefined> {
+export async function getAllCourses(
+  params: TGetAllCourseParams
+): Promise<ICourse[] | undefined> {
   try {
     connectToDatabase();
-    const courses = await Course.find();
+    const { page = 1, limit = 10, search, status } = params;
+    const skip = (page - 1) * limit;
+    const query: FilterQuery<typeof Course> = {};
+    if (search) {
+      query.$or = [{ title: { $regex: search, $options: 'i' } }];
+    }
+    if (status) {
+      query.status = status;
+    }
+    const courses = await Course.find(query)
+      .skip(skip)
+      .limit(limit)
+      .sort({ created_at: -1 });
     return courses;
   } catch (error) {
     console.log(error);
@@ -28,8 +44,7 @@ export async function getCourseBySlug({
 }): Promise<ICourseUpdateParams | undefined> {
   try {
     connectToDatabase();
-    const findCourse = await Course.findOne({ slug })
-    .populate({
+    const findCourse = await Course.findOne({ slug }).populate({
       path: 'lectures',
       model: Lecture,
       select: '_id title',
