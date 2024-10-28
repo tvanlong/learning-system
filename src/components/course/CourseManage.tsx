@@ -112,9 +112,10 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
           await updateCourse({
             slug,
             updateData: {
-              status: ECourseStatus.PENDING
-                ? ECourseStatus.APPROVED
-                : ECourseStatus.PENDING,
+              status:
+                status === ECourseStatus.PENDING
+                  ? ECourseStatus.APPROVED
+                  : ECourseStatus.PENDING,
               _destroy: false,
             },
             path: '/manage/course',
