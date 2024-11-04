@@ -35,25 +35,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
+import { StatusBadge } from '../common';
+import useQueryString from '@/hooks/useQueryString';
 
 const CourseManage = ({ courses }: { courses: ICourse[] }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { createQueryString } = useQueryString();
   const [page, setPage] = useState(1);
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
 
   const handleSearchCourse = debounce(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -233,18 +225,12 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
                     </span>
                   </TableCell>
                   <TableCell>
-                    <button
-                      type='button'
-                      className={cn(
-                        commonClassNames.status,
-                        courseStatusItem?.className
-                      )}
+                    <StatusBadge
+                      item={courseStatusItem}
                       onClick={() =>
                         handleChangeStatus(course.slug, course.status)
                       }
-                    >
-                      {courseStatusItem?.title}
-                    </button>
+                    ></StatusBadge>
                   </TableCell>
                   <TableCell>
                     <div className='flex gap-3'>

@@ -7,7 +7,7 @@ import {
   IconOrder,
 } from '@/components/icons';
 import { MenuItemProps } from '@/types';
-import { ECourseLevel, ECourseStatus } from '@/types/enums';
+import { ECourseLevel, ECourseStatus, EOrderStatus } from '@/types/enums';
 
 export const menuItems: MenuItemProps[] = [
   {
@@ -79,6 +79,28 @@ export const courseLevel: {
   {
     title: 'Khó',
     value: ECourseLevel.ADVANCED,
+  },
+];
+
+export const orderStatus: {
+  title: string;
+  value: EOrderStatus;
+  className?: string;
+}[] = [
+  {
+    title: 'Đã duyệt',
+    value: EOrderStatus.COMPLETED,
+    className: 'text-green-500 bg-green-500',
+  },
+  {
+    title: 'Chờ duyệt',
+    value: EOrderStatus.PENDING,
+    className: 'text-orange-500 bg-orange-500',
+  },
+  {
+    title: 'Đã hủy',
+    value: EOrderStatus.CANCELED,
+    className: 'text-red-500 bg-red-500',
   },
 ];
 

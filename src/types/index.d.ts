@@ -101,3 +101,14 @@ export type TCreateHistoryParams = {
   checked: boolean | string;
   path: string;
 };
+
+// Order types
+export type TCreateOrderParams = {
+  code: string;
+  course: string;
+  user: string;
+  total?: number;
+  amount?: number;
+  discount?: number;
+  coupon?: string;
+};
