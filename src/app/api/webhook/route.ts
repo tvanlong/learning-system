@@ -32,6 +32,7 @@ export async function POST(req: Request) {
   }
 
   const eventType = msg.type;
+  console.log('Event Type: ', eventType);
   if (eventType === 'user.created') {
     // create user to database
     const { id, username, email_addresses, image_url } = msg.data;
@@ -42,6 +43,7 @@ export async function POST(req: Request) {
       email: email_addresses[0].email_address,
       avatar: image_url,
     });
+    console.log('User created: ', user);
     return NextResponse.json({
       message: 'OK',
       user,
