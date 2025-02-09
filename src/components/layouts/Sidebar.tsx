@@ -16,7 +16,7 @@ const Sidebar = () => {
     <div className='hidden p-5 border-r borderDarkMode bgDarkMode lg:flex flex-col fixed top-0 left-0 bottom-0 w-[300px]'>
       <Link
         href='/'
-        className='font-bold text-3xl inline-flex items-baseline gap-0.5 mb-5 h-10 self-start'
+        className='font-bold text-3xl inline-flex items-baseline gap-0.5 mb-5 h-10 self-start pl-3'
       >
         <Image alt='Ucademy' src='/logo.png' width={20} height={20} />
         <span className='text-primary'>cademy</span>

@@ -27,7 +27,7 @@ const formSchema = z.object({
 
 const CourseAddNew = () => {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,6 +53,7 @@ const CourseAddNew = () => {
         router.push(`/manage/course/update?slug=${res.data.slug}`);
       }
     } catch (error) {
+      console.log(error);
     } finally {
       setIsSubmitting(false);
       form.reset();

@@ -5,19 +5,20 @@ import {
   IconUsers,
   IconComment,
   IconOrder,
+  IconCoupon
 } from '@/components/icons';
 import { MenuItemProps } from '@/types';
-import { ECourseLevel, ECourseStatus, EOrderStatus } from '@/types/enums';
+import { ECouponType, ECourseLevel, ECourseStatus, EOrderStatus } from '@/types/enums';
 
 export const menuItems: MenuItemProps[] = [
   {
     url: '/',
-    title: 'Khám phá',
+    title: 'Trang chủ',
     icon: <IconPlay className='size-5' />,
   },
   {
     url: '/study',
-    title: 'Khu vực học tập',
+    title: 'Khóa học đã mua',
     icon: <IconStudy className='size-5' />,
   },
   {
@@ -27,7 +28,7 @@ export const menuItems: MenuItemProps[] = [
   },
   {
     url: '/manage/member',
-    title: 'Quản lý thành viên',
+    title: 'Quản lý học viên',
     icon: <IconUsers className='size-5' />,
   },
   {
@@ -39,6 +40,11 @@ export const menuItems: MenuItemProps[] = [
     url: '/manage/order',
     title: 'Quản lý đơn hàng',
     icon: <IconOrder className='size-5' />,
+  },
+  {
+    url: "/manage/coupon",
+    title: "Mã giảm giá",
+    icon: <IconCoupon className="size-5" />,
   },
 ];
 
@@ -158,5 +164,19 @@ export const editorOptions = (field: any, theme: any) => ({
     content_style: `@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');body { font-family: Manrope,Helvetica,Arial,sans-serif; font-size:14px; line-height: 2; padding-bottom: 32px; } img { max-width: 100%; height: auto; display: block; margin: 0 auto; };`,
   },
 });
+
+export const couponTypes: {
+  title: string;
+  value: ECouponType;
+}[] = [
+  {
+    title: "Phần trăm",
+    value: ECouponType.PERCENT,
+  },
+  {
+    title: "Giá trị",
+    value: ECouponType.AMOUNT,
+  },
+];
 
 export const lastLessonKey = 'lastLesson';

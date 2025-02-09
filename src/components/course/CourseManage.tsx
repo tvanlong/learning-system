@@ -18,6 +18,8 @@ import {
   IconDelete,
   IconEdit,
   IconEye,
+  IconLeftArrow,
+  IconRightArrow,
   IconStudy,
 } from '@/components/icons';
 import { ICourse } from '@/database/course.model';
@@ -38,8 +40,10 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
-import { StatusBadge } from '../common';
+import { BouncedLink, StatusBadge } from '../common';
 import useQueryString from '@/hooks/useQueryString';
+import TableAction from '../common/TableAction';
+import TableActionItem from '../common/TableActionItem';
 
 const CourseManage = ({ courses }: { courses: ICourse[] }) => {
   const router = useRouter();
@@ -133,31 +137,13 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
 
   return (
     <>
-      <Link
-        href='/manage/course/new'
-        className='size-10 rounded-full bg-primary flex justify-center items-center text-white fixed right-5 bottom-16 lg:bottom-5 animate-bounce'
-      >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          fill='none'
-          viewBox='0 0 24 24'
-          strokeWidth={1.5}
-          stroke='currentColor'
-          className='w-4 h-4'
-        >
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            d='M12 4.5v15m7.5-7.5h-15'
-          />
-        </svg>
-      </Link>
-      <div className='flex flex-col lg:flex-row lg:items-center gap-5 justify-between mb-10'>
-        <Heading className=''>Quản lý khóa học</Heading>
-        <div className='flex gap-3'>
-          <div className='w-full lg:w-[300px]'>
+      <BouncedLink url="/manage/course/new"></BouncedLink>
+      <div className="flex flex-col lg:flex-row lg:items-center gap-5 justify-between mb-10">
+        <Heading className="">Quản lý khóa học</Heading>
+        <div className="flex gap-3">
+          <div className="w-full lg:w-[300px]">
             <Input
-              placeholder='Tìm kiếm khóa học...'
+              placeholder="Tìm kiếm khóa học..."
               onChange={(e) => handleSearchCourse(e)}
             />
           </div>
@@ -166,8 +152,8 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
               handleSelectStatus(value as ECourseStatus)
             }
           >
-            <SelectTrigger className='w-[180px]'>
-              <SelectValue placeholder='Chọn trạng thái' />
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Chọn trạng thái" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -181,7 +167,7 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
           </Select>
         </div>
       </div>
-      <Table className='table-responsive'>
+      <Table className="table-responsive">
         <TableHeader>
           <TableRow>
             <TableHead>Thông tin</TableHead>
@@ -199,29 +185,29 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
               return (
                 <TableRow key={course.slug}>
                   <TableCell>
-                    <div className='flex items-center gap-3'>
+                    <div className="flex items-center gap-3">
                       <Image
-                        alt=''
+                        alt=""
                         src={course.image}
                         width={80}
                         height={80}
-                        className='flex-shrink-0 size-16 rounded-lg object-cover'
+                        className="flex-shrink-0 size-16 rounded-lg object-cover"
                       />
-                      <div className='flex flex-col gap-1'>
-                        <h3 className='font-bold text-sm lg:text-base whitespace-nowrap'>
+                      <div className="flex flex-col gap-1">
+                        <h3 className="font-bold text-sm lg:text-base whitespace-nowrap">
                           {course.title}
                         </h3>
-                        <h4 className='text-xs lg:text-sm text-slate-500'>
+                        <h4 className="text-xs lg:text-sm text-slate-500">
                           {new Date(course.created_at).toLocaleDateString(
-                            'vi-VI'
+                            "vi-VI"
                           )}
                         </h4>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className='font-bold text-sm lg:text-base'>
-                      {formatCurrency(course.price)}
+                    <span className="font-bold text-sm lg:text-base">
+                      {course.price.toLocaleString()}đ
                     </span>
                   </TableCell>
                   <TableCell>
@@ -233,51 +219,42 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
                     ></StatusBadge>
                   </TableCell>
                   <TableCell>
-                    <div className='flex gap-3'>
-                      <Link
-                        href={`/manage/course/update-content?slug=${course.slug}`}
-                        className={commonClassNames.action}
-                      >
-                        <IconStudy />
-                      </Link>
-                      <Link
-                        href={`/course/${course.slug}`}
-                        target='_blank'
-                        className={commonClassNames.action}
-                      >
-                        <IconEye />
-                      </Link>
-                      <Link
-                        href={`/manage/course/update?slug=${course.slug}`}
-                        className={commonClassNames.action}
-                      >
-                        <IconEdit />
-                      </Link>
-                      <button
+                    <TableAction>
+                      <TableActionItem
+                        type="study"
+                        url={`/manage/course/update-content?slug=${course.slug}`}
+                      ></TableActionItem>
+                      <TableActionItem
+                        type="view"
+                        url={`/course/${course.slug}`}
+                      ></TableActionItem>
+                      <TableActionItem
+                        type="edit"
+                        url={`/manage/course/update?slug=${course.slug}`}
+                      ></TableActionItem>
+                      <TableActionItem
+                        type="delete"
                         onClick={() => handleDeleteCourse(course.slug)}
-                        className={commonClassNames.action}
-                      >
-                        <IconDelete />
-                      </button>
-                    </div>
+                      ></TableActionItem>
+                    </TableAction>
                   </TableCell>
                 </TableRow>
               );
             })}
         </TableBody>
       </Table>
-      <div className='flex justify-end gap-3 mt-5'>
+      <div className="flex justify-end gap-3 mt-5">
         <button
           className={commonClassNames.paginationButton}
-          onClick={() => handleChangePage('prev')}
+          onClick={() => handleChangePage("prev")}
         >
-          <IconArrowLeft />
+          <IconLeftArrow />
         </button>
         <button
           className={commonClassNames.paginationButton}
-          onClick={() => handleChangePage('next')}
+          onClick={() => handleChangePage("next")}
         >
-          <IconArrowRight />
+          <IconRightArrow />
         </button>
       </div>
     </>

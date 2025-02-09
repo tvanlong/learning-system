@@ -31,6 +31,11 @@ enum EOrderStatus {
   CANCELED = 'CANCELED',
 }
 
+enum ECouponType {
+  PERCENT = "PERCENT",
+  AMOUNT = "AMOUNT",
+}
+
 export {
   EUserStatus,
   EUserRole,
@@ -38,4 +43,5 @@ export {
   ECourseLevel,
   ELessonType,
   EOrderStatus,
+  ECouponType
 };

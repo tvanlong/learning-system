@@ -18,3 +18,6 @@ export { default as IconLeftArrow } from './IconLeftArrow';
 export { default as IconRightArrow } from './IconRightArrow';
 export { default as IconLevel } from './IconLevel';
 export { default as IconTime } from './IconTime';
+export { default as IconPlus } from './IconPlus';
+export { default as IconCoupon } from './IconCoupon';
+export { default as IconClose } from './IconClose';
