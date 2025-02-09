@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# E-Learning System
 
-## Getting Started
+## Project Overview
 
-First, run the development server:
+This project is an E-Learning System built using Next.js. It aims to provide a platform for online education, offering various courses and learning materials to users.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features (In Progress)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- User Authentication: Secure login and registration system. 
+- Course Management: Create, update, and delete courses. 
+- User Dashboard: Personalized dashboard for users to track their progress. 
+- Responsive Design: Optimized for both desktop and mobile devices.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Next.js**: React framework for server-side rendering and static site generation.
+- **React**: JavaScript library for building user interfaces.
+- **MongoDB**: NoSQL database for storing user and course data.
+- **Tailwind CSS**: Utility-first CSS framework for styling the application.
+- **shadcn/ui**: Component library for building the user interface.
+- **Clerk**: Authentication library for user authentication and session management.
+- **Zustand**: State management library for managing global state.
+- ...and more.
 
-## Learn More
+## Acccount testing
 
-To learn more about Next.js, take a look at the following resources:
+- Admin account: 
+    - Email: taglione@onlinecmail.com
+    - Password: taglione123!
+- User account:
+    - Email: 
+    - Password:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/e-learning-system.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd e-learning-system
+    ```
+3. Install dependencies:
+    ```bash
+    npm install
+    ```
+4. Run the development server:
+    ```bash
+    npm run dev
+    ```
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## License
+
+This project is licensed under the MIT License.
