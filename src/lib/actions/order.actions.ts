@@ -11,6 +11,17 @@ import { revalidatePath } from 'next/cache';
 export async function createOrder(params: TCreateOrderParams) {
   try {
     connectToDatabase();
+
+    const findOrder = await Order.findOne({ user: params.user, course: params.course });
+    if (findOrder) {
+      if (findOrder.status === EOrderStatus.PENDING) {
+        return { error: "Đơn hàng trước đó của bạn vẫn đang chờ xử lý." };
+      }
+      if (findOrder.status === EOrderStatus.COMPLETED) {
+        return { error: "Bạn đã mua khóa học này trước đó rồi." };
+      }
+    }
+
     const newOrder = await Order.create(params);
     return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {

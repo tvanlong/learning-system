@@ -28,9 +28,12 @@ const ButtonEnroll = ({
       total: amount,
       amount: amount,
     });
-    if (newOrder.code) {
-      router.push(`/order/${newOrder.code}`);
+    if (newOrder?.error) {
+      toast.warning(newOrder.error);
+      return;
     }
+  
+    router.push(`/order/${newOrder.code}`);
   };
   return (
     <Button variant='primary' className='w-full' onClick={handleEnrollCourse}>
