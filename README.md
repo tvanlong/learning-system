@@ -25,8 +25,8 @@ This project is an E-Learning System built using Next.js. It aims to provide a p
 ## Acccount testing
 
 - Admin account: 
-    - Email: taglione@onlinecmail.com
-    - Password: taglione123!
+    - Email: 
+    - Password: 
 - User account:
     - Email: 
     - Password:
