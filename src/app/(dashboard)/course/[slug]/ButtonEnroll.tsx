@@ -1,7 +1,8 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { IUser } from '@/database/user.model';
-import { createOrder } from '@/lib/actions/order.actions';
+import { createOrder, updateOrder } from '@/lib/actions/order.actions';
+import { EOrderStatus } from '@/types/enums';
 import { createOrderCode } from '@/utils';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -31,13 +32,15 @@ const ButtonEnroll = ({
       amount: amount,
       coupon,
     });
-    if (newOrder.code) {
-      router.push(`/order/${newOrder.code}`);
+    if (amount === 0) {
+      await updateOrder({ orderId: newOrder._id, status: EOrderStatus.COMPLETED });
+    } else {
+      router.push(`/dashboard/order/${newOrder._id}`);
     }
   };
   return (
     <Button variant='primary' className='w-full' onClick={handleEnrollCourse}>
-      Mua khóa học
+      Mua khóa học {amount === 0 && '(miễn phí)'}
     </Button>
   );
 };

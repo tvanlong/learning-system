@@ -2,7 +2,7 @@
 import Order from '@/database/order.model';
 import { TCreateOrderParams } from '@/types';
 import { connectToDatabase } from '../mongoose';
-import { FilterQuery, model } from 'mongoose';
+import { FilterQuery } from 'mongoose';
 import Course from '@/database/course.model';
 import User from '@/database/user.model';
 import { EOrderStatus } from '@/types/enums';
@@ -12,12 +12,15 @@ import Coupon from '@/database/coupon.model';
 export async function createOrder(params: TCreateOrderParams) {
   try {
     connectToDatabase();
+    if (!params.coupon) delete params.coupon;
     const newOrder = await Order.create(params);
+
     if (params.coupon) {
       await Coupon.findByIdAndUpdate(params.coupon, {
         $inc: { used: 1 },
       });
     }
+
     return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
     console.log(error);

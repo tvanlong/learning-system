@@ -59,7 +59,7 @@ const CourseItem = ({
               </div>
             ))}
             <span className='font-bold text-primary ml-auto text-base'>
-              {data.price.toLocaleString()}đ
+              {data.price > 0 ? data.price.toLocaleString() : 'Miễn phí'}
             </span>
           </div>
           <Link href={courseUrl} className={commonClassNames.btnPrimary}>

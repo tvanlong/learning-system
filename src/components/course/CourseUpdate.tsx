@@ -37,8 +37,8 @@ import Image from 'next/image';
 const formSchema = z.object({
   title: z.string().min(10, 'Tên khóa học phải có ít nhất 10 ký tự'),
   slug: z.string().optional(),
-  price: z.number().int().positive().optional(),
-  sale_price: z.number().int().positive().optional(),
+  price: z.number().int().nonnegative().optional(), // Chấp nhận số nguyên >= 0
+  sale_price: z.number().int().nonnegative().optional(), 
   intro_url: z.string().optional(),
   desc: z.string().optional(),
   image: z.string().optional(),
