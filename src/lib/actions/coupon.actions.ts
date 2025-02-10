@@ -27,7 +27,7 @@ export async function createCoupon(params: TCreateCouponParams) {
 export async function getCoupons(params: any): Promise<ICoupon[] | undefined> {
   try {
     connectToDatabase();
-    const coupons = await Coupon.find(params);
+    const coupons = await Coupon.find(params).sort({ created_at: -1 });
     return JSON.parse(JSON.stringify(coupons));
   } catch (error) {
     console.log(error);
@@ -63,14 +63,42 @@ export async function getCouponByCode(
 ): Promise<TCouponParams | undefined> {
   try {
     connectToDatabase();
-    const coupon = await Coupon.findOne({
+    const findCoupon = await Coupon.findOne({
       code: params.code,
     }).populate({
       path: "courses",
       select: "_id title",
     });
-    return JSON.parse(JSON.stringify(coupon));
+    const coupon = JSON.parse(JSON.stringify(findCoupon));
+    return coupon;
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function getValidateCoupon(
+  params: any
+): Promise<TCouponParams | undefined> {
+  try {
+    connectToDatabase();
+    const findCoupon = await Coupon.findOne({
+      code: params.code,
+    }).populate({
+      path: "courses",
+      select: "_id title",
+    });
+    const coupon = JSON.parse(JSON.stringify(findCoupon));
+    const couponCourses = coupon?.courses.map((course: any) => course._id);
+    let isActive = true;
+    if (!couponCourses.includes(params.courseId)) isActive = false;
+    if (!coupon?.active) isActive = false;
+    if (coupon?.used >= coupon?.limit) isActive = false;
+    if (coupon?.start_date && new Date(coupon?.start_date) > new Date())
+      isActive = false;
+    if (coupon?.end_date && new Date(coupon?.end_date) < new Date())
+      isActive = false;
+    return isActive ? coupon : undefined;
+  } catch (error) {
+    console.log(error);
+  } 
 }

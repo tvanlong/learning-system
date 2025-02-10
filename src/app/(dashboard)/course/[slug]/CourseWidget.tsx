@@ -3,6 +3,8 @@
 import { IconPlay, IconStudy, IconUsers } from '@/components/icons';
 import { formatCurrency } from '@/utils/currency';
 import ButtonEnroll from './ButtonEnroll';
+import { useState } from 'react';
+import CouponForm from './CouponForm';
 
 const CourseWidget = ({
   data,
@@ -13,11 +15,14 @@ const CourseWidget = ({
   findUser: any;
   totalLesson: any;
 }) => {
+  const [price, setPrice] = useState<number>(data.price);
+  const [coupon, setCoupon] = useState("");
+
   return (
     <div className="bg-white rounded-lg p-5 border borderDarkMode lg:sticky lg:right-0 lg:top-20">
       <div className="flex items-center gap-2 mb-3">
         <strong className="text-primary text-xl font-bold">
-          {formatCurrency(data.price)}
+          {formatCurrency(price)}
         </strong>
         <span className="text-slate-400 line-through text-sm">
           {formatCurrency(data.sale_price)}
@@ -48,8 +53,15 @@ const CourseWidget = ({
       <ButtonEnroll
         user={findUser ? JSON.parse(JSON.stringify(findUser)) : null}
         courseId={data ? JSON.parse(JSON.stringify(data._id)) : null}
-        amount={data.price}
-      ></ButtonEnroll>
+        amount={price}
+        coupon={coupon}
+      />
+      <CouponForm  
+        setCouponId={setCoupon}
+        originalPrice={data.price}
+        setPrice={setPrice}
+        courseId={data ? JSON.parse(JSON.stringify(data._id)) : null} 
+      />
     </div>
   );
 };

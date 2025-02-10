@@ -7,11 +7,17 @@ import Course from '@/database/course.model';
 import User from '@/database/user.model';
 import { EOrderStatus } from '@/types/enums';
 import { revalidatePath } from 'next/cache';
+import Coupon from '@/database/coupon.model';
 
 export async function createOrder(params: TCreateOrderParams) {
   try {
     connectToDatabase();
     const newOrder = await Order.create(params);
+    if (params.coupon) {
+      await Coupon.findByIdAndUpdate(params.coupon, {
+        $inc: { used: 1 },
+      });
+    }
     return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
     console.log(error);
@@ -41,9 +47,15 @@ export async function fetchOrders(params: any) {
         select: 'name',
         path: 'user',
       })
+      .populate({
+        model: Coupon,
+        path: "coupon",
+        select: "code",
+      })
+      .sort({ created_at: -1 })
       .skip(skip)
       .limit(limit);
-    return orders;
+    return JSON.parse(JSON.stringify(orders));
   } catch (error) {
     console.log(error);
   }
