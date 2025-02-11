@@ -1,7 +1,7 @@
-import Heading from '@/components/typography/Heading';
 import { getUserCourses } from '@/lib/actions/user.actions';
 import { auth } from '@clerk/nextjs/server';
 import StudyCourses from './StudyCourses';
+import Heading from '@/components/common/Heading';
 
 const page = async () => {
   const { userId } = auth();

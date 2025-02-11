@@ -1,5 +1,7 @@
+import Heading from '@/components/common/Heading';
+
 const page = () => {
-  return <div>Quản lý thành viên</div>;
+  return <div><Heading>Quản lý thành viên</Heading></div>;
 };
 
 export default page;

@@ -7,7 +7,7 @@ import {
   IconOrder,
   IconCoupon
 } from '@/components/icons';
-import { MenuItemProps } from '@/types';
+import { MenuItemProps, TRatingIcon } from '@/types';
 import { ECouponType, ECourseLevel, ECourseStatus, EOrderStatus } from '@/types/enums';
 
 export const menuItems: MenuItemProps[] = [
@@ -180,3 +180,29 @@ export const couponTypes: {
 ];
 
 export const lastLessonKey = 'lastLesson';
+
+export const ratingList: {
+  title: TRatingIcon;
+  value: number;
+}[] = [
+  {
+    title: "awesome",
+    value: 5,
+  },
+  {
+    title: "good",
+    value: 4,
+  },
+  {
+    title: "meh",
+    value: 3,
+  },
+  {
+    title: "bad",
+    value: 2,
+  },
+  {
+    title: "terrible",
+    value: 1,
+  },
+];

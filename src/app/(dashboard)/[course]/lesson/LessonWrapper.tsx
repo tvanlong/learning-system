@@ -4,7 +4,7 @@ import useGlobalStore from '@/store';
 import React from 'react';
 
 const LessonWrapper = ({ children }: { children: React.ReactNode }) => {
-  const { expandedPlayer, setExpandedPlayer } = useGlobalStore();
+  const { expandedPlayer } = useGlobalStore();
 
   return (
     <div

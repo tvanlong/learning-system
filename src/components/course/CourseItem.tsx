@@ -35,7 +35,12 @@ const CourseItem = ({ data, cta, url = '' }: { data: IStudyCourses; cta?: string
     },
   ];
 
-  const courseUrl = url ? url : `/course/${data.slug}`;
+  const [courseUrl, setCourseUrl] = useState(url ? url : `/course/${data.slug}`);
+
+  useEffect(() => {
+    setCourseUrl(url ? url : `/course/${data.slug}`);
+  }, [url, data.slug]);
+
 
   return (
     <div className='bgDarkMode border borderDarkMode p-4 rounded-2xl dark:bg-grayDarker dark:border-opacity-10 flex flex-col'>
@@ -67,7 +72,7 @@ const CourseItem = ({ data, cta, url = '' }: { data: IStudyCourses; cta?: string
               {data.price > 0 ? data.price.toLocaleString() : 'Miễn phí'}
             </span>
           </div>
-          <Link href={courseUrl} className={commonClassNames.btnPrimary}>
+          <Link href={courseUrl} prefetch={false} className={commonClassNames.btnPrimary}>
             {cta || 'Xem chi tiết'}
           </Link>
         </div>

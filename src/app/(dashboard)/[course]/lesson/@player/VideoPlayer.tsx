@@ -6,15 +6,21 @@ const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import LessonNavigation from '../LessonNavigation';
+import RatingButton from './RatingButton';
 
 const VideoPlayer = ({
   videoId,
   nextLesson,
   prevLesson,
+  data
 }: {
   videoId?: string;
   nextLesson: string;
   prevLesson: string;
+  data: {
+    userId: string;
+    courseId: string;
+  };
 }) => {
   const [isEndedVideo, setIsEndedVideo] = useState(false);
   const { expandedPlayer, setExpandedPlayer } = useGlobalStore();
@@ -44,9 +50,15 @@ const VideoPlayer = ({
           nextLesson={nextLesson}
           prevLesson={prevLesson}
         ></LessonNavigation>
-        <Button onClick={() => setExpandedPlayer(!expandedPlayer)}>
-          {expandedPlayer ? 'Mặc định' : 'Mở rộng'}
-        </Button>
+         <div className="flex gap-5">
+          <RatingButton
+            userId={data.userId}
+            courseId={data.courseId}
+          ></RatingButton>
+          <Button onClick={() => setExpandedPlayer(!expandedPlayer)}>
+            {expandedPlayer ? "Mặc định" : "Mở rộng"}
+          </Button>
+        </div>
       </div>
     </>
   );

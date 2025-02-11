@@ -27,13 +27,18 @@ const page = async ({
 
   return (
     <div className='sticky top-5 lg:top-20 right-0 max-h-[calc(100svh-100px)] overflow-y-auto'>
-      <div className='h-3 w-full rounded-full border borderDarkMode bgDarkMode mb-2'>
-        <div
-          className='h-full rounded-full bg-primary w-0 transition-all duration-300'
-          style={{
-            width: `${completePercentage}%`,
-          }}
-        ></div>
+      <div className='flex gap-5 justify-between items-center mb-5'>
+        <span className='text-sm font-semibold text-gray-400'>
+          Tiến độ học tập: {histories?.length || 0}/{lessonCount || 1}
+        </span>
+        <div className='h-3 flex-1 w-full rounded-full border borderDarkMode bgDarkMode'>
+          <div
+            className='h-full rounded-full bg-primary w-0 transition-all duration-300'
+            style={{
+              width: `${completePercentage}%`,
+            }}
+          ></div>
+        </div>
       </div>
       <LessonContent
         lectures={lectures}

@@ -2,12 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { ModeToggle } from '@/components/common/ModeToggle';
 import { IconUsers } from '@/components/icons';
 import { useAuth, UserButton } from '@clerk/nextjs';
+import { InstructionsButton } from '../common';
 
 const Header = () => {
   const { userId } = useAuth();
@@ -22,12 +20,7 @@ const Header = () => {
         <span className='text-primary'>cademy</span>
       </Link>
       <div className='rounded-full gap-4 h-10 px-5 bgDarkMode w-[min(100%,390px)] items-center lg:flex hidden borderDarkMode'>
-        <div className='flex w-full max-w-sm items-center space-x-2'>
-          <Input type='email' placeholder='Tìm kiếm...' />
-          <Button type='submit' variant='primary'>
-            Tìm kiếm
-          </Button>
-        </div>
+        <InstructionsButton />
       </div>
       <div className='flex items-center gap-3'>
         <ModeToggle />

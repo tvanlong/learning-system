@@ -1,9 +1,9 @@
 import LessonSaveUrl from '../LessonSaveUrl';
 import { getCourseBySlug } from '@/lib/actions/course.actions';
 import { findAllLessons } from '@/lib/actions/lession.actions';
-import LessonNavigation from '../LessonNavigation';
 import Heading from '@/components/common/Heading';
 import VideoPlayer from './VideoPlayer';
+import { auth } from '@clerk/nextjs/server';
 
 const page = async ({
   params,
@@ -16,6 +16,7 @@ const page = async ({
     slug: string;
   };
 }) => {
+  const { userId } = auth();
   const course = params.course;
   const slug = searchParams.slug;
   const findCourse = await getCourseBySlug({ slug: course });
@@ -44,9 +45,13 @@ const page = async ({
         prevLesson={
           !prevLesson ? '' : `/${course}/lesson?slug=${prevLesson?.slug}`
         }
+        data={{
+          userId: userId!,
+          courseId: courseId,
+        }}
       />
       <Heading className='mb-10'>{lessonDetails.title}</Heading>
-      <div className='p-5 rounded-lg bgDarkMode border borderDarkMode entry-content'>
+      <div className='p-5 rounded-lg bgDarkMode border borderDarkMode entry-content mb-3'>
         <div
           dangerouslySetInnerHTML={{ __html: lessonDetails.content || '' }}
         ></div>

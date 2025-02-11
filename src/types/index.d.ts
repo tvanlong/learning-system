@@ -145,3 +145,6 @@ export type TUpdateCouponParams = {
   _id: string;
   updateData: Partial<TCreateCouponParams>;
 };
+
+// Rating
+export type TRatingIcon = "awesome" | "good" | "meh" | "bad" | "terrible";
