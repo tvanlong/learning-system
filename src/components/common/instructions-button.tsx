@@ -9,53 +9,67 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogClose,
+  DialogTrigger
 } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { BookOpen, X } from "lucide-react"
+import { BookOpen } from "lucide-react"
 
 const instructions = [
   {
-    title: "Create an Account",
-    description: "Sign up using your email or social media accounts to access all features.",
-    image: "/placeholder.svg?height=200&width=300",
+    title: "Tạo tài khoản",
+    description: "Đăng ký hoặc đăng nhập tài khoản thông qua email hoặc tài khoản google.",
+    image: "/account.png",
   },
   {
-    title: "Browse Courses",
-    description: "Explore our wide range of courses using the search bar or category filters.",
-    image: "/placeholder.svg?height=200&width=300",
+    title: "Khám phá khóa học",
+    description: "Tìm kiếm và chọn khóa học phù hợp với sở thích và mục tiêu học tập của bạn.",
+    image: "/explore.png",
   },
   {
-    title: "Enroll in a Course",
-    description: 'Click the "Enroll" button on the course page to start learning.',
-    image: "/placeholder.svg?height=200&width=300",
+    title: "Đăng ký khóa học",
+    description: 'Chọn "Mua khóa học" để tiến hành thanh toán và chờ xác nhận từ quản trị viên để bắt đầu học. Khóa học miễn phí không cần xác nhận.',
+    image: "/enroll.png",
   },
   {
-    title: "Access Course Materials",
-    description: "Navigate through video lectures, readings, and quizzes in your course dashboard.",
-    image: "/placeholder.svg?height=200&width=300",
+    title: "Học tập",
+    description: "Học qua video, bài giảng, bài tập để hoàn thành khóa học.",
+    image: "/study.png",
   },
   {
-    title: "Track Your Progress",
-    description: "Monitor your advancement through the course with progress bars and completion certificates.",
-    image: "/placeholder.svg?height=200&width=300",
+    title: "Tiến độ học tập",
+    description: "Theo dõi tiến độ học tập của bạn qua thanh tiến độ và số bài học đã hoàn thành.",
+    image: "/progress.png",
   },
   {
-    title: "Participate in Discussions",
-    description: "Engage with instructors and peers in course forums to enhance your learning.",
-    image: "/placeholder.svg?height=200&width=300",
+    title: "Tiếp tục học",
+    description: "Tiếp tục học từ bài học đã xem trước đó.",
+    image: "/continue.png",
   },
   {
-    title: "Submit Assignments",
-    description: "Complete and upload assignments through the designated submission portals.",
-    image: "/placeholder.svg?height=200&width=300",
+    title: "Mã giảm giá",
+    description: "Nhập mã giảm giá để nhận ưu đãi khi mua khóa học.",
+    image: "/coupon.png",
   },
   {
-    title: "Get Help",
-    description: 'Use the "Help" section or contact support if you encounter any issues.',
-    image: "/placeholder.svg?height=200&width=300",
+    title: "Hỏi đáp",
+    description: "Đặt câu hỏi hoặc trả lời câu hỏi của người khác trong phần hỏi đáp.",
+    image: "/loading.png",
   },
+  {
+    title: "Đánh giá khóa học",
+    description: "Đánh giá khóa học để giúp người khác chọn khóa học phù hợp.",
+    image: "/rating.png",
+  },
+  {
+    title: "Giao diện sáng/tối",
+    description: "Chuyển đổi giữa chế độ sáng và tối tùy theo sở thích của bạn.",
+    image: "/mode.png",
+  },
+  {
+    title: "Thông tin cá nhân",
+    description: "Cập nhật thông tin cá nhân và mật khẩu tài khoản.",
+    image: "/profile.png",
+  }
 ]
 
 export default function InstructionsButton() {
@@ -71,8 +85,12 @@ export default function InstructionsButton() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>E-Learning Website Instructions</DialogTitle>
-          <DialogDescription>Follow these steps to make the most of your learning experience.</DialogDescription>
+          <DialogTitle>
+            Hướng dẫn dùng hệ thống e-learning
+          </DialogTitle>
+          <DialogDescription>
+            Theo dõi các bước dưới đây để sử dụng hệ thống e-learning một cách hiệu quả.  
+          </DialogDescription>
         </DialogHeader>
         <ScrollArea className="mt-4 h-[70vh] pr-4">
           <div className="space-y-8">
