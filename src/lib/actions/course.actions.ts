@@ -13,7 +13,7 @@ import { revalidatePath } from 'next/cache';
 import Lecture from '@/database/lecture.model';
 import Lesson from '@/database/lesson.model';
 import { FilterQuery } from 'mongoose';
-import { ECourseStatus } from '@/types/enums';
+import { ECourseStatus, ERatingStatus } from '@/types/enums';
 
 export async function getAllCoursesPublic(
   params: TGetAllCourseParams
@@ -81,6 +81,11 @@ export async function getCourseBySlug({
         match: {
           _destroy: false,
         },
+      },
+    }).populate({
+      path: "rating",
+      match: {
+        status: ERatingStatus.ACTIVE,
       },
     });
 

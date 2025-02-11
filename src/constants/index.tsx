@@ -5,7 +5,8 @@ import {
   IconUsers,
   IconComment,
   IconOrder,
-  IconCoupon
+  IconCoupon,
+  IconStar
 } from '@/components/icons';
 import { MenuItemProps, TRatingIcon } from '@/types';
 import { ECouponType, ECourseLevel, ECourseStatus, EOrderStatus } from '@/types/enums';
@@ -40,6 +41,11 @@ export const menuItems: MenuItemProps[] = [
     url: '/manage/order',
     title: 'Quản lý đơn hàng',
     icon: <IconOrder className='size-5' />,
+  },
+  {
+    url: "/manage/rating",
+    title: "Quản lý đánh giá",
+    icon: <IconStar className="size-5" />,
   },
   {
     url: "/manage/coupon",

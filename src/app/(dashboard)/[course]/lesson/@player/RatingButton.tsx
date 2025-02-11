@@ -12,9 +12,11 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { ratingList } from "@/constants";
+import { createRating, getRatingByUserId } from "@/lib/actions/rating.actions";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const RatingButton = ({
   courseId,
@@ -25,7 +27,30 @@ const RatingButton = ({
 }) => {
   const [ratingValue, setRatingValue] = useState(-1);
   const [ratingContent, setRatingContent] = useState("");
-  const handleRatingCourse = async () => {};
+  
+  const handleRatingCourse = async () => {
+    try {
+      const isAlreadyRated = await getRatingByUserId(userId);
+      if (isAlreadyRated) {
+        toast.warning("Bạn đã đánh giá khóa học này rồi");
+        return;
+      }
+      const res = await createRating({
+        rate: ratingValue,
+        content: ratingContent,
+        user: userId,
+        course: courseId,
+      });
+      if (res) {
+        toast.success("Đánh giá thành công");
+        setRatingContent("");
+        setRatingValue(-1);
+      }
+    } catch (error) {
+      console.log("📌 Error: ", error)
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger className="flex items-center gap-3 rounded-lg h-10 text-sm font-semibold px-5 bg-slate-900 text-slate-50 hover:bg-slate-900/90 dark:bg-slate-50 dark:text-slate-900 dark:hover:bg-slate-50/90">
@@ -56,7 +81,7 @@ const RatingButton = ({
                       width={20}
                       height={20}
                       alt={rating.title}
-                      src={`/rating/${rating.title}.png`}
+                      src={`/icons/${rating.title}.png`}
                     />
                   </span>
                   <strong className="capitalize">{rating.title}</strong>
@@ -68,7 +93,7 @@ const RatingButton = ({
               className="h-[200px] resize-none"
               onChange={(e) => setRatingContent(e.target.value)}
             />
-            <Button variant="primary" className="w-full mt-5">
+            <Button variant="primary" className="w-full mt-5" onClick={handleRatingCourse}>
               Gửi đánh giá
             </Button>
           </DialogDescription>

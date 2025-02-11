@@ -1,79 +1,73 @@
-'use client';
-
+import { IStudyCourses } from '@/types';
+import { formatNumberToK } from '@/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { IconClock, IconEye, IconStar } from '@/components/icons';
-import { commonClassNames } from '@/constants';
-import { IStudyCourses } from '@/types';
-import { getCourseLessonsInfo } from '@/lib/actions/course.actions';
-import { formatMinutesToHour, formatNumberToK } from '@/utils';
+import { IconEye, IconStar } from '../icons';
+import CourseItemDuration from './CourseItemDuration';
 
-const CourseItem = ({ data, cta, url = '' }: { data: IStudyCourses; cta?: string; url?: string }) => {
-  const [duration, setDuration] = useState<number | null>(null);
-
-  useEffect(() => {
-    const fetchDuration = async () => {
-      const { duration }: any = await getCourseLessonsInfo({ slug: data.slug });
-      setDuration(duration);
-    };
-    fetchDuration();
-  }, [data.slug]);
-
+interface CourseItemProps {
+  data: IStudyCourses;
+  cta?: string;
+  url?: string;
+}
+const CourseItem = ({
+  cta = 'Xem chi tiết',
+  data,
+  url = '',
+}: CourseItemProps) => {
+  const courseUrl = url || `/course/${data.slug}`;
   const courseInfo = [
     {
       title: formatNumberToK(data.views),
-      icon: (className?: string) => <IconEye className={className} />,
+      icon: <IconEye className="size-4" />,
     },
     {
-      title: data.rating,
-      icon: (className?: string) => <IconStar className={className} />,
-    },
-    {
-      title: duration !== null ? formatMinutesToHour(duration) : 'Đang tải...',
-      icon: (className?: string) => <IconClock className={className} />,
+      title: 5,
+      icon: <IconStar className="size-4" />,
     },
   ];
 
-  const [courseUrl, setCourseUrl] = useState(url ? url : `/course/${data.slug}`);
-
-  useEffect(() => {
-    setCourseUrl(url ? url : `/course/${data.slug}`);
-  }, [url, data.slug]);
-
-
   return (
-    <div className='bgDarkMode border borderDarkMode p-4 rounded-2xl dark:bg-grayDarker dark:border-opacity-10 flex flex-col'>
-      <Link href={courseUrl} className='block h-[180px] relative'>
+    <div className="flex flex-col rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-200/10 dark:bg-grayDarker">
+      <Link
+        className="relative block h-[180px]"
+        href={courseUrl}
+      >
         <Image
+          priority
+          alt={data.title}
+          className="size-full rounded-lg object-cover"
+          height={200}
+          sizes="@media (min-width: 640px) 300px, 100vw"
           src={data.image}
           width={300}
-          height={200}
-          alt='course'
-          className='w-full h-full object-cover rounded-lg'
-          sizes='@media (min-width: 640px) 300px, 100vw'
-          priority
         />
-        <span className='inline-block px-3 py-1 rounded-full absolute top-3 right-3 z-10 text-white font-medium bg-green-500 text-xs'>
-          New
-        </span>
       </Link>
-      <div className='pt-4 flex flex-col flex-1'>
-        <h3 className='font-bold text-lg mb-5'>{data.title}</h3>
-        <div className='mt-auto'>
-          <div className='flex items-center gap-3 mb-5 text-xs text-gray-500 dark:text-grayDark'>
-            {courseInfo.map((item, index) => (
-              <div className='flex items-center gap-2' key={index}>
-                {item.icon('size-4')}
+      <div className="flex flex-1 flex-col pt-4">
+        <h3 className="mb-3 text-lg font-bold">{data.title}</h3>
+        <div className="mt-auto">
+          <div className="mb-5 flex items-center gap-3 text-xs text-gray-500 dark:text-grayDark">
+            {courseInfo.map((item) => (
+              <div
+                key={item.title}
+                className="flex items-center gap-2"
+              >
+                {item.icon}
                 <span>{item.title}</span>
               </div>
             ))}
-            <span className='font-bold text-primary ml-auto text-base'>
-              {data.price > 0 ? data.price.toLocaleString() : 'Miễn phí'}
+            <CourseItemDuration slug={data.slug} />
+
+            <span className="ml-auto text-base font-bold text-primary">
+              {data.price.toLocaleString()}đ
             </span>
           </div>
-          <Link href={courseUrl} prefetch={false} className={commonClassNames.btnPrimary}>
-            {cta || 'Xem chi tiết'}
+
+          <Link
+            className="button-primary mt-10 flex h-12 w-full items-center justify-center rounded-lg bg-primary font-bold text-white"
+            href={courseUrl}
+          >
+            {cta}
           </Link>
         </div>
       </div>

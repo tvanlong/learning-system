@@ -39,6 +39,8 @@ const page = async ({ params }: { params: { slug: string } }) => {
   const { duration, lessons }: any = await getCourseLessonsInfo({ 
     slug: data.slug,
   });
+  const ratings = data.rating.map((r: any) => r.content);
+  
 
   return (
     <div className='grid lg:grid-cols-[2fr,1fr] gap-10'>
@@ -63,6 +65,16 @@ const page = async ({ params }: { params: { slug: string } }) => {
               className='w-full h-full object-cover rounded-lg'
             />
           )}
+        </div>
+        <div className="flex flex-wrap gap-2 mb-5">
+          {ratings.map((rating, index) => (
+            <div
+              key={index}
+              className="p-2 text-sm font-medium rounded-md border borderDarkMode bgDarkMode"
+            >
+              {rating}
+            </div>
+          ))}
         </div>
         <h1 className='font-bold text-xl md:text-3xl my-8'>{data?.title}</h1>
         <BoxSection title='Mô tả'>
