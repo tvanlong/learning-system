@@ -53,6 +53,14 @@ export type TGetAllCourseParams = {
   status?: string;
 };
 
+export interface IStudyCourses extends Omit<ICourse, "lectures"> {
+  lectures: {
+    lessons: {
+      slug: string;
+    }[];
+  }[];
+}
+
 // Lecture types
 export type TCreateLectureParams = {
   course: string;

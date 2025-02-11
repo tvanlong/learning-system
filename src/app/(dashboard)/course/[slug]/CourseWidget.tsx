@@ -10,10 +10,12 @@ const CourseWidget = ({
   data,
   findUser,
   totalLesson,
+  duration
 }: {
   data: any;
   findUser: any;
   totalLesson: any;
+  duration: string;
 }) => {
   const [price, setPrice] = useState<number>(data.price);
   const [coupon, setCoupon] = useState("");
@@ -37,7 +39,7 @@ const CourseWidget = ({
       <ul className="mb-5 flex flex-col gap-2 text-sm text-slate-500">
         <li className="flex items-center gap-2">
           <IconPlay className="size-4" />
-          <span>{totalLesson} bài học</span>
+          <span>{totalLesson} bài học (khoảng {duration})</span>
         </li>
         <li className="flex items-center gap-2">
           <IconPlay className="size-4" />

@@ -3,6 +3,7 @@
 import {
   CreateCourseParams,
   ICourseUpdateParams,
+  IStudyCourses,
   TGetAllCourseParams,
   UpdateCourseParams,
 } from '@/types';
@@ -16,7 +17,7 @@ import { ECourseStatus } from '@/types/enums';
 
 export async function getAllCoursesPublic(
   params: TGetAllCourseParams
-): Promise<ICourse[] | undefined> {
+): Promise<IStudyCourses[] | undefined> {
   try {
     connectToDatabase();
     const { page = 1, limit = 10, search } = params;
@@ -126,4 +127,46 @@ export async function updateCourse(params: UpdateCourseParams) {
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function updateCourseView({ slug }: { slug: string }) {
+  try {
+    connectToDatabase();
+    await Course.findOneAndUpdate(
+      { slug },
+      {
+        $inc: { views: 1 },
+      }
+    );
+  } catch (error) {}
+}
+export async function getCourseLessonsInfo({ slug }: { slug: string }): Promise<
+  | {
+      duration: number;
+      lessons: number;
+    }
+  | undefined
+> {
+  try {
+    connectToDatabase();
+    const course = await Course.findOne({ slug })
+      .select("lectures")
+      .populate({
+        path: "lectures",
+        select: "lessons",
+        populate: {
+          path: "lessons",
+          select: "duration",
+        },
+      });
+    const lessons = course?.lectures.map((l: any) => l.lessons).flat();
+    const duration = lessons.reduce(
+      (acc: number, cur: any) => acc + cur.duration,
+      0
+    );
+    return {
+      duration,
+      lessons: lessons.length,
+    };
+  } catch (error) {}
 }

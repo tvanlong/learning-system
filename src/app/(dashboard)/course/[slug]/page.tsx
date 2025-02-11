@@ -13,15 +13,17 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { courseLevelTitle } from '@/constants';
-import { getCourseBySlug } from '@/lib/actions/course.actions';
+import { getCourseBySlug, getCourseLessonsInfo, updateCourseView } from '@/lib/actions/course.actions';
 import { getUserInfo } from '@/lib/actions/user.actions';
 import { ECourseStatus } from '@/types/enums';
 import { auth } from '@clerk/nextjs/server';
 import Image from 'next/image';
 import CourseWidget from './CourseWidget';
 import AlreadyEnroll from './AlreadyEnroll';
+import { formatMinutesToHour } from '@/utils';
 
 const page = async ({ params }: { params: { slug: string } }) => {
+  await updateCourseView({ slug: params.slug });
   const data = await getCourseBySlug({ slug: params.slug });
   if (!data) return null;
   if (data.status !== ECourseStatus.APPROVED) return <PageNotFound />;
@@ -34,6 +36,9 @@ const page = async ({ params }: { params: { slug: string } }) => {
   const totalLesson = lectures.reduce((acc, cur) => {
     return acc + cur.lessons.length;
   }, 0);
+  const { duration, lessons }: any = await getCourseLessonsInfo({ 
+    slug: data.slug,
+  });
 
   return (
     <div className='grid lg:grid-cols-[2fr,1fr] gap-10'>
@@ -68,7 +73,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
         <BoxSection title='Thông tin'>
           <div className='grid grid-cols-2 md:grid-cols-4 gap-5 mb-10'>
             <BoxInfo title='Bài học' icon={<IconPlay className='size-5' />}>
-              {totalLesson}
+              {lessons}
             </BoxInfo>
             <BoxInfo title='Lượt xem' icon={<IconEye className='size-5' />}>
               {data.views.toLocaleString()}
@@ -77,7 +82,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
               {courseLevelTitle[data.level]}
             </BoxInfo>
             <BoxInfo title='Thời lượng' icon={<IconTime className='size-5' />}>
-              30h25p
+              {formatMinutesToHour(duration)}
             </BoxInfo>
           </div>
         </BoxSection>
@@ -153,6 +158,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
             data={data ? JSON.parse(JSON.stringify(data)) : null} 
             findUser={findUser ? JSON.parse(JSON.stringify(findUser)) : null} 
             totalLesson={totalLesson}
+            duration={formatMinutesToHour(duration)}
           />
         )}
       </div>
