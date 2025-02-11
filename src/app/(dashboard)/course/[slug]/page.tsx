@@ -30,7 +30,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
 
   const { userId } = auth();
   const findUser = await getUserInfo({ userId: userId || '' });
-  const userCourses = findUser?.courses.map((c) => c.toString());
+  const userCourses = findUser?.courses.map((c: any) => c.toString());
   const videoId = data.intro_url?.split('v=')[1];
   const lectures = data.lectures || [];
   const totalLesson = lectures.reduce((acc, cur) => {
