@@ -1,22 +1,25 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IconClock, IconEye, IconStar } from '@/components/icons';
 import { commonClassNames } from '@/constants';
 import { IStudyCourses } from '@/types';
 import { getCourseLessonsInfo } from '@/lib/actions/course.actions';
 import { formatMinutesToHour, formatNumberToK } from '@/utils';
 
-const CourseItem = async ({
-  data,
-  cta,
-  url = '',
-}: {
-  data: IStudyCourses;
-  cta?: string;
-  url?: string;
-}) => {
-  const { duration }: any = (await getCourseLessonsInfo({ slug: data.slug })) || 0;
+const CourseItem = ({ data, cta, url = '' }: { data: IStudyCourses; cta?: string; url?: string }) => {
+  const [duration, setDuration] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchDuration = async () => {
+      const { duration }: any = await getCourseLessonsInfo({ slug: data.slug });
+      setDuration(duration);
+    };
+    fetchDuration();
+  }, [data.slug]);
+
   const courseInfo = [
     {
       title: formatNumberToK(data.views),
@@ -27,7 +30,7 @@ const CourseItem = async ({
       icon: (className?: string) => <IconStar className={className} />,
     },
     {
-      title: formatMinutesToHour(duration),
+      title: duration !== null ? formatMinutesToHour(duration) : 'Đang tải...',
       icon: (className?: string) => <IconClock className={className} />,
     },
   ];
