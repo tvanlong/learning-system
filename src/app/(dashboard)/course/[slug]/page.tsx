@@ -40,7 +40,6 @@ const page = async ({ params }: { params: { slug: string } }) => {
     slug: data.slug,
   });
   // const ratings = data.rating.map((r: any) => r.content);
-  
 
   return (
     <div className='grid lg:grid-cols-[2fr,1fr] gap-10'>

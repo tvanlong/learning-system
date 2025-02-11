@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { IconEye, IconStar } from '../icons';
 import CourseItemDuration from './CourseItemDuration';
+import { formatCurrency } from '@/utils/currency';
 
 interface CourseItemProps {
   data: IStudyCourses;
@@ -57,12 +58,10 @@ const CourseItem = ({
               </div>
             ))}
             <CourseItemDuration slug={data.slug} />
-
             <span className="ml-auto text-base font-bold text-primary">
-              {data.price.toLocaleString()}đ
+              {data.price === 0 ? 'Miễn phí' : `${formatCurrency(data.price)}đ`}
             </span>
           </div>
-
           <Link
             className="button-primary mt-10 flex h-12 w-full items-center justify-center rounded-lg bg-primary font-bold text-white"
             href={courseUrl}
