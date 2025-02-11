@@ -22,7 +22,7 @@ export async function getUserInfo({
   userId,
 }: {
   userId: string;
-}): Promise<IUser | null | undefined> {
+}) {
   try {
     connectToDatabase();
     const findUser = await User.findOne({ clerkId: userId });
