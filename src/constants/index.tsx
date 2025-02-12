@@ -9,7 +9,7 @@ import {
   IconStar
 } from '@/components/icons';
 import { MenuItemProps, TRatingIcon } from '@/types';
-import { ECouponType, ECourseLevel, ECourseStatus, EOrderStatus } from '@/types/enums';
+import { ECouponType, ECourseLevel, ECourseStatus, EOrderStatus, ERatingStatus } from '@/types/enums';
 
 export const menuItems: MenuItemProps[] = [
   {
@@ -212,3 +212,22 @@ export const ratingList: {
     value: 1,
   },
 ];
+
+export const ratingStatus: {
+  title: string;
+  value: ERatingStatus;
+  className?: string;
+}[] = [
+  {
+    title: "Đã duyệt",
+    value: ERatingStatus.ACTIVE,
+    className: "text-green-500 bg-green-500",
+  },
+  {
+    title: "Chờ duyệt",
+    value: ERatingStatus.UNACTIVE,
+    className: "text-orange-500 bg-orange-500",
+  },
+];
+
+export const allValue = "ALL";

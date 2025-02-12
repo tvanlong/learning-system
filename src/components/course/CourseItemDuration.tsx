@@ -15,7 +15,6 @@ function CourseItemDuration({ slug }: CourseItemDurationProps) {
   useEffect(() => {
     async function getDuration() {
       const response = await getCourseLessonsInfo({ slug });
-
       setDuration(response?.duration || 0);
     }
     getDuration();

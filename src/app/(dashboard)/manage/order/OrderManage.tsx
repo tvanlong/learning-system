@@ -19,8 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { commonClassNames, orderStatus } from '@/constants';
-import { usePathname, useRouter } from 'next/navigation';
+import { allValue, commonClassNames, orderStatus } from '@/constants';
 import useQueryString from '@/hooks/useQueryString';
 import { cn } from '@/lib/utils';
 import { EOrderStatus } from '@/types/enums';
@@ -49,9 +48,7 @@ interface IOrderManageProps {
 }
 
 const OrderManage = ({ orders = [] }: { orders: IOrderManageProps[] }) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const { createQueryString } = useQueryString();
+  const { handleSearchData, handleSelectStatus } = useQueryString();
 
   const handleUpdateOrder = async ({
     orderId,
@@ -81,22 +78,6 @@ const OrderManage = ({ orders = [] }: { orders: IOrderManageProps[] }) => {
     }
   };
 
-  const handleSelectStatus = (status: EOrderStatus) => {
-    router.push(`${pathname}?${createQueryString('status', status)}`);
-  };
-
-  const handleSearchOrder = debounce(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const search = e.target.value;
-      if (search) {
-        router.push(`${pathname}?${createQueryString('search', search)}`);
-      } else {
-        router.push(`${pathname}`);
-      }
-    },
-    500
-  );
-
   return (
     <div>
       <div className='flex flex-col lg:flex-row lg:items-center gap-5 justify-between mb-10'>
@@ -105,7 +86,7 @@ const OrderManage = ({ orders = [] }: { orders: IOrderManageProps[] }) => {
           <div className='w-full lg:w-[300px]'>
             <Input
               placeholder='Tìm kiếm đơn hàng...'
-              onChange={(e) => handleSearchOrder(e)}
+              onChange={handleSearchData}
             />
           </div>
           <Select
@@ -116,6 +97,7 @@ const OrderManage = ({ orders = [] }: { orders: IOrderManageProps[] }) => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
+                <SelectItem value={allValue}>Tất cả</SelectItem>
                 {orderStatus.map((status) => (
                   <SelectItem value={status.value} key={status.value}>
                     {status.title}

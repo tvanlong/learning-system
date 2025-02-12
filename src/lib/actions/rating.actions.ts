@@ -2,10 +2,11 @@
 
 import Rating from "@/database/rating.model";
 import { connectToDatabase } from "../mongoose";
-import { TCreateRatingParams } from "@/types";
+import { TCreateRatingParams, TFilterData, TRatingItem } from "@/types";
 import Course from "@/database/course.model";
 import { ERatingStatus } from "@/types/enums";
 import { revalidatePath } from "next/cache";
+import { FilterQuery } from "mongoose";
 
 export async function createRating(
   params: TCreateRatingParams
@@ -57,6 +58,38 @@ export async function deleteRating(id: string): Promise<boolean | undefined> {
     await Rating.findByIdAndDelete(id);
     revalidatePath("/admin/manage/rating");
     return true;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getRatings(
+  params: TFilterData
+): Promise<TRatingItem[] | undefined> {
+  try {
+    connectToDatabase();
+    const { page = 1, limit = 10, search, status } = params;
+    const skip = (page - 1) * limit;
+    const query: FilterQuery<typeof Rating> = {};
+    if (search) {
+      query.$or = [{ content: { $regex: search, $options: "i" } }];
+    }
+    if (status) {
+      query.status = status;
+    }
+    const ratings = await Rating.find(query)
+      .populate({
+        path: "course",
+        select: "title slug",
+      })
+      .populate({
+        path: "user",
+        select: "name",
+      })
+      .skip(skip)
+      .limit(limit)
+      .sort({ created_at: -1 });
+    return JSON.parse(JSON.stringify(ratings));
   } catch (error) {
     console.log(error);
   }

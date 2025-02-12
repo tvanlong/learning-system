@@ -1,34 +1,4 @@
-'use client';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { commonClassNames, courseStatus } from '@/constants';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import Link from 'next/link';
-import Heading from '@/components/common/Heading';
-import {
-  IconArrowLeft,
-  IconArrowRight,
-  IconDelete,
-  IconEdit,
-  IconEye,
-  IconLeftArrow,
-  IconRightArrow,
-  IconStudy,
-} from '@/components/icons';
-import { ICourse } from '@/database/course.model';
-import { Input } from '@/components/ui/input';
-import { ECourseStatus } from '@/types/enums';
-import { formatCurrency } from '@/utils/currency';
-import Swal from 'sweetalert2';
-import { updateCourse } from '@/lib/actions/course.actions';
-import { toast } from 'sonner';
+"use client";
 import {
   Select,
   SelectContent,
@@ -36,47 +6,42 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { debounce } from 'lodash';
-import { BouncedLink, StatusBadge } from '../common';
-import useQueryString from '@/hooks/useQueryString';
-import TableAction from '../common/TableAction';
-import TableActionItem from '../common/TableActionItem';
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { allValue, courseStatus } from "@/constants";
+import { ICourse } from "@/database/course.model";
+import useQueryString from "@/hooks/useQueryString";
+import { updateCourse } from "@/lib/actions/course.actions";
+import { ECourseStatus } from "@/types/enums";
+import Image from "next/image";
+import { useState } from "react";
+import { toast } from "sonner";
+import Swal from "sweetalert2";
+import { BouncedLink, StatusBadge, TableAction } from "../common";
+import Heading from "../common/Heading";
+import TableActionItem from "../common/TableActionItem";
+import { Input } from "../ui/input";
 
 const CourseManage = ({ courses }: { courses: ICourse[] }) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const { createQueryString } = useQueryString();
-  const [page, setPage] = useState(1);
-
-  const handleSearchCourse = debounce(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const search = e.target.value;
-      if (search) {
-        router.push(`${pathname}?${createQueryString('search', search)}`);
-      } else {
-        router.push(`${pathname}`);
-      }
-    },
-    500
-  );
-
-  const handleSelectStatus = (status: ECourseStatus) => {
-    router.push(`${pathname}?${createQueryString('status', status)}`);
-  };
+  const { handleSearchData, handleSelectStatus } = useQueryString();
 
   const handleDeleteCourse = (slug: string) => {
     Swal.fire({
-      title: 'Bạn chắc chắn muốn xóa khóa học này?',
-      text: 'Bạn sẽ không thể khôi phục lại dữ liệu sau khi xóa!',
-      icon: 'warning',
+      title: "Bạn có chắc muốn xóa khóa học này không?",
+      text: "Không thể hoàn tác sau khi xóa!",
+      icon: "warning",
       showCancelButton: true,
-      cancelButtonText: 'Hủy',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Xóa',
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Xóa",
+      cancelButtonText: "Hủy",
     }).then(async (result) => {
       if (result.isConfirmed) {
         await updateCourse({
@@ -85,24 +50,20 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
             status: ECourseStatus.PENDING,
             _destroy: true,
           },
-          path: '/manage/course',
+          path: "/manage/course",
         });
-        toast.success('Xóa khóa học thành công');
+        toast.success("Xóa khóa học thành công!");
       }
     });
   };
-
   const handleChangeStatus = async (slug: string, status: ECourseStatus) => {
     try {
       Swal.fire({
-        title: 'Bạn chắc chắn muốn cập nhật trạng thái này?',
-        text: 'Trạng thái sẽ được cập nhật ngay sau khi bạn xác nhận!',
-        icon: 'warning',
+        title: "Bạn có chắc muốn đổi trạng thái không?",
+        icon: "warning",
         showCancelButton: true,
-        cancelButtonText: 'Hủy',
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Xác nhận',
+        confirmButtonText: "Cập nhật",
+        cancelButtonText: "Hủy",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await updateCourse({
@@ -114,9 +75,9 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
                   : ECourseStatus.PENDING,
               _destroy: false,
             },
-            path: '/manage/course',
+            path: "/manage/course",
           });
-          toast.success('Cập nhật trạng thái thành công!');
+          toast.success("Cập nhật trạng thái thành công!");
         }
       });
     } catch (error) {
@@ -124,17 +85,13 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
     }
   };
 
-  const handleChangePage = (type: 'prev' | 'next') => {
-    if (type === 'prev' && page === 1) return;
-    if (type === 'prev') setPage((prev) => prev - 1);
-    if (type === 'next') setPage((prev) => prev + 1);
+  const [page, setPage] = useState(1);
+  const handleChangePage = (type: "prev" | "next") => {
+    if (type === "prev" && page === 1) return;
+    if (type === "prev") setPage((prev) => prev - 1);
+    if (type === "next") setPage((prev) => prev + 1);
   };
-
-  useEffect(() => {
-    router.push(`${pathname}?${createQueryString('page', page.toString())}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
-
+  
   return (
     <>
       <BouncedLink url="/manage/course/new"></BouncedLink>
@@ -144,7 +101,7 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
           <div className="w-full lg:w-[300px]">
             <Input
               placeholder="Tìm kiếm khóa học..."
-              onChange={(e) => handleSearchCourse(e)}
+              onChange={handleSearchData}
             />
           </div>
           <Select
@@ -157,6 +114,7 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
+                <SelectItem value={allValue}>Tất cả</SelectItem>
                 {courseStatus.map((status) => (
                   <SelectItem value={status.value} key={status.value}>
                     {status.title}
@@ -243,7 +201,7 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
             })}
         </TableBody>
       </Table>
-      <div className="flex justify-end gap-3 mt-5">
+      {/* <div className="flex justify-end gap-3 mt-5">
         <button
           className={commonClassNames.paginationButton}
           onClick={() => handleChangePage("prev")}
@@ -256,8 +214,9 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
         >
           <IconRightArrow />
         </button>
-      </div>
+      </div> */}
     </>
   );
 };
+
 export default CourseManage;

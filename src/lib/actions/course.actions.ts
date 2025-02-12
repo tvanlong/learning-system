@@ -4,6 +4,7 @@ import {
   CreateCourseParams,
   ICourseUpdateParams,
   IStudyCourses,
+  TFilterData,
   TGetAllCourseParams,
   UpdateCourseParams,
 } from '@/types';
@@ -38,7 +39,7 @@ export async function getAllCoursesPublic(
 }
 
 export async function getAllCourses(
-  params: TGetAllCourseParams
+  params: TFilterData
 ): Promise<ICourse[] | undefined> {
   try {
     connectToDatabase();
@@ -68,27 +69,28 @@ export async function getCourseBySlug({
 }): Promise<ICourseUpdateParams | undefined> {
   try {
     connectToDatabase();
-    const findCourse = await Course.findOne({ slug }).populate({
-      path: 'lectures',
-      model: Lecture,
-      select: '_id title',
-      match: {
-        _destroy: false,
-      },
-      populate: {
-        path: 'lessons',
-        model: Lesson,
+    const findCourse = await Course.findOne({ slug })
+      .populate({
+        path: "lectures",
+        model: Lecture,
+        select: "_id title",
         match: {
           _destroy: false,
         },
-      },
-    }).populate({
-      path: "rating",
-      match: {
-        status: ERatingStatus.ACTIVE,
-      },
-    });
-
+        populate: {
+          path: "lessons",
+          model: Lesson,
+          match: {
+            _destroy: false,
+          },
+        },
+      })
+      .populate({
+        path: "rating",
+        match: {
+          status: ERatingStatus.ACTIVE,
+        },
+      });
     return findCourse;
   } catch (error) {
     console.log(error);

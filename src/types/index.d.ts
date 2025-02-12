@@ -141,16 +141,44 @@ export type TCreateCouponParams = {
   limit?: number;
   courses?: string[];
 };
+
 export type TUpdateCouponParams = {
   _id: string;
   updateData: Partial<TCreateCouponParams>;
 };
 
+export type TCouponItem = Omit<ICoupon, "_id" | "courses">;
+
 // Rating
 export type TRatingIcon = "awesome" | "good" | "meh" | "bad" | "terrible";
+
 export type TCreateRatingParams = {
   rate: number;
   content: string;
   user: string;
   course: string;
+};
+
+export type TRatingItem = {
+  _id: string;
+  content: string;
+  rate: number;
+  created_at: string;
+  course: {
+    title: string;
+    slug: string;
+  };
+  user: {
+    name: string;
+  };
+  status: ERatingStatus;
+};
+
+// Filter, pagination
+export type TFilterData = {
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: string;
+  active?: boolean;
 };

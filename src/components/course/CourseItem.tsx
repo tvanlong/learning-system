@@ -59,7 +59,7 @@ const CourseItem = ({
             ))}
             <CourseItemDuration slug={data.slug} />
             <span className="ml-auto text-base font-bold text-primary">
-              {data.price === 0 ? 'Miễn phí' : `${formatCurrency(data.price)}đ`}
+              {data.price === 0 ? 'Miễn phí' : `${formatCurrency(data.price)}`}
             </span>
           </div>
           <Link
