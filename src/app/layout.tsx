@@ -6,6 +6,7 @@ import { Toaster } from 'sonner'
 
 import { manrope } from '@/utils'
 import { ThemeProvider } from '@/components/common/ThemeProvider'
+import NextTopLoader from 'nextjs-toploader'
 
 export const metadata: Metadata = {
   title: 'E-Learning System',
@@ -22,6 +23,7 @@ export default function RootLayout({
       <html lang='en' suppressHydrationWarning>
         <body className={manrope.className}>
           <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+            <NextTopLoader color='#8873EF' />
             {children}
             <Toaster richColors position='top-right' />
           </ThemeProvider>

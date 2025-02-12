@@ -17,6 +17,7 @@ import {
 import { ECourseStatus, ERatingStatus } from '@/types/enums'
 
 import { connectToDatabase } from '../mongoose'
+import Rating from '@/database/rating.model'
 
 export async function getAllCoursesPublic(params: TGetAllCourseParams): Promise<IStudyCourses[] | undefined> {
   try {
@@ -75,6 +76,7 @@ export async function getCourseBySlug({ slug }: { slug: string }): Promise<ICour
       })
       .populate({
         path: 'rating',
+        model: Rating,
         match: {
           status: ERatingStatus.ACTIVE
         }
