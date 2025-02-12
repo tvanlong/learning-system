@@ -1,8 +1,9 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
-import { createUser } from '@/lib/actions/user.actions'
 import { NextResponse } from 'next/server'
+
+import { createUser } from '@/lib/actions/user.actions'
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
@@ -31,7 +32,7 @@ export async function POST(req: Request) {
     evt = wh.verify(body, {
       'svix-id': svix_id,
       'svix-timestamp': svix_timestamp,
-      'svix-signature': svix_signature,
+      'svix-signature': svix_signature
     }) as WebhookEvent
   } catch (err) {
     console.error('❌ Error: Could not verify webhook:', err)
@@ -48,7 +49,7 @@ export async function POST(req: Request) {
       email: email_addresses?.[0]?.email_address || '',
       avatar: image_url
     })
-    return NextResponse.json({ message: "OK", user })
+    return NextResponse.json({ message: 'OK', user })
   }
 
   return new Response('Webhook received', { status: 200 })

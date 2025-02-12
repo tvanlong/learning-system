@@ -1,22 +1,23 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { IconPlay } from '@/components/icons';
-import { ILesson } from '@/database/lesson.model';
-import { cn } from '@/lib/utils';
-import { Checkbox } from '@/components/ui/checkbox';
-import { createHistory } from '@/lib/actions/history.actions';
+import Link from 'next/link'
+
+import { IconPlay } from '@/components/icons'
+import { ILesson } from '@/database/lesson.model'
+import { cn } from '@/lib/utils'
+import { Checkbox } from '@/components/ui/checkbox'
+import { createHistory } from '@/lib/actions/history.actions'
 
 const LessonItem = ({
   lesson,
   url,
   isActive = false,
-  isChecked = false,
+  isChecked = false
 }: {
-  lesson: ILesson;
-  url?: string;
-  isActive?: boolean;
-  isChecked?: boolean;
+  lesson: ILesson
+  url?: string
+  isActive?: boolean
+  isChecked?: boolean
 }) => {
   const handleCompleteLesson = async (checked: boolean | string) => {
     try {
@@ -24,12 +25,12 @@ const LessonItem = ({
         course: lesson.course.toString(),
         lesson: lesson._id,
         checked,
-        path: url || '',
-      });
+        path: url || ''
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <div
@@ -47,20 +48,15 @@ const LessonItem = ({
       )}
       <IconPlay className='size-5 shrink-0' />
       {url ? (
-        <Link
-          href={url}
-          className={cn('line-clamp-1', isActive && 'pointer-events-none')}
-        >
+        <Link href={url} className={cn('line-clamp-1', isActive && 'pointer-events-none')}>
           {lesson.title}
         </Link>
       ) : (
         <h4 className='line-clamp-1'>{lesson.title}</h4>
       )}
-      <span className='ml-auto font-semibold text-xs flex-shrink-0'>
-        {lesson.duration} phút
-      </span>
+      <span className='ml-auto font-semibold text-xs flex-shrink-0'>{lesson.duration} phút</span>
     </div>
-  );
-};
+  )
+}
 
-export default LessonItem;
+export default LessonItem

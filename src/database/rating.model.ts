@@ -1,44 +1,45 @@
-import { ERatingStatus } from "@/types/enums";
-import { Document, Schema, model, models } from "mongoose";
+import { Document, Schema, model, models } from 'mongoose'
+
+import { ERatingStatus } from '@/types/enums'
 
 export interface IRating extends Document {
-  _id: string;
-  rate: number;
-  content: string;
-  user: Schema.Types.ObjectId;
-  course: Schema.Types.ObjectId;
-  status: ERatingStatus;
-  created_at: Date;
+  _id: string
+  rate: number
+  content: string
+  user: Schema.Types.ObjectId
+  course: Schema.Types.ObjectId
+  status: ERatingStatus
+  created_at: Date
 }
 const ratingSchema = new Schema<IRating>({
   rate: {
     type: Number,
     default: 5,
-    required: true,
+    required: true
   },
   content: {
     type: String,
-    required: true,
+    required: true
   },
   status: {
     type: String,
     enum: Object.values(ERatingStatus),
-    default: ERatingStatus.UNACTIVE,
+    default: ERatingStatus.UNACTIVE
   },
   user: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User'
   },
   course: {
     type: Schema.Types.ObjectId,
-    ref: "Course",
+    ref: 'Course'
   },
   created_at: {
     type: Date,
-    default: Date.now,
-  },
-});
+    default: Date.now
+  }
+})
 
-const Rating = models.Rating || model<IRating>("Rating", ratingSchema);
+const Rating = models.Rating || model<IRating>('Rating', ratingSchema)
 
-export default Rating;
+export default Rating

@@ -1,11 +1,12 @@
-'use client';
-import { ActiveLinkProps } from '@/types';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+'use client'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+import { ActiveLinkProps } from '@/types'
 
 const ActiveLink = ({ url, children }: ActiveLinkProps) => {
-  const pathname = usePathname();
-  const isActive = pathname === url;
+  const pathname = usePathname()
+  const isActive = pathname === url
 
   return (
     <Link
@@ -18,7 +19,7 @@ const ActiveLink = ({ url, children }: ActiveLinkProps) => {
     >
       {children}
     </Link>
-  );
-};
+  )
+}
 
-export default ActiveLink;
+export default ActiveLink

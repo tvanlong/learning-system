@@ -1,9 +1,9 @@
-import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware'; // required for devtools typing
+import { create } from 'zustand'
+import { devtools, persist } from 'zustand/middleware' // required for devtools typing
 
 interface GlobalState {
-  expandedPlayer: boolean;
-  setExpandedPlayer: (expandedPlayer: boolean) => void;
+  expandedPlayer: boolean
+  setExpandedPlayer: (expandedPlayer: boolean) => void
 }
 
 const useGlobalStore = create<GlobalState>()(
@@ -11,13 +11,13 @@ const useGlobalStore = create<GlobalState>()(
     persist(
       (set) => ({
         expandedPlayer: false,
-        setExpandedPlayer: (expandedPlayer) => set({ expandedPlayer }),
+        setExpandedPlayer: (expandedPlayer) => set({ expandedPlayer })
       }),
       {
-        name: 'global-storage',
+        name: 'global-storage'
       }
     )
   )
-);
+)
 
-export default useGlobalStore;
+export default useGlobalStore

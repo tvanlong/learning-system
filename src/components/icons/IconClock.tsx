@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import { ComponentProps } from 'react'
 
 const IconClock = (props: ComponentProps<'svg'>) => {
   return (
@@ -11,13 +11,9 @@ const IconClock = (props: ComponentProps<'svg'>) => {
       className='w-6 h-6'
       {...props}
     >
-      <path
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        d='M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
-      />
+      <path strokeLinecap='round' strokeLinejoin='round' d='M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z' />
     </svg>
-  );
-};
+  )
+}
 
-export default IconClock;
+export default IconClock

@@ -1,67 +1,68 @@
-import { ELessonType } from "@/types/enums";
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models } from 'mongoose'
+
+import { ELessonType } from '@/types/enums'
 
 export interface ILesson extends Document {
-  _id: string;
-  title: string;
-  slug: string;
-  lecture: Schema.Types.ObjectId;
-  course: Schema.Types.ObjectId;
-  order: number;
-  duration: number;
-  video_url: string;
-  content: string;
-  type: ELessonType;
-  _destroy: boolean;
-  created_at: Date;
+  _id: string
+  title: string
+  slug: string
+  lecture: Schema.Types.ObjectId
+  course: Schema.Types.ObjectId
+  order: number
+  duration: number
+  video_url: string
+  content: string
+  type: ELessonType
+  _destroy: boolean
+  created_at: Date
 }
 
 const lessonSchema = new Schema<ILesson>({
   title: {
     type: String,
-    required: true,
+    required: true
   },
   slug: {
     type: String,
-    required: true,
+    required: true
   },
   order: {
     type: Number,
-    default: 0,
+    default: 0
   },
   duration: {
     type: Number,
-    default: 0,
+    default: 0
   },
   content: {
-    type: String,
+    type: String
   },
   video_url: {
-    type: String,
+    type: String
   },
   _destroy: {
     type: Boolean,
-    default: false,
+    default: false
   },
   created_at: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
   lecture: {
     type: Schema.Types.ObjectId,
-    ref: "Lecture",
+    ref: 'Lecture'
   },
   course: {
     type: Schema.Types.ObjectId,
-    ref: "Course",
+    ref: 'Course'
   },
   type: {
     type: String,
     enum: Object.values(ELessonType),
-    default: ELessonType.VIDEO,
-  },
-});
+    default: ELessonType.VIDEO
+  }
+})
 
-const Lesson = models.Lesson || model<ILesson>("Lesson", lessonSchema);
+const Lesson = models.Lesson || model<ILesson>('Lesson', lessonSchema)
 
-export default Lesson;
+export default Lesson

@@ -1,4 +1,4 @@
-import Heading from '@/components/common/Heading';
+import Heading from '@/components/common/Heading'
 
 const page = () => {
   return (
@@ -6,6 +6,6 @@ const page = () => {
       <Heading>Quản lý bình luận</Heading>
     </div>
   )
-};
+}
 
-export default page;
+export default page

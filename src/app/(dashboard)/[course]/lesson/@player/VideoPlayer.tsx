@@ -1,12 +1,13 @@
-'use client';
-import { Button } from '@/components/ui/button';
-import useGlobalStore from '@/store';
-import dynamic from 'next/dynamic';
-const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import LessonNavigation from '../LessonNavigation';
-import RatingButton from './RatingButton';
+'use client'
+import { useEffect, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import useGlobalStore from '@/store'
+
+import dynamic from 'next/dynamic'
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false })
+import { useRouter } from 'next/navigation'
+import LessonNavigation from '../LessonNavigation'
+import RatingButton from './RatingButton'
 
 const VideoPlayer = ({
   videoId,
@@ -14,25 +15,25 @@ const VideoPlayer = ({
   prevLesson,
   data
 }: {
-  videoId?: string;
-  nextLesson: string;
-  prevLesson: string;
+  videoId?: string
+  nextLesson: string
+  prevLesson: string
   data: {
-    userId: string;
-    courseId: string;
-  };
+    userId: string
+    courseId: string
+  }
 }) => {
-  const [isEndedVideo, setIsEndedVideo] = useState(false);
-  const { expandedPlayer, setExpandedPlayer } = useGlobalStore();
-  const router = useRouter();
+  const [isEndedVideo, setIsEndedVideo] = useState(false)
+  const { expandedPlayer, setExpandedPlayer } = useGlobalStore()
+  const router = useRouter()
   useEffect(() => {
-    if (!isEndedVideo) return;
+    if (!isEndedVideo) return
     const timer = setTimeout(() => {
-      router.push(nextLesson);
-    }, 5000);
-    return () => clearTimeout(timer);
+      router.push(nextLesson)
+    }, 5000)
+    return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEndedVideo, nextLesson]);
+  }, [isEndedVideo, nextLesson])
   return (
     <>
       <div className='relative mb-5 aspect-video rounded-md overflow-hidden'>
@@ -46,22 +47,14 @@ const VideoPlayer = ({
         />
       </div>
       <div className='flex items-center justify-between mb-5'>
-        <LessonNavigation
-          nextLesson={nextLesson}
-          prevLesson={prevLesson}
-        ></LessonNavigation>
-         <div className="flex gap-5">
-          <RatingButton
-            userId={data.userId}
-            courseId={data.courseId}
-          ></RatingButton>
-          <Button onClick={() => setExpandedPlayer(!expandedPlayer)}>
-            {expandedPlayer ? "Mặc định" : "Mở rộng"}
-          </Button>
+        <LessonNavigation nextLesson={nextLesson} prevLesson={prevLesson}></LessonNavigation>
+        <div className='flex gap-5'>
+          <RatingButton userId={data.userId} courseId={data.courseId}></RatingButton>
+          <Button onClick={() => setExpandedPlayer(!expandedPlayer)}>{expandedPlayer ? 'Mặc định' : 'Mở rộng'}</Button>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default VideoPlayer;
+export default VideoPlayer

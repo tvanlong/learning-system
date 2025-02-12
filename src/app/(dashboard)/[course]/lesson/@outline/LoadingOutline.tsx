@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const LoadingOutline = () => {
   return (
@@ -9,7 +9,7 @@ const LoadingOutline = () => {
         <div className='skeleton w-full h-15 rounded-lg'></div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoadingOutline;
+export default LoadingOutline

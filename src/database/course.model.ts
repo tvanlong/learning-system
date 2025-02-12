@@ -1,117 +1,118 @@
-import { ECourseLevel, ECourseStatus } from '@/types/enums';
-import { Document, Schema, model, models } from 'mongoose';
+import { Document, Schema, model, models } from 'mongoose'
+
+import { ECourseLevel, ECourseStatus } from '@/types/enums'
 
 export interface ICourse extends Document {
-  _id: string;
-  title: string;
-  image: string;
-  intro_url: string;
-  desc: string;
-  price: number;
-  sale_price: number;
-  slug: string;
-  status: ECourseStatus;
-  created_at: Date;
-  author: Schema.Types.ObjectId;
-  level: ECourseLevel;
-  views: number;
-  rating: Schema.Types.ObjectId[];
+  _id: string
+  title: string
+  image: string
+  intro_url: string
+  desc: string
+  price: number
+  sale_price: number
+  slug: string
+  status: ECourseStatus
+  created_at: Date
+  author: Schema.Types.ObjectId
+  level: ECourseLevel
+  views: number
+  rating: Schema.Types.ObjectId[]
   info: {
-    requirements: string[];
-    benefits: string[];
+    requirements: string[]
+    benefits: string[]
     qa: {
-      question: string;
-      answer: string;
-    }[];
-  };
-  lectures: Schema.Types.ObjectId[];
-  _destroy: boolean;
+      question: string
+      answer: string
+    }[]
+  }
+  lectures: Schema.Types.ObjectId[]
+  _destroy: boolean
 }
 
 const courseSchema = new Schema<ICourse>({
   title: {
     type: String,
-    required: true,
+    required: true
   },
   slug: {
     type: String,
-    required: true,
+    required: true
   },
   image: {
-    type: String,
+    type: String
   },
   intro_url: {
     type: String,
-    default: '',
+    default: ''
   },
   desc: {
     type: String,
-    default: 'Khóa học này chưa có mô tả',
+    default: 'Khóa học này chưa có mô tả'
   },
   price: {
     type: Number,
-    default: 0,
+    default: 0
   },
   sale_price: {
     type: Number,
-    default: 0,
+    default: 0
   },
   status: {
     type: String,
     enum: Object.values(ECourseStatus),
-    default: ECourseStatus.PENDING,
+    default: ECourseStatus.PENDING
   },
   created_at: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
   author: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'User'
   },
   level: {
     type: String,
     enum: Object.values(ECourseLevel),
-    default: ECourseLevel.BEGINNER,
+    default: ECourseLevel.BEGINNER
   },
   lectures: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Lecture',
-    },
+      ref: 'Lecture'
+    }
   ],
   rating: {
     type: [Schema.Types.ObjectId],
-    ref: "Rating",
+    ref: 'Rating'
   },
   views: {
     type: Number,
-    default: 0,
+    default: 0
   },
   info: {
     requirements: {
-      type: [String],
+      type: [String]
     },
     benefits: {
-      type: [String],
+      type: [String]
     },
     qa: [
       {
         question: {
-          type: String,
+          type: String
         },
         answer: {
-          type: String,
-        },
-      },
-    ],
+          type: String
+        }
+      }
+    ]
   },
   _destroy: {
     type: Boolean,
-    default: false,
-  },
-});
+    default: false
+  }
+})
 
-const Course = models.Course || model<ICourse>('Course', courseSchema);
+const Course = models.Course || model<ICourse>('Course', courseSchema)
 
-export default Course;
+export default Course

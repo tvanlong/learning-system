@@ -1,179 +1,168 @@
-'use server';
+'use server'
 
+import { revalidatePath } from 'next/cache'
+import { FilterQuery } from 'mongoose'
+
+import Course, { ICourse } from '@/database/course.model'
+import Lecture from '@/database/lecture.model'
+import Lesson from '@/database/lesson.model'
 import {
   CreateCourseParams,
   ICourseUpdateParams,
   IStudyCourses,
   TFilterData,
   TGetAllCourseParams,
-  UpdateCourseParams,
-} from '@/types';
-import { connectToDatabase } from '../mongoose';
-import Course, { ICourse } from '@/database/course.model';
-import { revalidatePath } from 'next/cache';
-import Lecture from '@/database/lecture.model';
-import Lesson from '@/database/lesson.model';
-import { FilterQuery } from 'mongoose';
-import { ECourseStatus, ERatingStatus } from '@/types/enums';
+  UpdateCourseParams
+} from '@/types'
+import { ECourseStatus, ERatingStatus } from '@/types/enums'
 
-export async function getAllCoursesPublic(
-  params: TGetAllCourseParams
-): Promise<IStudyCourses[] | undefined> {
+import { connectToDatabase } from '../mongoose'
+
+export async function getAllCoursesPublic(params: TGetAllCourseParams): Promise<IStudyCourses[] | undefined> {
   try {
-    connectToDatabase();
-    const { page = 1, limit = 10, search } = params;
-    const skip = (page - 1) * limit;
-    const query: FilterQuery<typeof Course> = {};
+    connectToDatabase()
+    const { page = 1, limit = 10, search } = params
+    const skip = (page - 1) * limit
+    const query: FilterQuery<typeof Course> = {}
     if (search) {
-      query.$or = [{ title: { $regex: search, $options: 'i' } }];
+      query.$or = [{ title: { $regex: search, $options: 'i' } }]
     }
-    query.status = ECourseStatus.APPROVED;
-    const courses = await Course.find(query)
-      .skip(skip)
-      .limit(limit)
-      .sort({ created_at: -1 });
-    return JSON.parse(JSON.stringify(courses));
+    query.status = ECourseStatus.APPROVED
+    const courses = await Course.find(query).skip(skip).limit(limit).sort({ created_at: -1 })
+    return JSON.parse(JSON.stringify(courses))
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 }
 
-export async function getAllCourses(
-  params: TFilterData
-): Promise<ICourse[] | undefined> {
+export async function getAllCourses(params: TFilterData): Promise<ICourse[] | undefined> {
   try {
-    connectToDatabase();
-    const { page = 1, limit = 10, search, status } = params;
-    const skip = (page - 1) * limit;
-    const query: FilterQuery<typeof Course> = {};
+    connectToDatabase()
+    const { page = 1, limit = 10, search, status } = params
+    const skip = (page - 1) * limit
+    const query: FilterQuery<typeof Course> = {}
     if (search) {
-      query.$or = [{ title: { $regex: search, $options: 'i' } }];
+      query.$or = [{ title: { $regex: search, $options: 'i' } }]
     }
     if (status) {
-      query.status = status;
+      query.status = status
     }
-    const courses = await Course.find(query)
-      .skip(skip)
-      .limit(limit)
-      .sort({ created_at: -1 });
-    return JSON.parse(JSON.stringify(courses)); 
+    const courses = await Course.find(query).skip(skip).limit(limit).sort({ created_at: -1 })
+    return JSON.parse(JSON.stringify(courses))
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 }
 
-export async function getCourseBySlug({
-  slug,
-}: {
-  slug: string;
-}): Promise<ICourseUpdateParams | undefined> {
+export async function getCourseBySlug({ slug }: { slug: string }): Promise<ICourseUpdateParams | undefined> {
   try {
-    connectToDatabase();
+    connectToDatabase()
     const findCourse = await Course.findOne({ slug })
       .populate({
-        path: "lectures",
+        path: 'lectures',
         model: Lecture,
-        select: "_id title",
+        select: '_id title',
         match: {
-          _destroy: false,
+          _destroy: false
         },
         populate: {
-          path: "lessons",
+          path: 'lessons',
           model: Lesson,
           match: {
-            _destroy: false,
-          },
-        },
+            _destroy: false
+          }
+        }
       })
       .populate({
-        path: "rating",
+        path: 'rating',
         match: {
-          status: ERatingStatus.ACTIVE,
-        },
-      });
-    return findCourse;
+          status: ERatingStatus.ACTIVE
+        }
+      })
+    return findCourse
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 }
 
 export async function createCourse(params: CreateCourseParams) {
   try {
-    connectToDatabase();
-    const existCourse = await Course.findOne({ slug: params.slug });
+    connectToDatabase()
+    const existCourse = await Course.findOne({ slug: params.slug })
     if (existCourse) {
       return {
         success: false,
-        message: 'Đường dẫn khóa học đã tồn tại!',
-      };
+        message: 'Đường dẫn khóa học đã tồn tại!'
+      }
     }
-    const course = await Course.create(params);
+    const course = await Course.create(params)
     return {
       success: true,
       message: 'Tạo khóa học thành công',
-      data: JSON.parse(JSON.stringify(course)),
-    };
+      data: JSON.parse(JSON.stringify(course))
+    }
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 }
 
 export async function updateCourse(params: UpdateCourseParams) {
   try {
-    connectToDatabase();
-    const findCourse = await Course.findOne({ slug: params.slug });
-    if (!findCourse) return;
+    connectToDatabase()
+    const findCourse = await Course.findOne({ slug: params.slug })
+    if (!findCourse) return
     await Course.findOneAndUpdate({ slug: params.slug }, params.updateData, {
-      new: true,
-    });
-    revalidatePath(params.path || '/');
+      new: true
+    })
+    revalidatePath(params.path || '/')
     return {
       success: true,
-      message: 'Cập nhật khóa học thành công',
-    };
+      message: 'Cập nhật khóa học thành công'
+    }
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 }
 
 export async function updateCourseView({ slug }: { slug: string }) {
   try {
-    connectToDatabase();
+    connectToDatabase()
     await Course.findOneAndUpdate(
       { slug },
       {
-        $inc: { views: 1 },
+        $inc: { views: 1 }
       }
-    );
-  } catch (error) {}
+    )
+  } catch (error) {
+    console.log(error)
+  }
 }
 export async function getCourseLessonsInfo({ slug }: { slug: string }): Promise<
   | {
-      duration: number;
-      lessons: number;
+      duration: number
+      lessons: number
     }
   | undefined
 > {
   try {
-    connectToDatabase();
+    connectToDatabase()
     const course = await Course.findOne({ slug })
-      .select("lectures")
+      .select('lectures')
       .populate({
-        path: "lectures",
-        select: "lessons",
+        path: 'lectures',
+        select: 'lessons',
         populate: {
-          path: "lessons",
-          select: "duration",
-        },
-      });
-    const lessons = course?.lectures.map((l: any) => l.lessons).flat();
-    const duration = lessons.reduce(
-      (acc: number, cur: any) => acc + cur.duration,
-      0
-    );
+          path: 'lessons',
+          select: 'duration'
+        }
+      })
+    const lessons = course?.lectures.map((l: any) => l.lessons).flat()
+    const duration = lessons.reduce((acc: number, cur: any) => acc + cur.duration, 0)
     return {
       duration,
-      lessons: lessons.length,
-    };
-  } catch (error) {}
+      lessons: lessons.length
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }

@@ -1,79 +1,53 @@
-'use client';
+'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { ECourseLevel, ECourseStatus } from '@/types/enums';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { Textarea } from '@/components/ui/textarea';
-import { updateCourse } from '@/lib/actions/course.actions';
-import { ICourse } from '@/database/course.model';
-import slugify from 'slugify';
-import { useImmer } from 'use-immer';
-import { IconAdd, IconCancel } from '@/components/icons';
-import { toast } from 'sonner';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { courseLevel, courseStatus } from '@/constants';
-import { UploadButton } from '@/utils/uploadthing';
-import Image from 'next/image';
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import slugify from 'slugify'
+import { useImmer } from 'use-immer'
+import { toast } from 'sonner'
+import Image from 'next/image'
+
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { ECourseLevel, ECourseStatus } from '@/types/enums'
+import { Textarea } from '@/components/ui/textarea'
+import { updateCourse } from '@/lib/actions/course.actions'
+import { ICourse } from '@/database/course.model'
+import { IconAdd, IconCancel } from '@/components/icons'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { courseLevel, courseStatus } from '@/constants'
+import { UploadButton } from '@/utils/uploadthing'
 
 const formSchema = z.object({
   title: z.string().min(10, 'Tên khóa học phải có ít nhất 10 ký tự'),
   slug: z.string().optional(),
   price: z.number().int().nonnegative().optional(), // Chấp nhận số nguyên >= 0
-  sale_price: z.number().int().nonnegative().optional(), 
+  sale_price: z.number().int().nonnegative().optional(),
   intro_url: z.string().optional(),
   desc: z.string().optional(),
   image: z.string().optional(),
   views: z.number().int().optional(),
-  status: z
-    .enum([
-      ECourseStatus.APPROVED,
-      ECourseStatus.PENDING,
-      ECourseStatus.REJECTED,
-    ])
-    .optional(),
-  level: z
-    .enum([
-      ECourseLevel.BEGINNER,
-      ECourseLevel.INTERMEDIATE,
-      ECourseLevel.ADVANCED,
-    ])
-    .optional(),
+  status: z.enum([ECourseStatus.APPROVED, ECourseStatus.PENDING, ECourseStatus.REJECTED]).optional(),
+  level: z.enum([ECourseLevel.BEGINNER, ECourseLevel.INTERMEDIATE, ECourseLevel.ADVANCED]).optional(),
   info: z.object({
     requirements: z.array(z.string()).optional(),
     benefits: z.array(z.string()).optional(),
-    qa: z
-      .array(z.object({ question: z.string(), answer: z.string() }))
-      .optional(),
-  }),
-});
+    qa: z.array(z.object({ question: z.string(), answer: z.string() })).optional()
+  })
+})
 
 const CourseUpdate = ({ data }: { data: ICourse }) => {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [courseInfo, setCourseInfo] = useImmer({
     requirements: data.info.requirements,
     benefits: data.info.benefits,
-    qa: data.info.qa,
-  });
+    qa: data.info.qa
+  })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -90,15 +64,15 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
       info: {
         requirements: data.info.requirements,
         benefits: data.info.benefits,
-        qa: data.info.qa,
-      },
-    },
-  });
+        qa: data.info.qa
+      }
+    }
+  })
 
-  const imageWatch = form.watch('image');
+  const imageWatch = form.watch('image')
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     try {
       const res = await updateCourse({
         slug: data.slug,
@@ -109,22 +83,23 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
             ...values.info,
             requirements: courseInfo.requirements,
             benefits: courseInfo.benefits,
-            qa: courseInfo.qa,
+            qa: courseInfo.qa
           },
           status: values.status,
           level: values.level,
-          image: values.image,
-        },
-      });
+          image: values.image
+        }
+      })
       if (values.slug !== data.slug) {
-        router.replace(`/manage/course/update?slug=${values.slug}`);
+        router.replace(`/manage/course/update?slug=${values.slug}`)
       }
       if (res?.success) {
-        toast.success(res.message);
+        toast.success(res.message)
       }
     } catch (error) {
+      console.log(error)
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
   }
   return (
@@ -200,11 +175,7 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
               <FormItem>
                 <FormLabel>Mô tả khóa học</FormLabel>
                 <FormControl>
-                  <Textarea
-                    placeholder='Nhập mô tả...'
-                    {...field}
-                    className='h-[250px] text-justify'
-                  />
+                  <Textarea placeholder='Nhập mô tả...' {...field} className='h-[250px] text-justify' />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -224,19 +195,14 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                           endpoint='imageUploader'
                           onClientUploadComplete={(res) => {
                             // Do something with the response
-                            form.setValue('image', res[0].url);
+                            form.setValue('image', res[0].url)
                           }}
                           onUploadError={(error: Error) => {
-                            console.error(`ERROR! ${error.message}`);
+                            console.error(`ERROR! ${error.message}`)
                           }}
                         />
                       ) : (
-                        <Image
-                          alt=''
-                          src={imageWatch}
-                          fill
-                          className='w-full h-full object-cover rounded-md'
-                        />
+                        <Image alt='' src={imageWatch} fill className='w-full h-full object-cover rounded-md' />
                       )}
                     </div>
                     {
@@ -246,10 +212,10 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                           endpoint='imageUploader'
                           onClientUploadComplete={(res) => {
                             // Do something with the response
-                            form.setValue('image', res[0].url);
+                            form.setValue('image', res[0].url)
                           }}
                           onUploadError={(error: Error) => {
-                            console.error(`ERROR! ${error.message}`);
+                            console.error(`ERROR! ${error.message}`)
                           }}
                         />
                       )
@@ -298,10 +264,7 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
               <FormItem>
                 <FormLabel>Trạng thái</FormLabel>
                 <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <SelectTrigger className='w-full'>
                       <SelectValue placeholder='Trạng thái' />
                     </SelectTrigger>
@@ -325,10 +288,7 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
               <FormItem>
                 <FormLabel>Trình độ</FormLabel>
                 <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <SelectTrigger className='w-full'>
                       <SelectValue placeholder='Trình độ' />
                     </SelectTrigger>
@@ -356,8 +316,8 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                     className='text-primary'
                     onClick={() => {
                       setCourseInfo((draft) => {
-                        draft.requirements.push('');
-                      });
+                        draft.requirements.push('')
+                      })
                     }}
                     type='button'
                   >
@@ -373,16 +333,16 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                           value={r}
                           onChange={(e) => {
                             setCourseInfo((draft) => {
-                              draft.requirements[index] = e.target.value;
-                            });
+                              draft.requirements[index] = e.target.value
+                            })
                           }}
                         />
                         <div
                           className='cursor-pointer'
                           onClick={() => {
                             setCourseInfo((draft) => {
-                              draft.requirements.splice(index, 1);
-                            });
+                              draft.requirements.splice(index, 1)
+                            })
                           }}
                         >
                           <IconCancel className='size-5 text-red-500' />
@@ -406,8 +366,8 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                     className='text-primary'
                     onClick={() => {
                       setCourseInfo((draft) => {
-                        draft.benefits.push('');
-                      });
+                        draft.benefits.push('')
+                      })
                     }}
                     type='button'
                   >
@@ -423,16 +383,16 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                           value={r}
                           onChange={(e) => {
                             setCourseInfo((draft) => {
-                              draft.benefits[index] = e.target.value;
-                            });
+                              draft.benefits[index] = e.target.value
+                            })
                           }}
                         />
                         <div
                           className='cursor-pointer'
                           onClick={() => {
                             setCourseInfo((draft) => {
-                              draft.benefits.splice(index, 1);
-                            });
+                              draft.benefits.splice(index, 1)
+                            })
                           }}
                         >
                           <IconCancel className='size-5 text-red-500' />
@@ -458,9 +418,9 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                       setCourseInfo((draft) => {
                         draft.qa.push({
                           question: '',
-                          answer: '',
-                        });
-                      });
+                          answer: ''
+                        })
+                      })
                     }}
                     type='button'
                   >
@@ -470,26 +430,23 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                 <FormControl>
                   <>
                     {courseInfo.qa.map((item, index) => (
-                      <div
-                        className='grid grid-cols-[1fr_auto_1fr] gap-3 items-center'
-                        key={index}
-                      >
+                      <div className='grid grid-cols-[1fr_auto_1fr] gap-3 items-center' key={index}>
                         <Input
                           key={index}
                           placeholder={`Câu hỏi số ${index + 1}`}
                           value={item.question}
                           onChange={(e) => {
                             setCourseInfo((draft) => {
-                              draft.qa[index].question = e.target.value;
-                            });
+                              draft.qa[index].question = e.target.value
+                            })
                           }}
                         />
                         <div
                           onClick={() => {
                             // Xử lý logic khi bấm nút cancel, ví dụ xóa item này khỏi danh sách.
                             setCourseInfo((draft) => {
-                              draft.qa.splice(index, 1);
-                            });
+                              draft.qa.splice(index, 1)
+                            })
                           }}
                           className='cursor-pointer'
                         >
@@ -501,8 +458,8 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
                           value={item.answer}
                           onChange={(e) => {
                             setCourseInfo((draft) => {
-                              draft.qa[index].answer = e.target.value;
-                            });
+                              draft.qa[index].answer = e.target.value
+                            })
                           }}
                         />
                       </div>
@@ -514,18 +471,12 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
             )}
           />
         </div>
-        <Button
-          isLoading={isSubmitting}
-          variant='primary'
-          type='submit'
-          className='w-[150px]'
-          disabled={isSubmitting}
-        >
+        <Button isLoading={isSubmitting} variant='primary' type='submit' className='w-[150px]' disabled={isSubmitting}>
           Cập nhật khóa học
         </Button>
       </form>
     </Form>
-  );
-};
+  )
+}
 
-export default CourseUpdate;
+export default CourseUpdate

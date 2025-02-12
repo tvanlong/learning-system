@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const LoadingPlayer = () => {
   return (
@@ -10,7 +10,7 @@ const LoadingPlayer = () => {
       </div>
       <div className='w-full h-9 mb-10 skeleton'></div>
     </div>
-  );
-};
+  )
+}
 
-export default LoadingPlayer;
+export default LoadingPlayer

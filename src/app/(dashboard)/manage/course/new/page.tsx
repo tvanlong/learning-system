@@ -1,6 +1,7 @@
-import Heading from '@/components/common/Heading';
-import CourseAddNew from '@/components/course/CourseAddNew';
-import React from 'react';
+import React from 'react'
+
+import Heading from '@/components/common/Heading'
+import CourseAddNew from '@/components/course/CourseAddNew'
 
 const page = () => {
   return (
@@ -8,7 +9,7 @@ const page = () => {
       <Heading>Thêm khóa học</Heading>
       <CourseAddNew />
     </div>
-  );
-};
+  )
+}
 
-export default page;
+export default page

@@ -1,9 +1,10 @@
-import { commonClassNames } from "@/constants";
-import { IconLeftArrow, IconRightArrow } from "../icons";
+import { commonClassNames } from '@/constants'
+
+import { IconLeftArrow, IconRightArrow } from '../icons'
 
 const PaginationBtn = () => {
   return (
-    <div className="flex justify-end gap-3 mt-5">
+    <div className='flex justify-end gap-3 mt-5'>
       <button className={commonClassNames.paginationButton}>
         <IconLeftArrow />
       </button>
@@ -11,7 +12,7 @@ const PaginationBtn = () => {
         <IconRightArrow />
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default PaginationBtn;
+export default PaginationBtn

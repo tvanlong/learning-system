@@ -1,45 +1,37 @@
-import PageNotFound from '@/app/not-found';
-import {
-  IconEye,
-  IconLevel,
-  IconPlay,
-  IconTime,
-} from '@/components/icons';
-import LessonContent from '@/components/lesson/LessonContent';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { courseLevelTitle } from '@/constants';
-import { getCourseBySlug, getCourseLessonsInfo, updateCourseView } from '@/lib/actions/course.actions';
-import { getUserInfo } from '@/lib/actions/user.actions';
-import { ECourseStatus } from '@/types/enums';
-import { auth } from '@clerk/nextjs/server';
-import Image from 'next/image';
-import CourseWidget from './CourseWidget';
-import AlreadyEnroll from './AlreadyEnroll';
-import { formatMinutesToHour } from '@/utils';
+import { auth } from '@clerk/nextjs/server'
+import Image from 'next/image'
+
+import PageNotFound from '@/app/not-found'
+import { IconEye, IconLevel, IconPlay, IconTime } from '@/components/icons'
+import LessonContent from '@/components/lesson/LessonContent'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { courseLevelTitle } from '@/constants'
+import { getCourseBySlug, getCourseLessonsInfo, updateCourseView } from '@/lib/actions/course.actions'
+import { getUserInfo } from '@/lib/actions/user.actions'
+import { ECourseStatus } from '@/types/enums'
+import { formatMinutesToHour } from '@/utils'
+
+import CourseWidget from './CourseWidget'
+import AlreadyEnroll from './AlreadyEnroll'
 
 const page = async ({ params }: { params: { slug: string } }) => {
-  await updateCourseView({ slug: params.slug });
-  const data = await getCourseBySlug({ slug: params.slug });
-  if (!data) return null;
-  if (data.status !== ECourseStatus.APPROVED) return <PageNotFound />;
+  await updateCourseView({ slug: params.slug })
+  const data = await getCourseBySlug({ slug: params.slug })
+  if (!data) return null
+  if (data.status !== ECourseStatus.APPROVED) return <PageNotFound />
 
-  const { userId } = auth();
-  const findUser = await getUserInfo({ userId: userId || '' });
-  const userCourses = findUser?.courses.map((c: any) => c.toString());
-  const videoId = data.intro_url?.split('v=')[1];
-  const lectures = data.lectures || [];
+  const { userId } = auth()
+  const findUser = await getUserInfo({ userId: userId || '' })
+  const userCourses = findUser?.courses.map((c: any) => c.toString())
+  const videoId = data.intro_url?.split('v=')[1]
+  const lectures = data.lectures || []
   const totalLesson = lectures.reduce((acc, cur) => {
-    return acc + cur.lessons.length;
-  }, 0);
-  const { duration, lessons }: any = await getCourseLessonsInfo({ 
-    slug: data.slug,
-  });
-  const ratings = data.rating.map((r: any) => r.content);
+    return acc + cur.lessons.length
+  }, 0)
+  const { duration, lessons }: any = await getCourseLessonsInfo({
+    slug: data.slug
+  })
+  const ratings = data.rating.map((r: any) => r.content)
 
   return (
     <div className='grid lg:grid-cols-[2fr,1fr] gap-10'>
@@ -57,19 +49,14 @@ const page = async ({ params }: { params: { slug: string } }) => {
               ></iframe>
             </>
           ) : (
-            <Image
-              src={data.image}
-              alt=''
-              fill
-              className='w-full h-full object-cover rounded-lg'
-            />
+            <Image src={data.image} alt='' fill className='w-full h-full object-cover rounded-lg' />
           )}
         </div>
-        <div className="flex flex-wrap gap-2 mb-5">
+        <div className='flex flex-wrap gap-2 mb-5'>
           {ratings.map((rating, index) => (
             <div
               key={index}
-              className="p-2 px-4 text-sm font-semibold rounded-full text-white bg-gradient-to-tr from-primary to-secondary"
+              className='p-2 px-4 text-sm font-semibold rounded-full text-white bg-gradient-to-tr from-primary to-secondary'
             >
               {rating}
             </div>
@@ -77,9 +64,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
         </div>
         <h1 className='font-bold text-xl md:text-3xl my-8'>{data?.title}</h1>
         <BoxSection title='Mô tả'>
-          <p className='leading-relaxed text-justify text-sm md:text-base'>
-            {data.desc}
-          </p>
+          <p className='leading-relaxed text-justify text-sm md:text-base'>{data.desc}</p>
         </BoxSection>
         <BoxSection title='Thông tin'>
           <div className='grid grid-cols-2 md:grid-cols-4 gap-5 mb-10'>
@@ -112,11 +97,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
                   stroke='currentColor'
                   className='w-6 h-6'
                 >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M4.5 12.75l6 6 9-13.5'
-                  />
+                  <path strokeLinecap='round' strokeLinejoin='round' d='M4.5 12.75l6 6 9-13.5' />
                 </svg>
               </span>
               <span className='text-sm md:text-base'>{r}</span>
@@ -135,11 +116,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
                   stroke='currentColor'
                   className='w-6 h-6'
                 >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M4.5 12.75l6 6 9-13.5'
-                  />
+                  <path strokeLinecap='round' strokeLinejoin='round' d='M4.5 12.75l6 6 9-13.5' />
                 </svg>
               </span>
               <span className='text-sm md:text-base'>{r}</span>
@@ -150,12 +127,8 @@ const page = async ({ params }: { params: { slug: string } }) => {
           {data.info.qa.map((qa, index) => (
             <Accordion type='single' collapsible key={index}>
               <AccordionItem value={qa.question}>
-                <AccordionTrigger className='text-sm md:text-base text-left'>
-                  {qa.question}
-                </AccordionTrigger>
-                <AccordionContent className='text-sm md:text-base text-justify'>
-                  {qa.answer}
-                </AccordionContent>
+                <AccordionTrigger className='text-sm md:text-base text-left'>{qa.question}</AccordionTrigger>
+                <AccordionContent className='text-sm md:text-base text-justify'>{qa.answer}</AccordionContent>
               </AccordionItem>
             </Accordion>
           ))}
@@ -165,27 +138,19 @@ const page = async ({ params }: { params: { slug: string } }) => {
         {userCourses?.includes(data._id.toString()) ? (
           <AlreadyEnroll />
         ) : (
-          <CourseWidget 
-            data={data ? JSON.parse(JSON.stringify(data)) : null} 
-            findUser={findUser ? JSON.parse(JSON.stringify(findUser)) : null} 
+          <CourseWidget
+            data={data ? JSON.parse(JSON.stringify(data)) : null}
+            findUser={findUser ? JSON.parse(JSON.stringify(findUser)) : null}
             totalLesson={totalLesson}
             duration={formatMinutesToHour(duration)}
           />
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-function BoxInfo({
-  title,
-  icon,
-  children,
-}: {
-  title: string;
-  icon?: React.ReactNode;
-  children: React.ReactNode;
-}) {
+function BoxInfo({ title, icon, children }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className='bgDarkMode rounded-lg p-5 border borderDarkMode'>
       <h4 className='text-sm font-normal mb-2'>{title}</h4>
@@ -194,21 +159,15 @@ function BoxInfo({
         <h3 className='text-sm font-medium'>{children}</h3>
       </div>
     </div>
-  );
+  )
 }
 
-function BoxSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function BoxSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <>
       <h2 className='font-bold text-xl mb-5'>{title}</h2>
       <div className='mb-10'>{children}</div>
     </>
-  );
+  )
 }
-export default page;
+export default page

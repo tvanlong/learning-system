@@ -1,11 +1,12 @@
-'use client';
-import { Button } from '@/components/ui/button';
-import { IUser } from '@/database/user.model';
-import { createOrder, updateOrder } from '@/lib/actions/order.actions';
-import { EOrderStatus } from '@/types/enums';
-import { createOrderCode } from '@/utils';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+'use client'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+
+import { Button } from '@/components/ui/button'
+import { IUser } from '@/database/user.model'
+import { createOrder, updateOrder } from '@/lib/actions/order.actions'
+import { EOrderStatus } from '@/types/enums'
+import { createOrderCode } from '@/utils'
 
 const ButtonEnroll = ({
   user,
@@ -13,16 +14,16 @@ const ButtonEnroll = ({
   amount,
   coupon
 }: {
-  user: IUser | null | undefined;
-  courseId: string;
-  amount: number;
-  coupon: string;
+  user: IUser | null | undefined
+  courseId: string
+  amount: number
+  coupon: string
 }) => {
-  const router = useRouter();
+  const router = useRouter()
   const handleEnrollCourse = async () => {
     if (!user?.name) {
-      toast.error('Vui lòng đăng nhập để mua khóa học');
-      return;
+      toast.error('Vui lòng đăng nhập để mua khóa học')
+      return
     }
     const newOrder = await createOrder({
       code: createOrderCode(),
@@ -30,19 +31,19 @@ const ButtonEnroll = ({
       course: courseId,
       total: amount,
       amount: amount,
-      coupon,
-    });
+      coupon
+    })
     if (amount === 0) {
-      await updateOrder({ orderId: newOrder._id, status: EOrderStatus.COMPLETED });
+      await updateOrder({ orderId: newOrder._id, status: EOrderStatus.COMPLETED })
     } else {
-      router.push(`/dashboard/order/${newOrder._id}`);
+      router.push(`/dashboard/order/${newOrder._id}`)
     }
-  };
+  }
   return (
     <Button variant='primary' className='w-full' onClick={handleEnrollCourse}>
       Mua khóa học {amount === 0 && '(miễn phí)'}
     </Button>
-  );
-};
+  )
+}
 
-export default ButtonEnroll;
+export default ButtonEnroll

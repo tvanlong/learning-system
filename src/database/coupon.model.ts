@@ -1,64 +1,65 @@
-import { ECouponType } from "@/types/enums";
-import { Document, Schema, model, models } from "mongoose";
+import { Document, Schema, model, models } from 'mongoose'
+
+import { ECouponType } from '@/types/enums'
 
 export interface ICoupon extends Document {
-  _id: string;
-  title: string;
-  code: string;
-  active: boolean;
-  used: number;
-  start_date: Date;
-  end_date: Date;
-  limit: number;
-  courses: Schema.Types.ObjectId[];
-  type: ECouponType;
-  value: number;
-  created_at: Date;
+  _id: string
+  title: string
+  code: string
+  active: boolean
+  used: number
+  start_date: Date
+  end_date: Date
+  limit: number
+  courses: Schema.Types.ObjectId[]
+  type: ECouponType
+  value: number
+  created_at: Date
 }
 const couponSchema = new Schema<ICoupon>({
   title: {
     type: String,
-    required: true,
+    required: true
   },
   code: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   start_date: {
-    type: Date,
+    type: Date
   },
   end_date: {
-    type: Date,
+    type: Date
   },
   active: {
     type: Boolean
   },
   used: {
     type: Number,
-    default: 0,
+    default: 0
   },
   limit: {
-    type: Number,
+    type: Number
   },
   courses: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Course",
-    },
+      ref: 'Course'
+    }
   ],
   type: {
     type: String,
     enum: Object.values(ECouponType),
-    default: ECouponType.PERCENT,
+    default: ECouponType.PERCENT
   },
   value: {
-    type: Number,
+    type: Number
   },
   created_at: {
     type: Date,
-    default: Date.now,
-  },
-});
-const Coupon = models.Coupon || model<ICoupon>("Coupon", couponSchema);
-export default Coupon;
+    default: Date.now
+  }
+})
+const Coupon = models.Coupon || model<ICoupon>('Coupon', couponSchema)
+export default Coupon

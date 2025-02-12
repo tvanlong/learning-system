@@ -1,60 +1,55 @@
-'use client';
-import { Form } from '@/components/ui/form';
-import { ILesson } from '@/database/lesson.model';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { updateLesson } from '@/lib/actions/lession.actions';
-import Link from 'next/link';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import { Editor } from '@tinymce/tinymce-react';
-import { editorOptions } from '@/constants';
-import { useRef } from 'react';
-import { useTheme } from 'next-themes';
+'use client'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import Link from 'next/link'
+import { toast } from 'sonner'
+import { Editor } from '@tinymce/tinymce-react'
+import { useRef } from 'react'
+import { useTheme } from 'next-themes'
+
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { updateLesson } from '@/lib/actions/lession.actions'
+import { Button } from '@/components/ui/button'
+import { editorOptions } from '@/constants'
+import { ILesson } from '@/database/lesson.model'
+import { Form } from '@/components/ui/form'
 
 const formSchema = z.object({
   slug: z.string().optional(),
   duration: z.number().optional(),
   video_url: z.string().optional(),
-  content: z.string().optional(),
-});
+  content: z.string().optional()
+})
 
 const LessonItemUpdate = ({ lesson }: { lesson: ILesson }) => {
-  const editorRef = useRef<any>(null);
-  const { theme } = useTheme();
+  const editorRef = useRef<any>(null)
+  const { theme } = useTheme()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       slug: lesson.slug,
       duration: lesson.duration,
       video_url: lesson.video_url,
-      content: lesson.content,
-    },
-  });
+      content: lesson.content
+    }
+  })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const res = await updateLesson({
         lessonId: lesson._id,
         updateData: values,
-        path: `/manage/course/update-content?slug=${lesson.slug}`,
-      });
+        path: `/manage/course/update-content?slug=${lesson.slug}`
+      })
       if (res?.success) {
-        toast.success('Cập nhật bài học thành công');
+        toast.success('Cập nhật bài học thành công')
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <div>
@@ -98,10 +93,7 @@ const LessonItemUpdate = ({ lesson }: { lesson: ILesson }) => {
                 <FormItem>
                   <FormLabel>Video URL</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder='https://youtube.com/abcdefXZ'
-                      {...field}
-                    />
+                    <Input placeholder='https://youtube.com/abcdefXZ' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -118,9 +110,7 @@ const LessonItemUpdate = ({ lesson }: { lesson: ILesson }) => {
                     <Editor
                       apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                       onInit={(_evt, editor) => {
-                        (editorRef.current = editor).setContent(
-                          lesson.content || ''
-                        );
+                        ;(editorRef.current = editor).setContent(lesson.content || '')
                       }}
                       value={field.value}
                       {...editorOptions(field, theme)}
@@ -140,6 +130,6 @@ const LessonItemUpdate = ({ lesson }: { lesson: ILesson }) => {
         </form>
       </Form>
     </div>
-  );
-};
-export default LessonItemUpdate;
+  )
+}
+export default LessonItemUpdate

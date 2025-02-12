@@ -1,36 +1,27 @@
-'use client';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { commonClassNames } from '@/constants';
-import { MouseEvent, useState } from 'react';
-import {
-  IconCancel,
-  IconCheck,
-  IconDelete,
-  IconEdit,
-} from '@/components/icons';
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
-import { createLecture, updateLecture } from '@/lib/actions/lecture.actions';
-import Swal from 'sweetalert2';
-import { ICourseUpdateParams, TUpdateCourseLecture } from '@/types';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
-import { createLesson, updateLesson } from '@/lib/actions/lession.actions';
-import { ILesson } from '@/database/lesson.model';
-import slugify from 'slugify';
-import LessonItemUpdate from '@/components/lesson/LessonItemUpdate';
+'use client'
+import { MouseEvent, useState } from 'react'
+import { toast } from 'sonner'
+import Swal from 'sweetalert2'
+import slugify from 'slugify'
+
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { commonClassNames } from '@/constants'
+import { IconCancel, IconCheck, IconDelete, IconEdit } from '@/components/icons'
+import { Button } from '@/components/ui/button'
+import { createLecture, updateLecture } from '@/lib/actions/lecture.actions'
+import { ICourseUpdateParams, TUpdateCourseLecture } from '@/types'
+import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
+import { createLesson, updateLesson } from '@/lib/actions/lession.actions'
+import { ILesson } from '@/database/lesson.model'
+import LessonItemUpdate from '@/components/lesson/LessonItemUpdate'
 
 const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
-  const lectures = course.lectures;
-  const [lectureEdit, setLectureEdit] = useState('');
-  const [lessonEdit, setLessonEdit] = useState('');
-  const [lectureIdEdit, setLectureIdEdit] = useState('');
-  const [lessonIdEdit, setLessonIdEdit] = useState('');
+  const lectures = course.lectures
+  const [lectureEdit, setLectureEdit] = useState('')
+  const [lessonEdit, setLessonEdit] = useState('')
+  const [lectureIdEdit, setLectureIdEdit] = useState('')
+  const [lessonIdEdit, setLessonIdEdit] = useState('')
 
   const handleAddNewLecture = async () => {
     try {
@@ -38,44 +29,38 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
         title: 'Chương mới',
         course: course._id,
         order: lectures.length + 1,
-        path: `/manage/course/update-content?slug=${course.slug}`,
-      });
+        path: `/manage/course/update-content?slug=${course.slug}`
+      })
       if (res?.sucess) {
-        toast.success('Thêm chương mới thành công!');
+        toast.success('Thêm chương mới thành công!')
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
-  const handleUpdateLecture = async (
-    e: MouseEvent<HTMLSpanElement>,
-    lectureId: string
-  ) => {
-    e.stopPropagation();
+  const handleUpdateLecture = async (e: MouseEvent<HTMLSpanElement>, lectureId: string) => {
+    e.stopPropagation()
     try {
       const res = await updateLecture({
         lectureId,
         updateData: {
           title: lectureEdit,
-          path: `/manage/course/update-content?slug=${course.slug}`,
-        },
-      });
+          path: `/manage/course/update-content?slug=${course.slug}`
+        }
+      })
       if (res?.success) {
-        setLectureIdEdit('');
-        setLectureEdit('');
-        toast.success('Cập nhật chương mới thành công!');
+        setLectureIdEdit('')
+        setLectureEdit('')
+        toast.success('Cập nhật chương mới thành công!')
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
-  const handleDeleteLecture = async (
-    e: MouseEvent<HTMLSpanElement>,
-    lectureId: string
-  ) => {
-    e.stopPropagation();
+  const handleDeleteLecture = async (e: MouseEvent<HTMLSpanElement>, lectureId: string) => {
+    e.stopPropagation()
     try {
       Swal.fire({
         title: 'Bạn chắc chắn muốn xóa chương này?',
@@ -85,22 +70,22 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
         cancelButtonText: 'Hủy',
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Xóa',
+        confirmButtonText: 'Xóa'
       }).then(async (result) => {
         if (result.isConfirmed) {
           await updateLecture({
             lectureId,
             updateData: {
               _destroy: true,
-              path: `/manage/course/update-content?slug=${course.slug}`,
-            },
-          });
+              path: `/manage/course/update-content?slug=${course.slug}`
+            }
+          })
         }
-      });
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const handleAddNewLesson = async (lectureId: string, courseId: string) => {
     try {
@@ -109,26 +94,20 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
         lecture: lectureId,
         course: courseId,
         title: 'Tiêu đề bài học mới',
-        slug: `tieu-de-bai-hoc-moi-${new Date()
-          .getTime()
-          .toString()
-          .slice(-3)}`,
-      });
+        slug: `tieu-de-bai-hoc-moi-${new Date().getTime().toString().slice(-3)}`
+      })
       if (res?.success) {
-        toast.success('Thêm bài học mới thành công!');
-        return;
+        toast.success('Thêm bài học mới thành công!')
+        return
       }
-      toast.error('Thêm bài học mới thất bại!');
+      toast.error('Thêm bài học mới thất bại!')
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
-  const handleUpdateLesson = async (
-    e: MouseEvent<HTMLSpanElement>,
-    lessonId: string
-  ) => {
-    e.stopPropagation();
+  const handleUpdateLesson = async (e: MouseEvent<HTMLSpanElement>, lessonId: string) => {
+    e.stopPropagation()
     try {
       const res = await updateLesson({
         lessonId,
@@ -138,53 +117,46 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
           slug: slugify(lessonEdit, {
             lower: true,
             locale: 'vi',
-            remove: /[*+~.()'"!:@]/g,
-          }),
-        },
-      });
+            remove: /[*+~.()'"!:@]/g
+          })
+        }
+      })
       if (res?.success) {
-        toast.success('Cập nhật bài học thành công!');
-        setLessonEdit('');
-        setLessonIdEdit('');
+        toast.success('Cập nhật bài học thành công!')
+        setLessonEdit('')
+        setLessonIdEdit('')
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
-  const handleDeleteLesson = async (
-    e: MouseEvent<HTMLSpanElement>,
-    lessonId: string
-  ) => {
-    e.stopPropagation();
+  const handleDeleteLesson = async (e: MouseEvent<HTMLSpanElement>, lessonId: string) => {
+    e.stopPropagation()
     try {
       const res = await updateLesson({
         lessonId,
         path: `/manage/course/update-content?slug=${course.slug}`,
         updateData: {
-          _destroy: true,
-        },
-      });
+          _destroy: true
+        }
+      })
       if (res?.success) {
-        toast.success('Cập nhật bài học thành công!');
-        setLessonEdit('');
-        setLessonIdEdit('');
+        toast.success('Cập nhật bài học thành công!')
+        setLessonEdit('')
+        setLessonIdEdit('')
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <>
       <div className='flex flex-col gap-5'>
         {lectures.map((lecture: TUpdateCourseLecture) => (
           <div key={lecture._id}>
-            <Accordion
-              type='single'
-              collapsible={!lectureIdEdit}
-              className='w-full'
-            >
+            <Accordion type='single' collapsible={!lectureIdEdit} className='w-full'>
               <AccordionItem value={lecture._id}>
                 <AccordionTrigger>
                   <div className='flex items-center gap-3 justify-between w-full pr-5'>
@@ -199,22 +171,16 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
                         </div>
                         <div className='flex gap-2'>
                           <span
-                            className={cn(
-                              commonClassNames.action,
-                              'text-green-500'
-                            )}
+                            className={cn(commonClassNames.action, 'text-green-500')}
                             onClick={(e) => handleUpdateLecture(e, lecture._id)}
                           >
                             <IconCheck />
                           </span>
                           <span
-                            className={cn(
-                              commonClassNames.action,
-                              'text-red-500'
-                            )}
+                            className={cn(commonClassNames.action, 'text-red-500')}
                             onClick={(e) => {
-                              e.stopPropagation();
-                              setLectureIdEdit('');
+                              e.stopPropagation()
+                              setLectureIdEdit('')
                             }}
                           >
                             <IconCancel />
@@ -223,27 +189,19 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
                       </>
                     ) : (
                       <>
-                        <div className='text-left text-sm lg:text-base'>
-                          {lecture.title}
-                        </div>
+                        <div className='text-left text-sm lg:text-base'>{lecture.title}</div>
                         <div className='flex gap-2'>
                           <span
-                            className={cn(
-                              commonClassNames.action,
-                              'text-blue-500'
-                            )}
+                            className={cn(commonClassNames.action, 'text-blue-500')}
                             onClick={(e) => {
-                              e.stopPropagation();
-                              setLectureIdEdit(lecture._id);
+                              e.stopPropagation()
+                              setLectureIdEdit(lecture._id)
                             }}
                           >
                             <IconEdit />
                           </span>
                           <span
-                            className={cn(
-                              commonClassNames.action,
-                              'text-red-500'
-                            )}
+                            className={cn(commonClassNames.action, 'text-red-500')}
                             onClick={(e) => handleDeleteLecture(e, lecture._id)}
                           >
                             <IconDelete />
@@ -256,11 +214,7 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
                 <AccordionContent className='border-none !bg-transparent'>
                   <div className='flex flex-col gap-5'>
                     {lecture.lessons.map((lesson: ILesson) => (
-                      <Accordion
-                        type='single'
-                        collapsible={!lessonEdit}
-                        key={lesson._id}
-                      >
+                      <Accordion type='single' collapsible={!lessonEdit} key={lesson._id}>
                         <AccordionItem value={lesson._id}>
                           <AccordionTrigger>
                             <div className='flex items-center gap-3 justify-between w-full pr-5'>
@@ -270,31 +224,21 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
                                     <Input
                                       placeholder='Tên bài học'
                                       defaultValue={lesson.title}
-                                      onChange={(e) =>
-                                        setLessonEdit(e.target.value)
-                                      }
+                                      onChange={(e) => setLessonEdit(e.target.value)}
                                     />
                                   </div>
                                   <div className='flex gap-2'>
                                     <span
-                                      className={cn(
-                                        commonClassNames.action,
-                                        'text-green-500'
-                                      )}
-                                      onClick={(e) =>
-                                        handleUpdateLesson(e, lesson._id)
-                                      }
+                                      className={cn(commonClassNames.action, 'text-green-500')}
+                                      onClick={(e) => handleUpdateLesson(e, lesson._id)}
                                     >
                                       <IconCheck />
                                     </span>
                                     <span
-                                      className={cn(
-                                        commonClassNames.action,
-                                        'text-red-500'
-                                      )}
+                                      className={cn(commonClassNames.action, 'text-red-500')}
                                       onClick={(e) => {
-                                        e.stopPropagation();
-                                        setLessonIdEdit('');
+                                        e.stopPropagation()
+                                        setLessonIdEdit('')
                                       }}
                                     >
                                       <IconCancel></IconCancel>
@@ -303,30 +247,20 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
                                 </>
                               ) : (
                                 <>
-                                  <div className='text-left text-sm lg:text-base'>
-                                    {lesson.title}
-                                  </div>
+                                  <div className='text-left text-sm lg:text-base'>{lesson.title}</div>
                                   <div className='flex gap-2'>
                                     <span
-                                      className={cn(
-                                        commonClassNames.action,
-                                        'text-blue-500'
-                                      )}
+                                      className={cn(commonClassNames.action, 'text-blue-500')}
                                       onClick={(e) => {
-                                        e.stopPropagation();
-                                        setLessonIdEdit(lesson._id);
+                                        e.stopPropagation()
+                                        setLessonIdEdit(lesson._id)
                                       }}
                                     >
                                       <IconEdit />
                                     </span>
                                     <span
-                                      className={cn(
-                                        commonClassNames.action,
-                                        'text-red-500'
-                                      )}
-                                      onClick={(e) =>
-                                        handleDeleteLesson(e, lesson._id)
-                                      }
+                                      className={cn(commonClassNames.action, 'text-red-500')}
+                                      onClick={(e) => handleDeleteLesson(e, lesson._id)}
                                     >
                                       <IconDelete />
                                     </span>
@@ -336,9 +270,7 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
                             </div>
                           </AccordionTrigger>
                           <AccordionContent>
-                            <LessonItemUpdate
-                              lesson={lesson}
-                            ></LessonItemUpdate>
+                            <LessonItemUpdate lesson={lesson}></LessonItemUpdate>
                           </AccordionContent>
                         </AccordionItem>
                       </Accordion>
@@ -347,10 +279,7 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            <Button
-              className='mt-5 ml-auto w-fit block'
-              onClick={() => handleAddNewLesson(lecture._id, course._id)}
-            >
+            <Button className='mt-5 ml-auto w-fit block' onClick={() => handleAddNewLesson(lecture._id, course._id)}>
               Thêm bài học
             </Button>
           </div>
@@ -360,6 +289,6 @@ const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
         Thêm chương mới
       </Button>
     </>
-  );
-};
-export default CourseUpdateContent;
+  )
+}
+export default CourseUpdateContent

@@ -1,17 +1,12 @@
-'use client';
+'use client'
 
-import { IconLeftArrow, IconRightArrow } from '@/components/icons';
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'
 
-const LessonNavigation = ({
-  nextLesson,
-  prevLesson,
-}: {
-  nextLesson: string;
-  prevLesson: string;
-}) => {
-  const router = useRouter();
+import { IconLeftArrow, IconRightArrow } from '@/components/icons'
+import { Button } from '@/components/ui/button'
+
+const LessonNavigation = ({ nextLesson, prevLesson }: { nextLesson: string; prevLesson: string }) => {
+  const router = useRouter()
 
   return (
     <div className='flex gap-3'>
@@ -30,7 +25,7 @@ const LessonNavigation = ({
         <IconRightArrow />
       </Button>
     </div>
-  );
-};
+  )
+}
 
-export default LessonNavigation;
+export default LessonNavigation

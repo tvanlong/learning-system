@@ -1,64 +1,56 @@
-'use client';
+'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { useState } from 'react'
+import slugify from 'slugify'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useState } from 'react';
-import slugify from 'slugify';
-import { createCourse } from '@/lib/actions/course.actions';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { createCourse } from '@/lib/actions/course.actions'
 
 const formSchema = z.object({
   title: z.string().min(5, 'Tên khóa học phải có ít nhất 5 ký tự'),
-  slug: z.string().optional(),
-});
+  slug: z.string().optional()
+})
 
 const CourseAddNew = () => {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      slug: '',
-    },
-  });
+      slug: ''
+    }
+  })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     try {
       const data = {
         title: values.title,
-        slug:
-          values.slug || slugify(values.title, { lower: true, locale: 'vi' }),
-      };
+        slug: values.slug || slugify(values.title, { lower: true, locale: 'vi' })
+      }
 
-      const res = await createCourse(data);
+      const res = await createCourse(data)
       if (res?.success) {
-        toast.success(res.message);
+        toast.success(res.message)
       }
       if (res?.data) {
-        router.push(`/manage/course/update?slug=${res.data.slug}`);
+        router.push(`/manage/course/update?slug=${res.data.slug}`)
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     } finally {
-      setIsSubmitting(false);
-      form.reset();
+      setIsSubmitting(false)
+      form.reset()
     }
-  };
+  }
 
   return (
     <Form {...form}>
@@ -93,18 +85,12 @@ const CourseAddNew = () => {
             )}
           />
         </div>
-        <Button
-          className='w-[120px]'
-          isLoading={isSubmitting}
-          variant='primary'
-          disabled={isSubmitting}
-          type='submit'
-        >
+        <Button className='w-[120px]' isLoading={isSubmitting} variant='primary' disabled={isSubmitting} type='submit'>
           Thêm khóa học
         </Button>
       </form>
     </Form>
-  );
-};
+  )
+}
 
-export default CourseAddNew;
+export default CourseAddNew

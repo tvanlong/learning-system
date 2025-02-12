@@ -6,9 +6,9 @@ This project is an E-Learning System built using Next.js. It aims to provide a p
 
 ## Features (In Progress)
 
-- User Authentication: Secure login and registration system. 
-- Course Management: Create, update, and delete courses. 
-- User Dashboard: Personalized dashboard for users to track their progress. 
+- User Authentication: Secure login and registration system.
+- Course Management: Create, update, and delete courses.
+- User Dashboard: Personalized dashboard for users to track their progress.
 - Responsive Design: Optimized for both desktop and mobile devices.
 
 ## Technologies Used
@@ -24,31 +24,31 @@ This project is an E-Learning System built using Next.js. It aims to provide a p
 
 ## Acccount testing
 
-- Admin account: 
-    - Email: 
-    - Password: 
+- Admin account:
+  - Email:
+  - Password:
 - User account:
-    - Email: 
-    - Password:
+  - Email:
+  - Password:
 
 ## Installation
 
 1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/e-learning-system.git
-    ```
+   ```bash
+   git clone https://github.com/yourusername/e-learning-system.git
+   ```
 2. Navigate to the project directory:
-    ```bash
-    cd e-learning-system
-    ```
+   ```bash
+   cd e-learning-system
+   ```
 3. Install dependencies:
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 4. Run the development server:
-    ```bash
-    npm run dev
-    ```
+   ```bash
+   npm run dev
+   ```
 
 ## Contributing
 

@@ -1,54 +1,45 @@
 enum EUserStatus {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
-  BANNED = 'BANNED',
+  BANNED = 'BANNED'
 }
 
 enum EUserRole {
   ADMIN = 'ADMIN',
   USER = 'USER',
-  EXPERT = 'EXPERT',
+  EXPERT = 'EXPERT'
 }
 
 enum ECourseStatus {
   APPROVED = 'APPROVED',
   PENDING = 'PENDING',
-  REJECTED = 'REJECTED',
+  REJECTED = 'REJECTED'
 }
 enum ECourseLevel {
   BEGINNER = 'BEGINNER',
   INTERMEDIATE = 'INTERMEDIATE',
-  ADVANCED = 'ADVANCED',
+  ADVANCED = 'ADVANCED'
 }
 enum ELessonType {
   VIDEO = 'VIDEO',
-  TEXT = 'TEXT',
+  TEXT = 'TEXT'
 }
 
 enum EOrderStatus {
   PENDING = 'PENDING',
   COMPLETED = 'COMPLETED',
-  CANCELED = 'CANCELED',
+  CANCELED = 'CANCELED'
 }
 
 enum ECouponType {
-  PERCENT = "PERCENT",
-  AMOUNT = "AMOUNT",
+  PERCENT = 'PERCENT',
+  AMOUNT = 'AMOUNT'
 }
 
 // Rating
 enum ERatingStatus {
-  ACTIVE = "ACTIVE",
-  UNACTIVE = "UNACTIVE",
+  ACTIVE = 'ACTIVE',
+  UNACTIVE = 'UNACTIVE'
 }
 
-export {
-  EUserStatus,
-  EUserRole,
-  ECourseStatus,
-  ECourseLevel,
-  ELessonType,
-  EOrderStatus,
-  ECouponType,
-  ERatingStatus,
-};
+export { EUserStatus, EUserRole, ECourseStatus, ECourseLevel, ELessonType, EOrderStatus, ECouponType, ERatingStatus }

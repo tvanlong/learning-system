@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import { ComponentProps } from 'react'
 
 const IconArrowLeft = (props: ComponentProps<'svg'>) => {
   return (
@@ -11,13 +11,9 @@ const IconArrowLeft = (props: ComponentProps<'svg'>) => {
       className='w-4 h-4'
       {...props}
     >
-      <path
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        d='M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18'
-      />
+      <path strokeLinecap='round' strokeLinejoin='round' d='M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18' />
     </svg>
-  );
-};
+  )
+}
 
-export default IconArrowLeft;
+export default IconArrowLeft

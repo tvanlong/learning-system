@@ -1,126 +1,114 @@
-'use server';
-import Order from '@/database/order.model';
-import { TCreateOrderParams } from '@/types';
-import { connectToDatabase } from '../mongoose';
-import { FilterQuery } from 'mongoose';
-import Course from '@/database/course.model';
-import User from '@/database/user.model';
-import { EOrderStatus } from '@/types/enums';
-import { revalidatePath } from 'next/cache';
-import Coupon from '@/database/coupon.model';
+'use server'
+import { FilterQuery } from 'mongoose'
+import { revalidatePath } from 'next/cache'
+
+import Order from '@/database/order.model'
+import { TCreateOrderParams } from '@/types'
+import Course from '@/database/course.model'
+import User from '@/database/user.model'
+import { EOrderStatus } from '@/types/enums'
+import Coupon from '@/database/coupon.model'
+
+import { connectToDatabase } from '../mongoose'
 
 export async function createOrder(params: TCreateOrderParams) {
   try {
-    connectToDatabase();
-    if (!params.coupon) delete params.coupon;
-    const newOrder = await Order.create(params);
+    connectToDatabase()
+    if (!params.coupon) delete params.coupon
+    const newOrder = await Order.create(params)
 
     if (params.coupon) {
       await Coupon.findByIdAndUpdate(params.coupon, {
-        $inc: { used: 1 },
-      });
+        $inc: { used: 1 }
+      })
     }
 
-    return JSON.parse(JSON.stringify(newOrder));
+    return JSON.parse(JSON.stringify(newOrder))
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 }
 
 export async function fetchOrders(params: any) {
   try {
-    connectToDatabase();
-    const { page = 1, limit = 10, search, status } = params;
-    const skip = (page - 1) * limit;
-    const query: FilterQuery<typeof Course> = {};
+    connectToDatabase()
+    const { page = 1, limit = 10, search, status } = params
+    const skip = (page - 1) * limit
+    const query: FilterQuery<typeof Course> = {}
     if (search) {
-      query.$or = [{ code: { $regex: search, $options: 'i' } }];
+      query.$or = [{ code: { $regex: search, $options: 'i' } }]
     }
     if (status) {
-      query.status = status;
+      query.status = status
     }
     const orders = await Order.find(query)
       .populate({
         model: Course,
         select: 'title',
-        path: 'course',
+        path: 'course'
       })
       .populate({
         model: User,
         select: 'name',
-        path: 'user',
+        path: 'user'
       })
       .populate({
         model: Coupon,
-        path: "coupon",
-        select: "code",
+        path: 'coupon',
+        select: 'code'
       })
       .sort({ created_at: -1 })
       .skip(skip)
-      .limit(limit);
-    return JSON.parse(JSON.stringify(orders));
+      .limit(limit)
+    return JSON.parse(JSON.stringify(orders))
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 }
 
-export async function updateOrder({
-  orderId,
-  status,
-}: {
-  orderId: string;
-  status: EOrderStatus;
-}) {
+export async function updateOrder({ orderId, status }: { orderId: string; status: EOrderStatus }) {
   try {
-    connectToDatabase();
+    connectToDatabase()
     const findOrder = await Order.findById(orderId)
       .populate({
         path: 'course',
         model: Course,
-        select: '_id',
+        select: '_id'
       })
       .populate({
         path: 'user',
         model: User,
-        select: '_id',
-      });
-    if (!findOrder) return;
-    if (findOrder.status === EOrderStatus.CANCELED) return;
-    const findUser = await User.findById(findOrder.user._id);
-    await Order.findByIdAndUpdate(orderId, { status });
-    if (
-      status === EOrderStatus.COMPLETED &&
-      findOrder.status === EOrderStatus.PENDING
-    ) {
-      findUser.courses.push(findOrder.course._id);
-      await findUser.save();
+        select: '_id'
+      })
+    if (!findOrder) return
+    if (findOrder.status === EOrderStatus.CANCELED) return
+    const findUser = await User.findById(findOrder.user._id)
+    await Order.findByIdAndUpdate(orderId, { status })
+    if (status === EOrderStatus.COMPLETED && findOrder.status === EOrderStatus.PENDING) {
+      findUser.courses.push(findOrder.course._id)
+      await findUser.save()
     }
-    if (
-      status === EOrderStatus.CANCELED &&
-      findOrder.status === EOrderStatus.COMPLETED
-    ) {
-      findUser.courses = findUser.courses.filter(
-        (el: any) => el.toString() !== findOrder.course._id.toString()
-      );
-      await findUser.save();
+    if (status === EOrderStatus.CANCELED && findOrder.status === EOrderStatus.COMPLETED) {
+      findUser.courses = findUser.courses.filter((el: any) => el.toString() !== findOrder.course._id.toString())
+      await findUser.save()
     }
-    revalidatePath('/manage/order');
-    return { success: true };
+    revalidatePath('/manage/order')
+    return { success: true }
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 }
 
 export async function getOrderDetails({ code }: { code: string }) {
   try {
-    connectToDatabase();
+    connectToDatabase()
     const order = await Order.findOne({ code }).populate({
       path: 'course',
       model: Course,
-      select: 'title',
-    });
-    return JSON.parse(JSON.stringify(order));
+      select: 'title'
+    })
+    return JSON.parse(JSON.stringify(order))
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 }
