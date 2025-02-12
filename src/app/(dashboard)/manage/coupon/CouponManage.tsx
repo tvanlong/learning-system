@@ -5,15 +5,24 @@ import TableActionItem from '@/components/common/TableActionItem'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { allValue } from '@/constants'
+import { allValue, couponStatuses } from '@/constants'
 import useQueryString from '@/hooks/useQueryString'
 import { TCouponItem } from '@/types'
 import { ECouponType } from '@/types/enums'
 
 import ActionDeleteCoupon from './ActionDeleteCoupon'
+import Pagination from '@/components/common/Pagination'
 
-const CouponManage = ({ coupons }: { coupons: TCouponItem[] | undefined }) => {
-  const { handleSearchData, handleSelectStatus } = useQueryString()
+const CouponManage = ({
+  coupons,
+  totalPages,
+  total
+}: {
+  coupons: TCouponItem[] | undefined
+  totalPages: number
+  total: number
+}) => {
+  const { handleSearchData, handleChangeQs } = useQueryString()
 
   return (
     <div>
@@ -24,13 +33,18 @@ const CouponManage = ({ coupons }: { coupons: TCouponItem[] | undefined }) => {
           <div className='w-full lg:w-[300px]'>
             <Input placeholder='Tìm kiếm coupon...' onChange={handleSearchData} />
           </div>
-          <Select defaultValue={allValue}>
+          <Select defaultValue={allValue} onValueChange={(value) => handleChangeQs('active', value)}>
             <SelectTrigger className='w-[180px]'>
               <SelectValue placeholder='Chọn trạng thái' />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 <SelectItem value={allValue}>Tất cả</SelectItem>
+                {couponStatuses.map((item) => (
+                  <SelectItem key={item.value} value={`${item.value}`}>
+                    {item.title}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -72,7 +86,7 @@ const CouponManage = ({ coupons }: { coupons: TCouponItem[] | undefined }) => {
                   {coupon.active ? (
                     <StatusBadge
                       item={{
-                        title: 'Đang hoạt động',
+                        title: 'Đang kích hoạt',
                         className: 'text-green-500'
                       }}
                     ></StatusBadge>
@@ -95,6 +109,7 @@ const CouponManage = ({ coupons }: { coupons: TCouponItem[] | undefined }) => {
             ))}
         </TableBody>
       </Table>
+      <Pagination totalPages={totalPages} total={total} />
     </div>
   )
 }

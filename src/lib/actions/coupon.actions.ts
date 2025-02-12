@@ -27,17 +27,30 @@ export async function createCoupon(params: TCreateCouponParams) {
   }
 }
 
-export async function getCoupons(params: TFilterData): Promise<TCouponItem[] | undefined> {
+export async function getCoupons(params: TFilterData): Promise<
+  | {
+      coupons: TCouponItem[] | undefined
+      total: number
+    }
+  | undefined
+> {
   try {
     connectToDatabase()
-    const { page = 1, limit = 10, search } = params
+    const { page = 1, limit = 10, search, active } = params
     const skip = (page - 1) * limit
     const query: FilterQuery<typeof Coupon> = {}
     if (search) {
       query.$or = [{ code: { $regex: search, $options: 'i' } }]
     }
+    if (active) {
+      query.active = Boolean(Number(active))
+    }
     const coupons = await Coupon.find(query).skip(skip).limit(limit).sort({ created_at: -1 })
-    return JSON.parse(JSON.stringify(coupons))
+    const total = await Coupon.countDocuments(query)
+    return {
+      coupons: JSON.parse(JSON.stringify(coupons)),
+      total
+    }
   } catch (error) {
     console.log(error)
   }

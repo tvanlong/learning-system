@@ -14,6 +14,8 @@ import { cn } from '@/lib/utils'
 import { EOrderStatus } from '@/types/enums'
 import { formatCurrency } from '@/utils/currency'
 import { updateOrder } from '@/lib/actions/order.actions'
+import Pagination from '@/components/common/Pagination'
+import EmptyData from '@/components/common/EmptyData'
 
 interface IOrderManageProps {
   _id: string
@@ -33,7 +35,15 @@ interface IOrderManageProps {
   }
 }
 
-const OrderManage = ({ orders = [] }: { orders: IOrderManageProps[] }) => {
+const OrderManage = ({
+  orders = [],
+  totalPages = 1,
+  total
+}: {
+  orders: IOrderManageProps[]
+  totalPages: number
+  total: number
+}) => {
   const { handleSearchData, handleSelectStatus } = useQueryString()
 
   const handleUpdateOrder = async ({ orderId, status }: { orderId: string; status: EOrderStatus }) => {
@@ -96,6 +106,7 @@ const OrderManage = ({ orders = [] }: { orders: IOrderManageProps[] }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
+          {orders.length === 0 && <EmptyData text='Không có đơn hàng!' />}
           {orders.length > 0 &&
             orders.map((order) => {
               const orderStatusItem = orderStatus.find((item) => item.value === order.status)
@@ -158,6 +169,7 @@ const OrderManage = ({ orders = [] }: { orders: IOrderManageProps[] }) => {
             })}
         </TableBody>
       </Table>
+      <Pagination totalPages={totalPages} total={total} />
     </div>
   )
 }
