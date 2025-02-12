@@ -6,16 +6,19 @@ import { IStudyCourses } from '@/types'
 
 const StudyCourses = ({ courses }: { courses: IStudyCourses[] | null | undefined }) => {
   if (!courses || courses.length <= 0) return null
-  let lastLesson = []
+
+  let lastLesson: { course: string; lesson: string }[] = []
+
   if (typeof localStorage !== 'undefined') {
-    lastLesson = localStorage ? JSON.parse(localStorage?.getItem(lastLessonKey) || '[]') || [] : []
+    lastLesson = JSON.parse(localStorage?.getItem(lastLessonKey) || '[]') || []
   }
+
   return (
     <CourseGrid>
       {courses &&
         courses.length > 0 &&
         courses?.map((item) => {
-          const url = lastLesson.find((el: any) => el.course === item.slug)?.lesson || ''
+          const url = lastLesson.find((el) => el.course === item.slug)?.lesson || ''
           const firstLessonUrl = item.lectures[0].lessons[0].slug
           return (
             <CourseItem
