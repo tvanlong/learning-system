@@ -232,6 +232,7 @@ export const ratingStatus: {
 export const allValue = 'ALL'
 
 export const ITEMS_PER_PAGE = 10
+
 export const couponStatuses = [
   {
     title: 'Đang kích hoạt',
@@ -242,3 +243,7 @@ export const couponStatuses = [
     value: 0
   }
 ]
+
+export const MAX_COMMENT_LEVEL = 3
+
+export const COMMENT_SPACING = 55

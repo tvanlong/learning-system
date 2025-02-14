@@ -173,6 +173,14 @@ export type TRatingItem = {
   status: ERatingStatus
 }
 
+// Comment types
+export interface ICommentItem extends Omit<IComment, 'user'> {
+  user: {
+    name: string
+    avatar: string
+  }
+}
+
 // Filter, pagination
 export type TFilterData = {
   page?: number
