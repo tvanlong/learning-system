@@ -14,7 +14,11 @@ import { formatMinutesToHour } from '@/utils'
 import CourseWidget from './CourseWidget'
 import AlreadyEnroll from './AlreadyEnroll'
 
-const page = async ({ params }: { params: { slug: string } }) => {
+interface IPageProps {
+  params: { slug: string }
+}
+
+const page = async ({ params }: IPageProps) => {
   await updateCourseView({ slug: params.slug })
   const data = await getCourseBySlug({ slug: params.slug })
   if (!data) return null
