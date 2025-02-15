@@ -1,23 +1,23 @@
 'use client'
-import Swal from 'sweetalert2'
 import { toast } from 'sonner'
+import Swal from 'sweetalert2'
 
 import { StatusBadge } from '@/components/common'
+import EmptyData from '@/components/common/EmptyData'
 import Heading from '@/components/common/Heading'
+import Pagination from '@/components/common/Pagination'
 import { IconCancel, IconCheck } from '@/components/icons'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { allValue, commonClassNames, orderStatus } from '@/constants'
 import useQueryString from '@/hooks/useQueryString'
+import { updateOrder } from '@/lib/actions/order.actions'
 import { cn } from '@/lib/utils'
 import { EOrderStatus } from '@/types/enums'
 import { formatCurrency } from '@/utils/currency'
-import { updateOrder } from '@/lib/actions/order.actions'
-import Pagination from '@/components/common/Pagination'
-import EmptyData from '@/components/common/EmptyData'
 
-interface IOrderManageProps {
+interface IOrder {
   _id: string
   code: string
   total: number
@@ -35,15 +35,13 @@ interface IOrderManageProps {
   }
 }
 
-const OrderManage = ({
-  orders = [],
-  totalPages = 1,
-  total
-}: {
-  orders: IOrderManageProps[]
+interface IOrderManageProps {
+  orders: IOrder[]
   totalPages: number
   total: number
-}) => {
+}
+
+const OrderManage = ({ orders = [], totalPages = 1, total }: IOrderManageProps) => {
   const { handleSearchData, handleSelectStatus } = useQueryString()
 
   const handleUpdateOrder = async ({ orderId, status }: { orderId: string; status: EOrderStatus }) => {
@@ -116,7 +114,7 @@ const OrderManage = ({
                     <strong>{order.code}</strong>
                   </TableCell>
                   <TableCell>{order.course.title}</TableCell>
-                  <TableCell>{order.user.name}</TableCell>
+                  <TableCell>{order.user?.name}</TableCell>
                   <TableCell>
                     <div className='flex flex-col gap-2'>
                       <span>{formatCurrency(order.amount)}</span>

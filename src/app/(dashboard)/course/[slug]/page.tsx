@@ -11,8 +11,8 @@ import { getUserInfo } from '@/lib/actions/user.actions'
 import { ECourseStatus } from '@/types/enums'
 import { formatMinutesToHour } from '@/utils'
 
-import CourseWidget from './CourseWidget'
 import AlreadyEnroll from './AlreadyEnroll'
+import CourseWidget from './CourseWidget'
 
 interface IPageProps {
   params: { slug: string }
@@ -57,7 +57,7 @@ const page = async ({ params }: IPageProps) => {
           )}
         </div>
         <div className='flex flex-wrap gap-2 mb-5'>
-          {ratings.map((rating, index) => (
+          {ratings.map((rating: string, index: number) => (
             <div
               key={index}
               className='p-2 px-4 text-sm font-semibold rounded-full text-white bg-gradient-to-tr from-primary to-secondary'

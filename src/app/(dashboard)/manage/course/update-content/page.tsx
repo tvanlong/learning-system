@@ -2,7 +2,13 @@ import Heading from '@/components/common/Heading'
 import CourseUpdateContent from '@/components/course/CourseUpdateContent'
 import { getCourseBySlug } from '@/lib/actions/course.actions'
 
-const page = async ({ searchParams }: { searchParams: { slug: string } }) => {
+interface IPageProps {
+  searchParams: {
+    slug: string
+  }
+}
+
+const page = async ({ searchParams }: IPageProps) => {
   const findCourse = await getCourseBySlug({ slug: searchParams.slug })
   if (!findCourse) return <div>Không tìm thấy khóa học</div>
 

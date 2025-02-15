@@ -1,11 +1,11 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { FilterQuery } from 'mongoose'
+import { revalidatePath } from 'next/cache'
 
+import Course from '@/database/course.model'
 import Rating from '@/database/rating.model'
 import { TCreateRatingParams, TFilterData, TRatingItem } from '@/types'
-import Course from '@/database/course.model'
 import { ERatingStatus } from '@/types/enums'
 
 import { connectToDatabase } from '../mongoose'

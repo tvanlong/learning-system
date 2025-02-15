@@ -1,25 +1,23 @@
 import { auth } from '@clerk/nextjs/server'
 
+import Heading from '@/components/common/Heading'
 import { getCourseBySlug } from '@/lib/actions/course.actions'
 import { findAllLessons } from '@/lib/actions/lession.actions'
-import Heading from '@/components/common/Heading'
 import { getUserInfo } from '@/lib/actions/user.actions'
 
 import LessonSaveUrl from '../LessonSaveUrl'
-
 import VideoPlayer from './VideoPlayer'
 
-const page = async ({
-  params,
-  searchParams
-}: {
+interface IPageProps {
   params: {
     course: string
   }
   searchParams: {
     slug: string
   }
-}) => {
+}
+
+const page = async ({ params, searchParams }: IPageProps) => {
   const { userId } = auth()
   const findUser = await getUserInfo({ userId: userId! })
   const course = params.course

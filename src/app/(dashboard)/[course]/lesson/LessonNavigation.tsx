@@ -5,7 +5,12 @@ import { useRouter } from 'next/navigation'
 import { IconLeftArrow, IconRightArrow } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 
-const LessonNavigation = ({ nextLesson, prevLesson }: { nextLesson: string; prevLesson: string }) => {
+interface ILessonNavigationProps {
+  nextLesson: string
+  prevLesson: string
+}
+
+const LessonNavigation = ({ nextLesson, prevLesson }: ILessonNavigationProps) => {
   const router = useRouter()
 
   return (

@@ -1,6 +1,7 @@
 'use client'
 import { BouncedLink, StatusBadge, TableAction } from '@/components/common'
 import Heading from '@/components/common/Heading'
+import Pagination from '@/components/common/Pagination'
 import TableActionItem from '@/components/common/TableActionItem'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -11,17 +12,14 @@ import { TCouponItem } from '@/types'
 import { ECouponType } from '@/types/enums'
 
 import ActionDeleteCoupon from './ActionDeleteCoupon'
-import Pagination from '@/components/common/Pagination'
 
-const CouponManage = ({
-  coupons,
-  totalPages,
-  total
-}: {
+interface ICouponManageProps {
   coupons: TCouponItem[] | undefined
   totalPages: number
   total: number
-}) => {
+}
+
+const CouponManage = ({ coupons, totalPages, total }: ICouponManageProps) => {
   const { handleSearchData, handleChangeQs } = useQueryString()
 
   return (

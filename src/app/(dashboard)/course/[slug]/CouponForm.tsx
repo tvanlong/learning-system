@@ -7,17 +7,14 @@ import { Input } from '@/components/ui/input'
 import { getValidateCoupon } from '@/lib/actions/coupon.actions'
 import { ECouponType } from '@/types/enums'
 
-const CouponForm = ({
-  setPrice,
-  courseId,
-  originalPrice,
-  setCouponId
-}: {
-  originalPrice: number
-  courseId: string
+interface ICouponFormProps {
   setPrice: Dispatch<SetStateAction<number>>
+  courseId: string
+  originalPrice: number
   setCouponId: Dispatch<SetStateAction<string>>
-}) => {
+}
+
+const CouponForm = ({ setPrice, courseId, originalPrice, setCouponId }: ICouponFormProps) => {
   const [isApplied, setIsApplied] = useState(false)
   const [couponCode, setCouponCode] = useState('')
 

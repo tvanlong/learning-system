@@ -1,4 +1,4 @@
-import { Document, Schema, model, models } from 'mongoose'
+import { Document, model, models, Schema } from 'mongoose'
 
 export interface ILecture extends Document {
   _id: string

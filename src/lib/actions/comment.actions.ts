@@ -1,11 +1,13 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
+
 import Comment from '@/database/comment.model'
 import User from '@/database/user.model'
 import { ICommentItem } from '@/types'
 import { ECommentStatus } from '@/types/enums'
+
 import { connectToDatabase } from '../mongoose'
-import { revalidatePath } from 'next/cache'
 
 export async function createComment(params: {
   content: string

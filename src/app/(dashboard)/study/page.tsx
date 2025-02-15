@@ -1,7 +1,7 @@
 import { auth } from '@clerk/nextjs/server'
 
-import { getUserCourses } from '@/lib/actions/user.actions'
 import Heading from '@/components/common/Heading'
+import { getUserCourses } from '@/lib/actions/user.actions'
 
 import StudyCourses from './StudyCourses'
 

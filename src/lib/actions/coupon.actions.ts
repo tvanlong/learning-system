@@ -1,7 +1,7 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { FilterQuery } from 'mongoose'
+import { revalidatePath } from 'next/cache'
 
 import Coupon from '@/database/coupon.model'
 import { TCouponItem, TCouponParams, TCreateCouponParams, TFilterData, TUpdateCouponParams } from '@/types'

@@ -6,15 +6,14 @@ import { formatNumberToK } from '@/utils'
 import { formatCurrency } from '@/utils/currency'
 
 import { IconEye, IconStar } from '../icons'
-
 import CourseItemDuration from './CourseItemDuration'
 
-interface CourseItemProps {
+interface ICourseItemProps {
   data: IStudyCourses
   cta?: string
   url?: string
 }
-const CourseItem = ({ cta = 'Xem chi tiết', data, url = '' }: CourseItemProps) => {
+const CourseItem = ({ cta = 'Xem chi tiết', data, url = '' }: ICourseItemProps) => {
   const courseUrl = url || `/course/${data.slug}`
   const courseInfo = [
     {

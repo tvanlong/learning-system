@@ -1,22 +1,26 @@
 'use client'
 import { MouseEvent, useState } from 'react'
+import slugify from 'slugify'
 import { toast } from 'sonner'
 import Swal from 'sweetalert2'
-import slugify from 'slugify'
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { commonClassNames } from '@/constants'
 import { IconCancel, IconCheck, IconDelete, IconEdit } from '@/components/icons'
-import { Button } from '@/components/ui/button'
-import { createLecture, updateLecture } from '@/lib/actions/lecture.actions'
-import { ICourseUpdateParams, TUpdateCourseLecture } from '@/types'
-import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
-import { createLesson, updateLesson } from '@/lib/actions/lession.actions'
-import { ILesson } from '@/database/lesson.model'
 import LessonItemUpdate from '@/components/lesson/LessonItemUpdate'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { commonClassNames } from '@/constants'
+import { ILesson } from '@/database/lesson.model'
+import { createLecture, updateLecture } from '@/lib/actions/lecture.actions'
+import { createLesson, updateLesson } from '@/lib/actions/lession.actions'
+import { cn } from '@/lib/utils'
+import { ICourseUpdateParams, TUpdateCourseLecture } from '@/types'
 
-const CourseUpdateContent = ({ course }: { course: ICourseUpdateParams }) => {
+interface ICourseUpdateContentProps {
+  course: ICourseUpdateParams
+}
+
+const CourseUpdateContent = ({ course }: ICourseUpdateContentProps) => {
   const lectures = course.lectures
   const [lectureEdit, setLectureEdit] = useState('')
   const [lessonEdit, setLessonEdit] = useState('')

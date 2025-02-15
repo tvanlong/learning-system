@@ -8,17 +8,14 @@ import { formatCurrency } from '@/utils/currency'
 import ButtonEnroll from './ButtonEnroll'
 import CouponForm from './CouponForm'
 
-const CourseWidget = ({
-  data,
-  findUser,
-  totalLesson,
-  duration
-}: {
+interface ICourseWidgetProps {
   data: any
   findUser: any
   totalLesson: any
   duration: string
-}) => {
+}
+
+const CourseWidget = ({ data, findUser, totalLesson, duration }: ICourseWidgetProps) => {
   const [price, setPrice] = useState<number>(data.price)
   const [coupon, setCoupon] = useState('')
 

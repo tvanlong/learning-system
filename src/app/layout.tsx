@@ -1,12 +1,12 @@
-import type { Metadata } from 'next'
-
 import './globals.scss'
+
 import { ClerkProvider } from '@clerk/nextjs'
+import type { Metadata } from 'next'
+import NextTopLoader from 'nextjs-toploader'
 import { Toaster } from 'sonner'
 
-import { manrope } from '@/utils'
 import { ThemeProvider } from '@/components/common/ThemeProvider'
-import NextTopLoader from 'nextjs-toploader'
+import { manrope } from '@/utils'
 
 export const metadata: Metadata = {
   title: 'E-Learning System',

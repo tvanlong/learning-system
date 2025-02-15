@@ -1,9 +1,11 @@
 'use client'
 
-import useQueryString from '@/hooks/useQueryString'
 import { debounce } from 'lodash'
-import { IconDoubleLeftArrow, IconDoubleRightArrow, IconLeft, IconRight } from '../icons'
+
 import { ITEMS_PER_PAGE } from '@/constants'
+import useQueryString from '@/hooks/useQueryString'
+
+import { IconDoubleLeftArrow, IconDoubleRightArrow, IconLeft, IconRight } from '../icons'
 
 interface IPaginationProps {
   totalPages: number

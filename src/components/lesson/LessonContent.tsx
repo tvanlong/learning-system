@@ -1,20 +1,17 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { TUpdateCourseLecture } from '@/types'
 import { IHistory } from '@/database/history.model'
+import { TUpdateCourseLecture } from '@/types'
 
 import LessonItem from './LessonItem'
 
-const LessonContent = ({
-  lectures,
-  course,
-  slug,
-  histories = []
-}: {
+interface ILessonContentProps {
   lectures: TUpdateCourseLecture[]
   course: string
   slug: string
   histories?: IHistory[]
-}) => {
+}
+
+const LessonContent = ({ lectures, course, slug, histories = [] }: ILessonContentProps) => {
   return (
     <div className='flex flex-col gap-3'>
       {lectures.map((lecture: TUpdateCourseLecture) => (

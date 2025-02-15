@@ -1,17 +1,16 @@
+import { auth } from '@clerk/nextjs/server'
+
+import { getCommentsByLesson } from '@/lib/actions/comment.actions'
 import { getCourseBySlug } from '@/lib/actions/course.actions'
 import { getLessonBySlug } from '@/lib/actions/lession.actions'
-import CommentForm from './CommentForm'
-import { auth } from '@clerk/nextjs/server'
 import { getUserInfo } from '@/lib/actions/user.actions'
-import { getCommentsByLesson } from '@/lib/actions/comment.actions'
-import CommentItem from './CommentItem'
 import { formatTotalComments } from '@/utils'
+
+import CommentField from './CommentField'
+import CommentForm from './CommentForm'
 import CommentSorting from './CommentSorting'
 
-const page = async ({
-  params,
-  searchParams
-}: {
+interface ICommentPageProps {
   params: {
     course: string
   }
@@ -19,7 +18,9 @@ const page = async ({
     slug: string
     sort: 'recent' | 'oldest'
   }
-}) => {
+}
+
+const page = async ({ params, searchParams }: ICommentPageProps) => {
   const { userId } = auth()
   const findUser = await getUserInfo({ userId: userId! })
   const course = params.course
@@ -52,13 +53,13 @@ const page = async ({
           </div>
           <div className='flex flex-col gap-5'>
             {rootComments?.map((item) => (
-              <CommentItem
+              <CommentField
                 key={item._id}
                 comment={item}
                 lessonId={commentLessonId}
                 userId={commentUserId}
                 comments={comments || []}
-              ></CommentItem>
+              />
             ))}
           </div>
         </div>

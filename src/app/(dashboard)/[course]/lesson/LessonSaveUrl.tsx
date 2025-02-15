@@ -4,7 +4,12 @@ import { useEffect } from 'react'
 
 import { lastLessonKey } from '@/constants'
 
-const LessonSaveUrl = ({ url, course }: { url: string; course: string }) => {
+interface ILessonSaveUrlProps {
+  url: string
+  course: string
+}
+
+const LessonSaveUrl = ({ url, course }: ILessonSaveUrlProps) => {
   useEffect(() => {
     let results: any[] = JSON.parse(localStorage?.getItem(lastLessonKey) || '[]') || []
     const item = {
@@ -15,6 +20,7 @@ const LessonSaveUrl = ({ url, course }: { url: string; course: string }) => {
     results.push(item)
     localStorage?.setItem(lastLessonKey, JSON.stringify(results))
   }, [course, url])
+
   return null
 }
 

@@ -8,17 +8,14 @@ import { createOrder, updateOrder } from '@/lib/actions/order.actions'
 import { EOrderStatus } from '@/types/enums'
 import { createOrderCode } from '@/utils'
 
-const ButtonEnroll = ({
-  user,
-  courseId,
-  amount,
-  coupon
-}: {
+interface IButtonEnrollProps {
   user: IUser | null | undefined
   courseId: string
   amount: number
   coupon: string
-}) => {
+}
+
+const ButtonEnroll = ({ user, courseId, amount, coupon }: IButtonEnrollProps) => {
   const router = useRouter()
   const handleEnrollCourse = async () => {
     if (!user?.name) {

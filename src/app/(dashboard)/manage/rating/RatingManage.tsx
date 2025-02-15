@@ -16,7 +16,11 @@ import { deleteRating, updateRating } from '@/lib/actions/rating.actions'
 import { TRatingItem } from '@/types'
 import { ERatingStatus } from '@/types/enums'
 
-const RatingManage = ({ ratings }: { ratings: any }) => {
+interface IRatingManageProps {
+  ratings: any
+}
+
+const RatingManage = ({ ratings }: IRatingManageProps) => {
   const { handleSearchData, handleSelectStatus } = useQueryString()
 
   const handleUpdateRating = async (id: string) => {
@@ -106,7 +110,7 @@ const RatingManage = ({ ratings }: { ratings: any }) => {
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <strong>{rating.user.name}</strong>
+                    <strong>{rating.user?.name}</strong>
                   </TableCell>
                   <TableCell>
                     <StatusBadge item={ratingItemStatus}></StatusBadge>

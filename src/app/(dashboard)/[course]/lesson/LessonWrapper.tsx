@@ -4,7 +4,11 @@ import React from 'react'
 
 import useGlobalStore from '@/store'
 
-const LessonWrapper = ({ children }: { children: React.ReactNode }) => {
+interface ILessonWrapperProps {
+  children: React.ReactNode
+}
+
+const LessonWrapper = ({ children }: ILessonWrapperProps) => {
   const { expandedPlayer } = useGlobalStore()
 
   return (

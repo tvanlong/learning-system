@@ -1,6 +1,5 @@
 'use client'
 import Image from 'next/image'
-import { useState } from 'react'
 import { toast } from 'sonner'
 import Swal from 'sweetalert2'
 
@@ -17,7 +16,11 @@ import Heading from '../common/Heading'
 import TableActionItem from '../common/TableActionItem'
 import { Input } from '../ui/input'
 
-const CourseManage = ({ courses }: { courses: ICourse[] }) => {
+interface ICourseManageProps {
+  courses: ICourse[]
+}
+
+const CourseManage = ({ courses }: ICourseManageProps) => {
   const { handleSearchData, handleSelectStatus } = useQueryString()
 
   const handleDeleteCourse = (slug: string) => {
@@ -68,13 +71,6 @@ const CourseManage = ({ courses }: { courses: ICourse[] }) => {
     } catch (error) {
       console.log(error)
     }
-  }
-
-  const [page, setPage] = useState(1)
-  const handleChangePage = (type: 'prev' | 'next') => {
-    if (type === 'prev' && page === 1) return
-    if (type === 'prev') setPage((prev) => prev - 1)
-    if (type === 'next') setPage((prev) => prev + 1)
   }
 
   return (

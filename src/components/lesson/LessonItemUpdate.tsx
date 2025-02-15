@@ -1,20 +1,20 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import Link from 'next/link'
-import { toast } from 'sonner'
 import { Editor } from '@tinymce/tinymce-react'
-import { useRef } from 'react'
+import Link from 'next/link'
 import { useTheme } from 'next-themes'
+import { useRef } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { updateLesson } from '@/lib/actions/lession.actions'
 import { Button } from '@/components/ui/button'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { editorOptions } from '@/constants'
 import { ILesson } from '@/database/lesson.model'
-import { Form } from '@/components/ui/form'
+import { updateLesson } from '@/lib/actions/lession.actions'
 
 const formSchema = z.object({
   slug: z.string().optional(),
@@ -23,7 +23,11 @@ const formSchema = z.object({
   content: z.string().optional()
 })
 
-const LessonItemUpdate = ({ lesson }: { lesson: ILesson }) => {
+interface ILessonItemUpdateProps {
+  lesson: ILesson
+}
+
+const LessonItemUpdate = ({ lesson }: ILessonItemUpdateProps) => {
   const editorRef = useRef<any>(null)
   const { theme } = useTheme()
   const form = useForm<z.infer<typeof formSchema>>({

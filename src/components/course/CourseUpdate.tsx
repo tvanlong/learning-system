@@ -1,25 +1,25 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import slugify from 'slugify'
-import { useImmer } from 'use-immer'
 import { toast } from 'sonner'
-import Image from 'next/image'
+import { useImmer } from 'use-immer'
+import { z } from 'zod'
 
+import { IconAdd, IconCancel } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { ECourseLevel, ECourseStatus } from '@/types/enums'
-import { Textarea } from '@/components/ui/textarea'
-import { updateCourse } from '@/lib/actions/course.actions'
-import { ICourse } from '@/database/course.model'
-import { IconAdd, IconCancel } from '@/components/icons'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
 import { courseLevel, courseStatus } from '@/constants'
+import { ICourse } from '@/database/course.model'
+import { updateCourse } from '@/lib/actions/course.actions'
+import { ECourseLevel, ECourseStatus } from '@/types/enums'
 import { UploadButton } from '@/utils/uploadthing'
 
 const formSchema = z.object({
@@ -40,7 +40,11 @@ const formSchema = z.object({
   })
 })
 
-const CourseUpdate = ({ data }: { data: ICourse }) => {
+interface ICourseUpdateProps {
+  data: ICourse
+}
+
+const CourseUpdate = ({ data }: ICourseUpdateProps) => {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [courseInfo, setCourseInfo] = useImmer({
@@ -184,7 +188,7 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
           <FormField
             control={form.control}
             name='image'
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Ảnh đại diện</FormLabel>
                 <FormControl>
@@ -308,7 +312,7 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
           <FormField
             control={form.control}
             name='info.requirements'
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel className='flex items-center justify-between gap-5'>
                   <span>Yêu cầu</span>
@@ -358,7 +362,7 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
           <FormField
             control={form.control}
             name='info.benefits'
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel className='flex items-center justify-between gap-5'>
                   <span>Lợi ích</span>
@@ -408,7 +412,7 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
           <FormField
             control={form.control}
             name='info.qa'
-            render={({ field }) => (
+            render={() => (
               <FormItem className='col-start-1 col-end-3'>
                 <FormLabel className='flex items-center justify-between gap-5'>
                   <span>Q.A</span>

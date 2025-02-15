@@ -1,8 +1,8 @@
 'use client'
 
-import * as React from 'react'
-import Image from 'next/image'
 import { BookOpen } from 'lucide-react'
+import Image from 'next/image'
+import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
 import {

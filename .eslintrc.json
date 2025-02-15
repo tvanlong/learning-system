@@ -5,8 +5,10 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["@typescript-eslint", "prettier", "react", "jsx-a11y", "import", "unused-imports", "tailwindcss"],
+  "plugins": ["@typescript-eslint", "prettier", "react", "jsx-a11y", "import", "unused-imports", "tailwindcss", "simple-import-sort"],
   "rules": {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     "prettier/prettier": [
       "error",
       {
@@ -25,5 +27,9 @@
     "unused-imports/no-unused-imports": "warn",
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "@typescript-eslint/no-explicit-any": "warn"
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest"
   }
 }

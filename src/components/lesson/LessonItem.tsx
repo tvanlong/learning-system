@@ -3,22 +3,19 @@
 import Link from 'next/link'
 
 import { IconPlay } from '@/components/icons'
-import { ILesson } from '@/database/lesson.model'
-import { cn } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
+import { ILesson } from '@/database/lesson.model'
 import { createHistory } from '@/lib/actions/history.actions'
+import { cn } from '@/lib/utils'
 
-const LessonItem = ({
-  lesson,
-  url,
-  isActive = false,
-  isChecked = false
-}: {
+interface ILessonItemProps {
   lesson: ILesson
   url?: string
   isActive?: boolean
   isChecked?: boolean
-}) => {
+}
+
+const LessonItem = ({ lesson, url, isActive = false, isChecked = false }: ILessonItemProps) => {
   const handleCompleteLesson = async (checked: boolean | string) => {
     try {
       await createHistory({

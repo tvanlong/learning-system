@@ -6,7 +6,11 @@ import PageNotFound from '@/app/not-found'
 import { getUserInfo } from '@/lib/actions/user.actions'
 import { EUserRole } from '@/types/enums'
 
-const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
+interface IAdminLayoutProps {
+  children: React.ReactNode
+}
+
+const AdminLayout = async ({ children }: IAdminLayoutProps) => {
   const { userId } = auth()
   if (!userId) return redirect('/sign-in')
   const user = await getUserInfo({ userId })

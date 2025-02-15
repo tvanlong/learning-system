@@ -1,6 +1,7 @@
-import { ICommentItem } from '@/types'
 import { ObjectId } from 'mongoose'
 import { Manrope } from 'next/font/google'
+
+import { ICommentItem } from '@/types'
 
 export const manrope = Manrope({
   subsets: ['latin'],

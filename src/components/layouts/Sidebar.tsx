@@ -1,11 +1,11 @@
 'use client'
 
 import { useAuth, UserButton } from '@clerk/nextjs'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 
-import { menuItems } from '@/constants'
 import { ActiveLink } from '@/components/common'
+import { menuItems } from '@/constants'
 import { MenuItemProps } from '@/types'
 
 import { ModeToggle } from '../common/ModeToggle'

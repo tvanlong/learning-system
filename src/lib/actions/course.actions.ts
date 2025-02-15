@@ -1,11 +1,12 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { FilterQuery } from 'mongoose'
+import { revalidatePath } from 'next/cache'
 
 import Course, { ICourse } from '@/database/course.model'
 import Lecture from '@/database/lecture.model'
 import Lesson from '@/database/lesson.model'
+import Rating from '@/database/rating.model'
 import {
   CreateCourseParams,
   ICourseUpdateParams,
@@ -17,7 +18,6 @@ import {
 import { ECourseStatus, ERatingStatus } from '@/types/enums'
 
 import { connectToDatabase } from '../mongoose'
-import Rating from '@/database/rating.model'
 
 export async function getAllCoursesPublic(params: TGetAllCourseParams): Promise<IStudyCourses[] | undefined> {
   try {

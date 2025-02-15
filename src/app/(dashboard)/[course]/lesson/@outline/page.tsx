@@ -3,17 +3,16 @@ import { getCourseBySlug } from '@/lib/actions/course.actions'
 import { getHistory } from '@/lib/actions/history.actions'
 import { countLessonByCourseId } from '@/lib/actions/lession.actions'
 
-const page = async ({
-  params,
-  searchParams
-}: {
+interface IPageProps {
   params: {
     course: string
   }
   searchParams: {
     slug: string
   }
-}) => {
+}
+
+const page = async ({ params, searchParams }: IPageProps) => {
   const course = params.course
   const slug = searchParams.slug
   const findCourse = await getCourseBySlug({ slug: course })

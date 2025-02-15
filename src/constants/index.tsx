@@ -1,12 +1,12 @@
 import {
-  IconExplore,
-  IconPlay,
-  IconStudy,
-  IconUsers,
   IconComment,
-  IconOrder,
   IconCoupon,
-  IconStar
+  IconExplore,
+  IconOrder,
+  IconPlay,
+  IconStar,
+  IconStudy,
+  IconUsers
 } from '@/components/icons'
 import { MenuItemProps, TRatingIcon } from '@/types'
 import { ECouponType, ECourseLevel, ECourseStatus, EOrderStatus, ERatingStatus } from '@/types/enums'

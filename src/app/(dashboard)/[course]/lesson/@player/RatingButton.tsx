@@ -19,7 +19,12 @@ import { ratingList } from '@/constants'
 import { createRating, getRatingByUserId } from '@/lib/actions/rating.actions'
 import { cn } from '@/lib/utils'
 
-const RatingButton = ({ courseId, userId }: { courseId: string; userId: string }) => {
+interface IRatingButtonProps {
+  courseId: string
+  userId: string
+}
+
+const RatingButton = ({ courseId, userId }: IRatingButtonProps) => {
   const [ratingValue, setRatingValue] = useState(-1)
   const [ratingContent, setRatingContent] = useState('')
   const [isLoading, setIsLoading] = useState(false)

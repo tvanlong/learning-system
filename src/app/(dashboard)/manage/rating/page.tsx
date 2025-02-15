@@ -3,15 +3,15 @@ import { ERatingStatus } from '@/types/enums'
 
 import RatingManage from './RatingManage'
 
-const page = async ({
-  searchParams
-}: {
+interface IPageProps {
   searchParams: {
     page: number
     search: string
     status: ERatingStatus
   }
-}) => {
+}
+
+const page = async ({ searchParams }: IPageProps) => {
   const ratings = await getRatings({
     page: searchParams.page || 1,
     limit: 10,

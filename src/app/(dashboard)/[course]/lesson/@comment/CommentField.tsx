@@ -1,20 +1,22 @@
 'use client'
-import { ICommentItem } from '@/types'
-import { getRepliesComment, timeAgo } from '@/utils'
 import Image from 'next/image'
-import CommentReply from './CommentReply'
-import { COMMENT_SPACING } from '@/constants'
-import { ECommentStatus } from '@/types/enums'
-import { cn } from '@/lib/utils'
 
-interface ICommentItemProps {
+import { COMMENT_SPACING } from '@/constants'
+import { cn } from '@/lib/utils'
+import { ICommentItem } from '@/types'
+import { ECommentStatus } from '@/types/enums'
+import { getRepliesComment, timeAgo } from '@/utils'
+
+import CommentReply from './CommentReply'
+
+interface ICommentFieldProps {
   comment: ICommentItem
   lessonId: string
   userId: string
   comments: ICommentItem[]
 }
 
-const CommentItem = ({ comment, lessonId, userId, comments = [] }: ICommentItemProps) => {
+const CommentField = ({ comment, lessonId, userId, comments = [] }: ICommentFieldProps) => {
   const replies = getRepliesComment(comments, comment._id)
   const level = comment.level || 0
   const isPending = comment.status === ECommentStatus.PENDING
@@ -31,7 +33,16 @@ const CommentItem = ({ comment, lessonId, userId, comments = [] }: ICommentItemP
         }}
       >
         <div className='size-10 rounded-full border borderDarkMode bgDarkMode flex-shrink-0'>
-          <Image className='rounded-full' src={comment.user.avatar} alt={comment.user.name} width={40} height={40} />
+          <Image
+            className='size-full rounded-full object-cover'
+            src={
+              comment.user?.avatar ||
+              'https://images.unsplash.com/photo-1487139975590-b4f1dce9b035?q=80&w=4912&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            }
+            alt={comment.user?.name}
+            width={40}
+            height={40}
+          />
         </div>
         <div className='flex flex-col gap-1 w-full'>
           <div className='flex items-center gap-2 mb-1'>
@@ -47,10 +58,10 @@ const CommentItem = ({ comment, lessonId, userId, comments = [] }: ICommentItemP
       </div>
       {replies.length > 0 &&
         replies.map((reply) => (
-          <CommentItem key={reply._id} comment={reply} lessonId={lessonId} userId={userId} comments={comments} />
+          <CommentField key={reply._id} comment={reply} lessonId={lessonId} userId={userId} comments={comments} />
         ))}
     </>
   )
 }
 
-export default CommentItem
+export default CommentField

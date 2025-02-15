@@ -4,7 +4,11 @@ import Swal from 'sweetalert2'
 import TableActionItem from '@/components/common/TableActionItem'
 import { deleteCoupon } from '@/lib/actions/coupon.actions'
 
-const ActionDeleteCoupon = ({ code }: { code: string }) => {
+interface IActionDeleteCouponProps {
+  code: string
+}
+
+const ActionDeleteCoupon = ({ code }: IActionDeleteCouponProps) => {
   const handleDeleteCoupon = async (code: string) => {
     try {
       Swal.fire({

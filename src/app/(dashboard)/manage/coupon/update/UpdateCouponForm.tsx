@@ -1,12 +1,12 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { CalendarIcon } from '@radix-ui/react-icons'
 import { format } from 'date-fns'
 import { debounce } from 'lodash'
 import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { z } from 'zod'
 
 import { IconClose } from '@/components/icons'
 import { Button } from '@/components/ui/button'
@@ -24,6 +24,7 @@ import { updateCoupon } from '@/lib/actions/coupon.actions'
 import { getAllCourses } from '@/lib/actions/course.actions'
 import { TCouponParams } from '@/types'
 import { ECouponType } from '@/types/enums'
+
 const formSchema = z.object({
   title: z.string({
     message: 'Tiêu đề không được để trống'
@@ -42,6 +43,7 @@ const formSchema = z.object({
   courses: z.array(z.string()).optional(),
   limit: z.number().optional()
 })
+
 const UpdateCouponForm = ({ data }: { data: TCouponParams }) => {
   const [findCourse, setFindCourse] = useState<any[] | undefined>([])
   const [selectedCourses, setSelectedCourses] = useState<any[]>([])
@@ -143,7 +145,7 @@ const UpdateCouponForm = ({ data }: { data: TCouponParams }) => {
           <FormField
             control={form.control}
             name='start_date'
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Ngày bắt đầu</FormLabel>
                 <FormControl>
@@ -166,7 +168,7 @@ const UpdateCouponForm = ({ data }: { data: TCouponParams }) => {
           <FormField
             control={form.control}
             name='end_date'
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Ngày kết thúc</FormLabel>
                 <FormControl>
@@ -261,7 +263,7 @@ const UpdateCouponForm = ({ data }: { data: TCouponParams }) => {
           <FormField
             control={form.control}
             name='courses'
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Khóa học</FormLabel>
                 <FormControl>

@@ -2,13 +2,13 @@ import PageNotFound from '@/app/not-found'
 import { getOrderDetails } from '@/lib/actions/order.actions'
 import { formatCurrency } from '@/utils/currency'
 
-const OrderDetails = async ({
-  params
-}: {
+interface IOrderDetailsProps {
   params: {
     code: string
   }
-}) => {
+}
+
+const OrderDetails = async ({ params }: IOrderDetailsProps) => {
   const orderDetails = await getOrderDetails({
     code: params.code
   })

@@ -1,18 +1,18 @@
+import { ITEMS_PER_PAGE } from '@/constants'
 import { fetchOrders } from '@/lib/actions/order.actions'
 import { EOrderStatus } from '@/types/enums'
 
 import OrderManage from './OrderManage'
-import { ITEMS_PER_PAGE } from '@/constants'
 
-const page = async ({
-  searchParams
-}: {
+interface IPageProps {
   searchParams: {
     page: number
     search: string
     status: EOrderStatus
   }
-}) => {
+}
+
+const page = async ({ searchParams }: IPageProps) => {
   const data = await fetchOrders({
     page: searchParams.page || 1,
     limit: ITEMS_PER_PAGE,

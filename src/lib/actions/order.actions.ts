@@ -1,12 +1,13 @@
 'use server'
 import { FilterQuery } from 'mongoose'
 import { revalidatePath } from 'next/cache'
-import Order from '@/database/order.model'
-import { TCreateOrderParams } from '@/types'
-import Course from '@/database/course.model'
-import User from '@/database/user.model'
-import { EOrderStatus } from '@/types/enums'
+
 import Coupon from '@/database/coupon.model'
+import Course from '@/database/course.model'
+import Order from '@/database/order.model'
+import User from '@/database/user.model'
+import { TCreateOrderParams } from '@/types'
+import { EOrderStatus } from '@/types/enums'
 
 import { connectToDatabase } from '../mongoose'
 

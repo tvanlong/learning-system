@@ -1,20 +1,16 @@
 'use client'
+import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
+
 import { Button } from '@/components/ui/button'
 import useGlobalStore from '@/store'
-
-import dynamic from 'next/dynamic'
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false })
 import { useRouter } from 'next/navigation'
+
 import LessonNavigation from '../LessonNavigation'
 import RatingButton from './RatingButton'
 
-const VideoPlayer = ({
-  videoId,
-  nextLesson,
-  prevLesson,
-  data
-}: {
+interface IVideoPlayerProps {
   videoId?: string
   nextLesson: string
   prevLesson: string
@@ -22,10 +18,13 @@ const VideoPlayer = ({
     userId: string
     courseId: string
   }
-}) => {
+}
+
+const VideoPlayer = ({ videoId, nextLesson, prevLesson, data }: IVideoPlayerProps) => {
   const [isEndedVideo, setIsEndedVideo] = useState(false)
   const { expandedPlayer, setExpandedPlayer } = useGlobalStore()
   const router = useRouter()
+
   useEffect(() => {
     if (!isEndedVideo) return
     const timer = setTimeout(() => {
@@ -34,6 +33,7 @@ const VideoPlayer = ({
     return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEndedVideo, nextLesson])
+
   return (
     <>
       <div className='relative mb-5 aspect-video rounded-md overflow-hidden'>

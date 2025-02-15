@@ -2,15 +2,15 @@ import CourseManage from '@/components/course/CourseManage'
 import { getAllCourses } from '@/lib/actions/course.actions'
 import { ECourseStatus } from '@/types/enums'
 
-const page = async ({
-  searchParams
-}: {
+interface IPageProps {
   searchParams: {
     page: number
     search: string
     status: ECourseStatus
   }
-}) => {
+}
+
+const page = async ({ searchParams }: IPageProps) => {
   const courses = await getAllCourses({
     page: searchParams.page || 1,
     limit: 10,

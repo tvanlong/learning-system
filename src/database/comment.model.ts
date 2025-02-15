@@ -1,5 +1,6 @@
+import { Document, model, models, Schema } from 'mongoose'
+
 import { ECommentStatus } from '@/types/enums'
-import { Document, Schema, model, models } from 'mongoose'
 
 export interface Icomment extends Document {
   _id: string

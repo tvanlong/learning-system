@@ -7,11 +7,11 @@ import { formatMinutesToHour } from '@/utils'
 
 import { IconClock } from '../icons'
 
-export interface CourseItemDurationProps {
+interface ICourseItemDurationProps {
   slug: string
 }
 
-function CourseItemDuration({ slug }: CourseItemDurationProps) {
+function CourseItemDuration({ slug }: ICourseItemDurationProps) {
   const [duration, setDuration] = useState(0)
 
   useEffect(() => {

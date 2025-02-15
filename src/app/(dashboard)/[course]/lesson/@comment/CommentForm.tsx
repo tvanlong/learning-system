@@ -1,11 +1,5 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
-import { createComment } from '@/lib/actions/comment.actions'
-import { cn } from '@/lib/utils'
-import { ICommentItem } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useTransition } from 'react'
@@ -13,13 +7,20 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Textarea } from '@/components/ui/textarea'
+import { createComment } from '@/lib/actions/comment.actions'
+import { cn } from '@/lib/utils'
+import { ICommentItem } from '@/types'
+
 const formSchema = z.object({
   content: z
     .string({ message: 'Comment must be a string' })
     .min(10, { message: 'Comment must be at least 10 character long' })
 })
 
-interface CommentFormProps {
+interface ICommentFormProps {
   userId: string
   lessonId: string
   comment?: ICommentItem
@@ -27,7 +28,7 @@ interface CommentFormProps {
   closeReply?: () => void
 }
 
-const CommentForm = ({ userId, lessonId, comment, isReply, closeReply }: CommentFormProps) => {
+const CommentForm = ({ userId, lessonId, comment, isReply, closeReply }: ICommentFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {}

@@ -1,19 +1,21 @@
 'use client'
 
-import { ICommentItem } from '@/types'
-import { formatDate } from '@/utils'
 import { useState } from 'react'
-import CommentForm from './CommentForm'
+
 import { MAX_COMMENT_LEVEL } from '@/constants'
 import { cn } from '@/lib/utils'
+import { ICommentItem } from '@/types'
+import { formatDate } from '@/utils'
 
-interface CommentReplyProps {
+import CommentForm from './CommentForm'
+
+interface ICommentReplyProps {
   comment: ICommentItem
   lessonId: string
   userId: string
 }
 
-const CommentReply = ({ comment, lessonId, userId }: CommentReplyProps) => {
+const CommentReply = ({ comment, lessonId, userId }: ICommentReplyProps) => {
   const [showReply, setShowReply] = useState(false)
 
   return (

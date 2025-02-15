@@ -1,17 +1,17 @@
+import { ITEMS_PER_PAGE } from '@/constants'
 import { getCoupons } from '@/lib/actions/coupon.actions'
 
 import CouponManage from './CouponManage'
-import { ITEMS_PER_PAGE } from '@/constants'
 
-const page = async ({
-  searchParams
-}: {
+interface IPageProps {
   searchParams: {
     page: number
     search: string
     active: boolean
   }
-}) => {
+}
+
+const page = async ({ searchParams }: IPageProps) => {
   const data = await getCoupons({
     page: searchParams.page || 1,
     limit: ITEMS_PER_PAGE,

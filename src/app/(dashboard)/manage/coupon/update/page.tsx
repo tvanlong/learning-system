@@ -3,13 +3,13 @@ import { getCouponByCode } from '@/lib/actions/coupon.actions'
 
 import UpdateCouponForm from './UpdateCouponForm'
 
-const page = async ({
-  searchParams
-}: {
+interface IPageProps {
   searchParams: {
     code: string
   }
-}) => {
+}
+
+const page = async ({ searchParams }: IPageProps) => {
   const couponDetails = await getCouponByCode({ code: searchParams.code })
   if (!couponDetails) return null
   return (

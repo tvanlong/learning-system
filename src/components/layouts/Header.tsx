@@ -1,8 +1,8 @@
 'use client'
 
+import { useAuth, UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useAuth, UserButton } from '@clerk/nextjs'
 
 import { ModeToggle } from '@/components/common/ModeToggle'
 import { IconUsers } from '@/components/icons'

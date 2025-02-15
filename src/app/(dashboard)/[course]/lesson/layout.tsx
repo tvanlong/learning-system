@@ -4,19 +4,17 @@ import React, { Suspense } from 'react'
 import PageNotFound from '@/app/not-found'
 import { getUserInfo } from '@/lib/actions/user.actions'
 
-import LoadingPlayer from './@player/LoadingPlayer'
 import LoadingOutline from './@outline/LoadingOutline'
+import LoadingPlayer from './@player/LoadingPlayer'
 import LessonWrapper from './LessonWrapper'
 
-const Layout = async ({
-  player,
-  outline,
-  comment
-}: {
+interface ILayoutProps {
   player: React.ReactNode
   outline: React.ReactNode
   comment: React.ReactNode
-}) => {
+}
+
+const Layout = async ({ player, outline, comment }: ILayoutProps) => {
   const { userId } = auth()
   if (!userId) return <PageNotFound />
   const findUser = await getUserInfo({ userId })
