@@ -3,6 +3,11 @@ import Image from 'next/image'
 import { toast } from 'sonner'
 import Swal from 'sweetalert2'
 
+import { BouncedLink } from '@/components/common/bounced-link'
+import { Heading } from '@/components/common/heading'
+import { StatusBadge } from '@/components/common/status-badge'
+import { TableAction } from '@/components/common/table-action'
+import { TableActionItem } from '@/components/common/table-action-item'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { allValue, courseStatus } from '@/constants'
@@ -11,11 +16,6 @@ import useQueryString from '@/hooks/useQueryString'
 import { updateCourse } from '@/lib/actions/course.actions'
 import { ECourseStatus } from '@/types/enums'
 
-import { BouncedLink } from '../common/bounced-link'
-import { Heading } from '../common/heading'
-import { StatusBadge } from '../common/status-badge'
-import { TableAction } from '../common/table-action'
-import { TableActionItem } from '../common/table-action-item'
 import { Input } from '../ui/input'
 
 interface ICourseManageProps {

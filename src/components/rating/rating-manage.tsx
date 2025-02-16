@@ -3,6 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Swal from 'sweetalert2'
 
+import { Heading } from '@/components/common/heading'
+import { PaginationBtn } from '@/components/common/pagination-btn'
+import { StatusBadge } from '@/components/common/status-badge'
+import { TableAction } from '@/components/common/table-action'
+import { TableActionItem } from '@/components/common/table-action-item'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -11,12 +16,6 @@ import useQueryString from '@/hooks/useQueryString'
 import { deleteRating, updateRating } from '@/lib/actions/rating.actions'
 import { TRatingItem } from '@/types'
 import { ERatingStatus } from '@/types/enums'
-
-import { Heading } from '../common/heading'
-import { PaginationBtn } from '../common/pagination-btn'
-import { StatusBadge } from '../common/status-badge'
-import { TableAction } from '../common/table-action'
-import { TableActionItem } from '../common/table-action-item'
 
 interface IRatingManageProps {
   ratings: any

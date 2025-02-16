@@ -4,10 +4,9 @@ import { useAuth, UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { InstructionsButton } from '@/components/common/instructions-button'
 import { ModeToggle } from '@/components/common/mode-toggle'
 import { IconUsers } from '@/components/icons/icon-users'
-
-import { InstructionsButton } from '../common/instructions-button'
 
 export const Header = () => {
   const { userId } = useAuth()

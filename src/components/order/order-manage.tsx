@@ -2,6 +2,10 @@
 import { toast } from 'sonner'
 import Swal from 'sweetalert2'
 
+import { EmptyData } from '@/components/common/empty-data'
+import { Heading } from '@/components/common/heading'
+import { Pagination } from '@/components/common/pagination'
+import { StatusBadge } from '@/components/common/status-badge'
 import { IconCancel } from '@/components/icons/icon-cancel'
 import { IconCheck } from '@/components/icons/icon-check'
 import { Input } from '@/components/ui/input'
@@ -13,11 +17,6 @@ import { updateOrder } from '@/lib/actions/order.actions'
 import { cn } from '@/lib/utils'
 import { EOrderStatus } from '@/types/enums'
 import { formatCurrency } from '@/utils/currency'
-
-import { EmptyData } from '../common/empty-data'
-import { Heading } from '../common/heading'
-import { Pagination } from '../common/pagination'
-import { StatusBadge } from '../common/status-badge'
 
 interface IOrder {
   _id: string
