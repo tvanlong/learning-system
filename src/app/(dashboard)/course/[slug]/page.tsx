@@ -2,17 +2,19 @@ import { auth } from '@clerk/nextjs/server'
 import Image from 'next/image'
 
 import PageNotFound from '@/app/not-found'
-import { IconEye, IconLevel, IconPlay, IconTime } from '@/components/icons'
-import LessonContent from '@/components/lesson/LessonContent'
+import { AlreadyEnroll } from '@/components/course/already-enroll'
+import { CourseWidget } from '@/components/course/course-widget'
+import { IconEye } from '@/components/icons/icon-eye'
+import { IconLevel } from '@/components/icons/icon-level'
+import { IconPlay } from '@/components/icons/icon-play'
+import { IconTime } from '@/components/icons/icon-time'
+import { LessonContent } from '@/components/lesson/lesson-content'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { courseLevelTitle } from '@/constants'
 import { getCourseBySlug, getCourseLessonsInfo, updateCourseView } from '@/lib/actions/course.actions'
 import { getUserInfo } from '@/lib/actions/user.actions'
 import { ECourseStatus } from '@/types/enums'
 import { formatMinutesToHour } from '@/utils'
-
-import AlreadyEnroll from './AlreadyEnroll'
-import CourseWidget from './CourseWidget'
 
 interface IPageProps {
   params: { slug: string }

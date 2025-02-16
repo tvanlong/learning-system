@@ -4,14 +4,14 @@ import { useAuth, UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { ActiveLink } from '@/components/common'
+import { IconUsers } from '@/components/icons/icon-users'
 import { menuItems } from '@/constants'
 import { MenuItemProps } from '@/types'
 
-import { ModeToggle } from '../common/ModeToggle'
-import { IconUsers } from '../icons'
+import { ActiveLink } from '../common/active-link'
+import { ModeToggle } from '../common/mode-toggle'
 
-const Sidebar = () => {
+export const Sidebar = () => {
   const { userId } = useAuth()
 
   return (
@@ -52,5 +52,3 @@ export function MenuItem({ url = '/', title = '', icon, onlyIcon }: MenuItemProp
     </li>
   )
 }
-
-export default Sidebar

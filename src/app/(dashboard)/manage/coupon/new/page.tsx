@@ -1,6 +1,5 @@
-import Heading from '@/components/common/Heading'
-
-import NewCouponForm from './NewCouponForm'
+import { Heading } from '@/components/common/heading'
+import { NewCouponForm } from '@/components/coupon/new-coupon-form'
 
 const page = () => {
   return (

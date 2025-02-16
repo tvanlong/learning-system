@@ -1,7 +1,6 @@
-import Heading from '@/components/common/Heading'
+import { Heading } from '@/components/common/heading'
+import { UpdateCouponForm } from '@/components/coupon/update-coupon-form'
 import { getCouponByCode } from '@/lib/actions/coupon.actions'
-
-import UpdateCouponForm from './UpdateCouponForm'
 
 interface IPageProps {
   searchParams: {

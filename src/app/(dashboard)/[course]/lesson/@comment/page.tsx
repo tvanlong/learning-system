@@ -1,14 +1,13 @@
 import { auth } from '@clerk/nextjs/server'
 
+import { CommentField } from '@/components/lesson/comment-field'
+import { CommentForm } from '@/components/lesson/comment-form'
+import { CommentSorting } from '@/components/lesson/comment-sorting'
 import { getCommentsByLesson } from '@/lib/actions/comment.actions'
 import { getCourseBySlug } from '@/lib/actions/course.actions'
 import { getLessonBySlug } from '@/lib/actions/lession.actions'
 import { getUserInfo } from '@/lib/actions/user.actions'
 import { formatTotalComments } from '@/utils'
-
-import CommentField from './CommentField'
-import CommentForm from './CommentForm'
-import CommentSorting from './CommentSorting'
 
 interface ICommentPageProps {
   params: {

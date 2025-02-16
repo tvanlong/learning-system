@@ -1,5 +1,5 @@
-import Header from '@/components/layouts/Header'
-import Sidebar, { MenuItem } from '@/components/layouts/Sidebar'
+import { Header } from '@/components/layouts/header'
+import { MenuItem, Sidebar } from '@/components/layouts/sidebar'
 import { menuItems } from '@/constants'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -10,7 +10,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <Header />
         <ul className='flex p-3 bgDarkMode border borderDarkMode lg:hidden fixed bottom-0 left-0 z-10 w-full justify-center gap-5 h-16'>
           {menuItems.map((item, index) => (
-            <MenuItem key={index} url={item.url} title={item.title} icon={item.icon} onlyIcon></MenuItem>
+            <MenuItem key={index} url={item.url} title={item.title} icon={item.icon} onlyIcon />
           ))}
         </ul>
         <div className='hidden lg:block'></div>

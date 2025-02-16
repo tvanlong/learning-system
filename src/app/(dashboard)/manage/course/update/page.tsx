@@ -1,7 +1,5 @@
-import React from 'react'
-
-import Heading from '@/components/common/Heading'
-import CourseUpdate from '@/components/course/CourseUpdate'
+import { Heading } from '@/components/common/heading'
+import { CourseUpdate } from '@/components/course/course-update'
 import { getCourseBySlug } from '@/lib/actions/course.actions'
 
 interface IPageProps {
@@ -15,10 +13,10 @@ const page = async ({ searchParams }: IPageProps) => {
   if (!findCourse) return null
 
   return (
-    <div>
+    <>
       <Heading className='mb-8'>Cập nhật khóa học</Heading>
       <CourseUpdate data={JSON.parse(JSON.stringify(findCourse))} />
-    </div>
+    </>
   )
 }
 

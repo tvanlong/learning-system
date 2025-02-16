@@ -2,17 +2,19 @@
 
 import { debounce } from 'lodash'
 
+import { IconDoubleLeftArrow } from '@/components/icons/icon-double-left-arrow'
+import { IconDoubleRightArrow } from '@/components/icons/icon-double-right-arrow'
+import { IconLeft } from '@/components/icons/icon-left'
+import { IconRight } from '@/components/icons/icon-right'
 import { ITEMS_PER_PAGE } from '@/constants'
 import useQueryString from '@/hooks/useQueryString'
-
-import { IconDoubleLeftArrow, IconDoubleRightArrow, IconLeft, IconRight } from '../icons'
 
 interface IPaginationProps {
   totalPages: number
   total: number
 }
 
-const Pagination = ({ totalPages, total }: IPaginationProps) => {
+export const Pagination = ({ totalPages, total }: IPaginationProps) => {
   const { handleChangePage, currentPage } = useQueryString()
   const onInputChange = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value)
@@ -51,6 +53,7 @@ interface IPaginationButtonProps {
   disabled: boolean
   children: React.ReactNode
 }
+
 function PaginationButton({ onClick, disabled, children }: IPaginationButtonProps) {
   const paginationBtnClassNames =
     'size-10 rounded-full bg-white shadow-sm p-2 flex items-center justify-center disabled:bg-gray-200'
@@ -60,4 +63,3 @@ function PaginationButton({ onClick, disabled, children }: IPaginationButtonProp
     </button>
   )
 }
-export default Pagination

@@ -4,12 +4,12 @@ import { useAuth, UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { ModeToggle } from '@/components/common/ModeToggle'
-import { IconUsers } from '@/components/icons'
+import { ModeToggle } from '@/components/common/mode-toggle'
+import { IconUsers } from '@/components/icons/icon-users'
 
-import { InstructionsButton } from '../common'
+import { InstructionsButton } from '../common/instructions-button'
 
-const Header = () => {
+export const Header = () => {
   const { userId } = useAuth()
 
   return (
@@ -37,5 +37,3 @@ const Header = () => {
     </div>
   )
 }
-
-export default Header

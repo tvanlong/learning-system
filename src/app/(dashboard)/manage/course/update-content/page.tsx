@@ -1,5 +1,5 @@
-import Heading from '@/components/common/Heading'
-import CourseUpdateContent from '@/components/course/CourseUpdateContent'
+import { Heading } from '@/components/common/heading'
+import { CourseUpdateContent } from '@/components/course/course-update-content'
 import { getCourseBySlug } from '@/lib/actions/course.actions'
 
 interface IPageProps {

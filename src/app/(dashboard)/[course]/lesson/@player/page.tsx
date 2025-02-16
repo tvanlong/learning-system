@@ -1,12 +1,11 @@
 import { auth } from '@clerk/nextjs/server'
 
-import Heading from '@/components/common/Heading'
+import { Heading } from '@/components/common/heading'
+import { LessonSaveUrl } from '@/components/lesson/lesson-save-url'
+import { VideoPlayer } from '@/components/lesson/video-player'
 import { getCourseBySlug } from '@/lib/actions/course.actions'
 import { findAllLessons } from '@/lib/actions/lession.actions'
 import { getUserInfo } from '@/lib/actions/user.actions'
-
-import LessonSaveUrl from '../LessonSaveUrl'
-import VideoPlayer from './VideoPlayer'
 
 interface IPageProps {
   params: {

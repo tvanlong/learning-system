@@ -74,7 +74,7 @@ const instructions = [
   }
 ]
 
-export default function InstructionsButton() {
+export function InstructionsButton() {
   const [open, setOpen] = React.useState(false)
 
   return (

@@ -1,13 +1,11 @@
-import {
-  IconComment,
-  IconCoupon,
-  IconExplore,
-  IconOrder,
-  IconPlay,
-  IconStar,
-  IconStudy,
-  IconUsers
-} from '@/components/icons'
+import { IconComment } from '@/components/icons/icon-comment'
+import { IconCoupon } from '@/components/icons/icon-coupon'
+import { IconExplore } from '@/components/icons/icon-explore'
+import { IconOrder } from '@/components/icons/icon-order'
+import { IconPlay } from '@/components/icons/icon-play'
+import { IconStar } from '@/components/icons/icon-star'
+import { IconStudy } from '@/components/icons/icon-study'
+import { IconUsers } from '@/components/icons/icon-users'
 import { MenuItemProps, TRatingIcon } from '@/types'
 import { ECouponType, ECourseLevel, ECourseStatus, EOrderStatus, ERatingStatus } from '@/types/enums'
 

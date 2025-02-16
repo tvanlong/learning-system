@@ -5,7 +5,16 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["@typescript-eslint", "prettier", "react", "jsx-a11y", "import", "unused-imports", "tailwindcss", "simple-import-sort"],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "react",
+    "jsx-a11y",
+    "import",
+    "unused-imports",
+    "tailwindcss",
+    "simple-import-sort"
+  ],
   "rules": {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",

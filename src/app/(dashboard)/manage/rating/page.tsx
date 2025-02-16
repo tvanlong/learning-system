@@ -1,7 +1,6 @@
+import { RatingManage } from '@/components/rating/rating-manage'
 import { getRatings } from '@/lib/actions/rating.actions'
 import { ERatingStatus } from '@/types/enums'
-
-import RatingManage from './RatingManage'
 
 interface IPageProps {
   searchParams: {

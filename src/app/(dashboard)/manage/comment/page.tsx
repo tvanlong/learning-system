@@ -1,10 +1,10 @@
-import Heading from '@/components/common/Heading'
+import { Heading } from '@/components/common/heading'
 
 const page = () => {
   return (
-    <div>
+    <>
       <Heading>Quản lý bình luận</Heading>
-    </div>
+    </>
   )
 }
 

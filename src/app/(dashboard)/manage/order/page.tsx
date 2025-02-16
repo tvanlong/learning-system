@@ -1,8 +1,7 @@
+import { OrderManage } from '@/components/order/order-manage'
 import { ITEMS_PER_PAGE } from '@/constants'
 import { fetchOrders } from '@/lib/actions/order.actions'
 import { EOrderStatus } from '@/types/enums'
-
-import OrderManage from './OrderManage'
 
 interface IPageProps {
   searchParams: {

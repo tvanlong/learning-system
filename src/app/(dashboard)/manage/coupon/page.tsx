@@ -1,7 +1,6 @@
+import { CouponManage } from '@/components/coupon/coupon-manage'
 import { ITEMS_PER_PAGE } from '@/constants'
 import { getCoupons } from '@/lib/actions/coupon.actions'
-
-import CouponManage from './CouponManage'
 
 interface IPageProps {
   searchParams: {

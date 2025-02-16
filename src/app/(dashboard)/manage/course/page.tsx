@@ -1,4 +1,4 @@
-import CourseManage from '@/components/course/CourseManage'
+import { CourseManage } from '@/components/course/course-manage'
 import { getAllCourses } from '@/lib/actions/course.actions'
 import { ECourseStatus } from '@/types/enums'
 
@@ -17,7 +17,7 @@ const page = async ({ searchParams }: IPageProps) => {
     search: searchParams.search,
     status: searchParams.status
   })
-  return <CourseManage courses={courses ? JSON.parse(JSON.stringify(courses)) : []}></CourseManage>
+  return <CourseManage courses={courses ? JSON.parse(JSON.stringify(courses)) : []} />
 }
 
 export default page

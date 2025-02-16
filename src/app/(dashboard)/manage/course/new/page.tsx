@@ -1,14 +1,12 @@
-import React from 'react'
-
-import Heading from '@/components/common/Heading'
-import CourseAddNew from '@/components/course/CourseAddNew'
+import { Heading } from '@/components/common/heading'
+import { CourseAddNew } from '@/components/course/course-add-new'
 
 const page = () => {
   return (
-    <div>
+    <>
       <Heading>Thêm khóa học</Heading>
       <CourseAddNew />
-    </div>
+    </>
   )
 }
 

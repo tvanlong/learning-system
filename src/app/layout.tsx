@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 import NextTopLoader from 'nextjs-toploader'
 import { Toaster } from 'sonner'
 
-import { ThemeProvider } from '@/components/common/ThemeProvider'
+import { ThemeProvider } from '@/components/common/theme-provider'
 import { manrope } from '@/utils'
 
 export const metadata: Metadata = {

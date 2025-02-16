@@ -1,6 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import React from 'react'
 
 import PageNotFound from '@/app/not-found'
 import { getUserInfo } from '@/lib/actions/user.actions'
@@ -17,7 +16,7 @@ const AdminLayout = async ({ children }: IAdminLayoutProps) => {
 
   if (user && user.role !== EUserRole.ADMIN) return <PageNotFound />
 
-  return <div>{children}</div>
+  return <>{children}</>
 }
 
 export default AdminLayout

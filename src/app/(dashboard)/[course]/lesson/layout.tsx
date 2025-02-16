@@ -2,11 +2,10 @@ import { auth } from '@clerk/nextjs/server'
 import React, { Suspense } from 'react'
 
 import PageNotFound from '@/app/not-found'
+import { LessonWrapper } from '@/components/lesson/lesson-wrapper'
+import { LoadingOutline } from '@/components/lesson/loading-outline'
+import { LoadingPlayer } from '@/components/lesson/loading-player'
 import { getUserInfo } from '@/lib/actions/user.actions'
-
-import LoadingOutline from './@outline/LoadingOutline'
-import LoadingPlayer from './@player/LoadingPlayer'
-import LessonWrapper from './LessonWrapper'
 
 interface ILayoutProps {
   player: React.ReactNode
