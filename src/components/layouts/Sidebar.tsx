@@ -4,11 +4,11 @@ import { useAuth, UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { ActiveLink } from '@/components/common/active-link'
 import { ModeToggle } from '@/components/common/mode-toggle'
 import { IconUsers } from '@/components/icons/icon-users'
 import { menuItems } from '@/constants'
-import { MenuItemProps } from '@/types'
+
+import { MenuItem } from './menu-item'
 
 export const Sidebar = () => {
   const { userId } = useAuth()
@@ -21,7 +21,7 @@ export const Sidebar = () => {
       </Link>
       <ul className='flex flex-col gap-2'>
         {menuItems.map((item, index) => (
-          <MenuItem key={index} url={item.url} title={item.title} icon={item.icon}></MenuItem>
+          <MenuItem key={index} url={item.url} title={item.title} icon={item.icon} />
         ))}
       </ul>
       <div className='mt-auto flex items-center justify-end gap-5'>
@@ -38,16 +38,5 @@ export const Sidebar = () => {
         )}
       </div>
     </div>
-  )
-}
-
-export function MenuItem({ url = '/', title = '', icon, onlyIcon }: MenuItemProps) {
-  return (
-    <li>
-      <ActiveLink url={url}>
-        {icon}
-        {onlyIcon ? null : title}
-      </ActiveLink>
-    </li>
   )
 }
