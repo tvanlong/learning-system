@@ -20,6 +20,23 @@ interface IPageProps {
   params: { slug: string }
 }
 
+export async function generateMetadata({ params }: IPageProps) {
+  const data = await getCourseBySlug({ slug: params.slug })
+
+  if (!data) {
+    return {
+      title: 'Khóa học không tồn tại',
+      description: 'Khóa học không tồn tại hoặc đã bị xóa',
+      icons: '/logo.png'
+    }
+  }
+
+  return {
+    title: `${data.title}`,
+    description: data.desc || 'Khóa học chi tiết trên nền tảng học tập'
+  }
+}
+
 const page = async ({ params }: IPageProps) => {
   await updateCourseView({ slug: params.slug })
   const data = await getCourseBySlug({ slug: params.slug })

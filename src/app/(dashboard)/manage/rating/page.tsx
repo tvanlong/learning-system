@@ -1,6 +1,14 @@
+import type { Metadata } from 'next'
+
 import { RatingManage } from '@/components/rating/rating-manage'
 import { getRatings } from '@/lib/actions/rating.actions'
 import { ERatingStatus } from '@/types/enums'
+
+export const metadata: Metadata = {
+  title: 'Quản lý đánh giá',
+  description: 'Quản lý đánh giá',
+  icons: '/logo.png'
+}
 
 interface IPageProps {
   searchParams: {

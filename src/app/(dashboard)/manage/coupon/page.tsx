@@ -1,6 +1,14 @@
+import type { Metadata } from 'next'
+
 import { CouponManage } from '@/components/coupon/coupon-manage'
 import { ITEMS_PER_PAGE } from '@/constants'
 import { getCoupons } from '@/lib/actions/coupon.actions'
+
+export const metadata: Metadata = {
+  title: 'Quản lý mã giảm giá',
+  description: 'Quản lý mã giảm giá',
+  icons: '/logo.png'
+}
 
 interface IPageProps {
   searchParams: {

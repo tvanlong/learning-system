@@ -1,7 +1,15 @@
+import type { Metadata } from 'next'
+
 import { OrderManage } from '@/components/order/order-manage'
 import { ITEMS_PER_PAGE } from '@/constants'
 import { fetchOrders } from '@/lib/actions/order.actions'
 import { EOrderStatus } from '@/types/enums'
+
+export const metadata: Metadata = {
+  title: 'Quản lý đơn hàng',
+  description: 'Quản lý đơn hàng',
+  icons: '/logo.png'
+}
 
 interface IPageProps {
   searchParams: {

@@ -1,6 +1,14 @@
+import type { Metadata } from 'next'
+
 import { Heading } from '@/components/common/heading'
 import { UpdateCouponForm } from '@/components/coupon/update-coupon-form'
 import { getCouponByCode } from '@/lib/actions/coupon.actions'
+
+export const metadata: Metadata = {
+  title: 'Cập nhật mã giảm giá',
+  description: 'Cập nhật mã giảm giá',
+  icons: '/logo.png'
+}
 
 interface IPageProps {
   searchParams: {

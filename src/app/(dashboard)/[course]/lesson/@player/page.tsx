@@ -16,6 +16,24 @@ interface IPageProps {
   }
 }
 
+export async function generateMetadata({ params }: Omit<IPageProps, 'searchParams'>) {
+  const data = await getCourseBySlug({ slug: params.course })
+
+  if (!data) {
+    return {
+      title: 'Bài học không tồn tại',
+      description: 'Bài học không tồn tại hoặc đã bị xóa',
+      icons: '/logo.png'
+    }
+  }
+
+  return {
+    title: `${data.title}`,
+    description: data.desc || 'Khóa học chi tiết trên nền tảng học tập',
+    icons: '/logo.png'
+  }
+}
+
 const page = async ({ params, searchParams }: IPageProps) => {
   const { userId } = auth()
   const findUser = await getUserInfo({ userId: userId! })

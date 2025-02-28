@@ -1,6 +1,14 @@
+import type { Metadata } from 'next'
+
 import { CourseManage } from '@/components/course/course-manage'
 import { getAllCourses } from '@/lib/actions/course.actions'
 import { ECourseStatus } from '@/types/enums'
+
+export const metadata: Metadata = {
+  title: 'Quản lý khóa học',
+  description: 'Quản lý khóa học',
+  icons: '/logo.png'
+}
 
 interface IPageProps {
   searchParams: {

@@ -1,6 +1,14 @@
+import type { Metadata } from 'next'
+
 import { Heading } from '@/components/common/heading'
 import { CourseUpdateContent } from '@/components/course/course-update-content'
 import { getCourseBySlug } from '@/lib/actions/course.actions'
+
+export const metadata: Metadata = {
+  title: 'Cập nhật nội dung khóa học',
+  description: 'Cập nhật nội dung khóa học',
+  icons: '/logo.png'
+}
 
 interface IPageProps {
   searchParams: {

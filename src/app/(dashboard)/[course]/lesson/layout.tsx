@@ -1,5 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 
 import PageNotFound from '@/app/not-found'
 import { LessonWrapper } from '@/components/lesson/lesson-wrapper'
